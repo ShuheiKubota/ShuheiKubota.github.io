@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>/soft/minimize/</loc>
+    <lastmod>2017-08-27T22:39:57+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/soft/glass/</loc>
+    <lastmod>2017-08-27T20:56:53+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/soft/</loc>
+    <lastmod>2017-08-27T22:39:57+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/</loc>
+    <lastmod>2017-08-27T22:39:57+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+</urlset>
