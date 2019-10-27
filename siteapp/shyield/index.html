@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width" />
+        <title>ShieldsIO Maker</title>
+        <script charset="utf-8">
+            window.addEventListener("load", function() {
+                document.getElementById("apply").addEventListener("click", apply)
+
+                document.getElementById("logo").addEventListener("change", function() {
+		    this.value = this.value.replace(/ /g, "-",-1)
+                })
+
+                document.getElementById("logoColorsel").addEventListener("change", function() {
+                    var logoColor = document.getElementById("logoColor")
+                    //var logoColorsel = document.getElementById("logoColorsel")
+                    logoColor.value = this.value
+                })
+                document.getElementById("logoColor").addEventListener("change", function() {
+                    //var logoColor = document.getElementById("logoColor")
+                    var logoColorsel = document.getElementById("logoColorsel")
+                    logoColorsel.value = this.value
+                })
+
+                document.getElementById("colorsel").addEventListener("change", function() {
+                    var color = document.getElementById("color")
+                    //var colorsel = document.getElementById("colorsel")
+                    color.value = this.value
+                })
+                document.getElementById("color").addEventListener("change", function() {
+                    //var color = document.getElementById("color")
+                    var colorsel = document.getElementById("colorsel")
+                    colorsel.value = this.value
+                })
+
+                document.getElementById("labelColorsel").addEventListener("change", function() {
+                    var labelColor = document.getElementById("labelColor")
+                    //var labelColorsel = document.getElementById("labelColorsel")
+                    labelColor.value = this.value
+                })
+                document.getElementById("labelColor").addEventListener("change", function() {
+                    //var labelColor = document.getElementById("labelColor")
+                    var labelColorsel = document.getElementById("labelColorsel")
+                    labelColorsel.value = this.value
+                })
+
+                load()
+            })
+            window.addEventListener("popstate", load)
+
+            function load() {
+                var style = document.getElementById("style")
+                var logo = document.getElementById("logo")
+                var logoColor = document.getElementById("logoColor")
+                var logoColorsel = document.getElementById("logoColorsel")
+                var label = document.getElementById("label")
+                var labelColor = document.getElementById("labelColor")
+                var labelColorsel = document.getElementById("labelColorsel")
+                var labelLink = document.getElementById("labelLink")
+                var message = document.getElementById("message")
+                var color = document.getElementById("color")
+                var colorsel = document.getElementById("colorsel")
+                var messageLink = document.getElementById("messageLink")
+                var comment = document.getElementById("comment")
+
+                var arg = new Object
+                if ('URLSearchParams' in window) {
+                    var params = new URLSearchParams(location.search)
+                    arg.style = params.get('style')
+                    arg.logo = params.get('logo')
+                    arg.logoColor = params.get('logoColor')
+                    arg.label = params.get('label')
+                    arg.labelColor = params.get('labelColor')
+                    arg.labelLink = params.get('labelLink')
+                    arg.message = params.get('message')
+                    arg.color = params.get('color')
+                    arg.messageLink = params.get('messageLink')
+                    arg.comment = params.get('comment')
+                } else {
+                    var pair=location.search.substring(1).split('&')
+                    for(var i=0;pair[i];i++) {
+                        var kv = pair[i].split('=')
+                        arg[kv[0]]=decodeURIComponent(kv[1])
+                    }
+                }
+
+                if (arg.style) {
+                    style.value = arg.style
+                }
+                if (arg.logo) {
+                    logo.value = arg.logo
+                }
+                if (arg.logoColor) {
+                    logoColor.value = arg.logoColor
+                    logoColorsel.value = arg.logoColor
+                } else {
+                    logoColor.value = ""
+                    logoColorsel.value = ""
+                }
+                if (arg.label) {
+                    label.value = arg.label
+                }
+                if (arg.labelColor) {
+                    labelColor.value = arg.labelColor
+                    labelColorsel.value = arg.labelColor
+                } else {
+                    labelColor.value = ""
+                    labelColorsel.value = ""
+                }
+                if (arg.labelLink) {
+                    labelLink.value = arg.labelLink
+                }
+                if (arg.message) {
+                    message.value = arg.message
+                }
+                if (arg.color) {
+                    color.value = arg.color
+                    colorsel.value = arg.color
+                }
+                if (arg.messageLink) {
+                    messageLink.value = arg.messageLink
+                }
+                if (arg.comment) {
+                    comment.value = arg.comment
+                }
+            }
+
+
+            function apply() {
+                var img = document.getElementById("img")
+                var shurl = document.getElementById("url")
+
+                var style = document.getElementById("style")
+                var logo = document.getElementById("logo")
+                var logoColor = document.getElementById("logoColor")
+                var label = document.getElementById("label")
+                var labelColor = document.getElementById("labelColor")
+                var labelLink = document.getElementById("labelLink")
+                var message = document.getElementById("message")
+                var messageLink = document.getElementById("messageLink")
+                var color = document.getElementById("color")
+
+                var src = "https://img.shields.io/badge/" + escape(label.value) + "-" + escape(message.value) + "-" + color.value
+                var params = []
+                if (style.value != "") {
+                    params.push("style=" + style.value)
+                }
+                if (logo.value != "") {
+                    params.push("logo=" + logo.value)
+                }
+                if (logoColor.value != "") {
+                    params.push("logoColor=" + logoColor.value)
+                }
+                if (labelColor.value != "") {
+                    params.push("labelColor=" + labelColor.value)
+                }
+                if (labelLink.value != "") {
+                    params.push("link=" + labelLink.value)
+                }
+                if (messageLink.value != "") {
+		    if (labelLink.value == "") {
+                        params.push("link=" + messageLink.value)
+                    }
+                    params.push("link=" + messageLink.value)
+                }
+
+                if (params.length != 0) {
+                    src += "?" + params.join("&")
+                }
+                img.src = src
+
+                shurl.value = src
+
+
+                var myparams = new URLSearchParams()
+		if (style.value != "") myparams.set('style', style.value)
+		if (logo.value != "") myparams.set('logo', logo.value)
+		if (logoColor.value != "") myparams.set('logoColor', logoColor.value)
+		if (label.value != "") myparams.set('label', label.value)
+		if (labelColor.value != "") myparams.set('labelColor', labelColor.value)
+		if (labelLink.value != "") myparams.set('labelLink', labelLink.value)
+		if (message.value != "") myparams.set('message', message.value)
+		if (color.value != "") myparams.set('color', color.value)
+		if (messageLink.value != "") myparams.set('messageLink', messageLink.value)
+		if (comment.value != "") myparams.set('comment', comment.value)
+                history.pushState({}, "", "?"+myparams.toString())
+            }
+
+            function escape(s) {
+                return s.replace("-", "--")
+            }
+        </script>
+    </head>
+    <body style="padding:3em">
+        <div style="width:80%">
+        <table style="border-collapse:separate; border-spacing:1ex 0px">
+            <tr>
+                <td></td>
+                <td>Style</td>
+                <td><a href="https://simpleicons.org" target="_blank">Logo</a></td>
+                <td>Label</td>
+                <td>Message</td>
+            </tr>
+            <tr>
+                <td>basic</td>
+                <td>
+                    <select id="style">
+                        <option value="flat">flat</option>
+                        <option value="flat-square">flat-square</option>
+                        <option value="plastic">plastic</option>
+                        <option value="for-the-badge">for-the-badge</option>
+                        <option value="social">social</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="text" id="logo" value="" />
+                </td>
+                <td>
+                    <input type="text" id="label" value="" />
+                </td>
+                <td>
+                    <input type="text" id="message" value="" />
+                </td>
+            </tr>
+            <tr>
+                <td>color</td>
+                <td>
+                </td>
+                <td>
+                    <select id="logoColorsel">
+                        <option value="brightgreen">brightgreen</option>
+                        <option value="green">green</option>
+                        <option value="yellowgreen">yellowgreen</option>
+                        <option value="yellow">yellow</option>
+                        <option value="orange">orange</option>
+                        <option value="red">red</option>
+                        <option value="blue">blue</option>
+                        <option value="lightgray">lightgray</option>
+                        <option value="success">success</option>
+                        <option value="important">important</option>
+                        <option value="critical">critical</option>
+                        <option value="informational">informational</option>
+                        <option value="inactive">inactive</option>
+                        <option value="blueviolet">blueviolet</option>
+                    </select>
+                    <input type="text" id="logoColor" value="" />
+                </td>
+                <td>
+                    <select id="labelColorsel">
+                        <option value="brightgreen">brightgreen</option>
+                        <option value="green">green</option>
+                        <option value="yellowgreen">yellowgreen</option>
+                        <option value="yellow">yellow</option>
+                        <option value="orange">orange</option>
+                        <option value="red">red</option>
+                        <option value="blue">blue</option>
+                        <option value="lightgray">lightgray</option>
+                        <option value="success">success</option>
+                        <option value="important">important</option>
+                        <option value="critical">critical</option>
+                        <option value="informational">informational</option>
+                        <option value="inactive">inactive</option>
+                        <option value="blueviolet">blueviolet</option>
+                    </select>
+                    <input type="text" id="labelColor" value="" />
+                </td>
+                <td>
+                    <select id="colorsel">
+                        <option value="brightgreen">brightgreen</option>
+                        <option value="green">green</option>
+                        <option value="yellowgreen">yellowgreen</option>
+                        <option value="yellow">yellow</option>
+                        <option value="orange">orange</option>
+                        <option value="red">red</option>
+                        <option value="blue">blue</option>
+                        <option value="lightgray">lightgray</option>
+                        <option value="success">success</option>
+                        <option value="important">important</option>
+                        <option value="critical">critical</option>
+                        <option value="informational">informational</option>
+                        <option value="inactive">inactive</option>
+                        <option value="blueviolet">blueviolet</option>
+                    </select>
+                    <input type="text" id="color" value="" />
+	        </td>
+            </tr>
+            <tr>
+		<td>link</td>
+		<td></td>
+		<td></td>
+		<td>
+                    <input type="text" id="labelLink" value="" placeholder="http://..." />
+                </td>
+		<td>
+                    <input type="text" id="messageLink" value="" placeholder="http://..." />
+                </td>
+            </tr>
+        </table>
+        <br />
+        <textarea id="comment" style="width:100%" placeholder="comment"></textarea>
+        <br />
+        <div style="margin-top:3em">
+            <!-- <input type="button" id="apply" value="apply" /><br /> -->
+            <a id="apply">
+		<img src="https://img.shields.io/badge/Click To-Apply-important?style=for-the-badge" />
+	    </a>
+            <div style="padding:3em; border:solid thin lightgray;">
+                <img src="" id="img" /><br />
+            </div>
+            <input type="text" id="url" style="width:100%" />
+        </div>
+        </div>
+        <div style="position:fixed; top:3em; left:80%">
+	    <div style="margin-bottom:1em; font-weight:bold">Examples</div>
+            <a href="?style=flat&label=License&message=MIT&color=blue&comment=よくあるライセンス表記です。">
+                <img src="https://img.shields.io/badge/License-MIT-blue?style=flat" /></a><br />
+            <hr />
+            <a href="?style=social&logo=twitter&label=%40chimatter&labelLink=https%3A%2F%2Ftwitter.com%2Fintent%2Fuser%3Fscreen_name%3Dchimatter&message=Follow&color=blue&messageLink=https%3A%2F%2Ftwitter.com%2Fintent%2Ffollow%3Fscreen_name%3Dchimatter&comment=プロフィールとフォローのページにリンクしています。%0Aimgタグだとリンクが機能しませんので注意してください。&lt;object+type%3D&quot;image%2Fsvg%2Bxml&quot;+data%3D&quot;ここ&quot;+width%3D&quot;256&quot;+height%3D&quot;256&quot;&gt;&lt;%2Fobject&gt;">
+                <img src="https://img.shields.io/badge/@chimatter-Follow-blue?style=social&logo=twitter" /></a><br />
+            <hr />
+            <a href="?style=plastic&label=Dr.&labelColor=blue&message=Mario&color=red&comment=ラベルの色も変えられるよ、という例です。%0Aパズル系はあまり得意じゃないです。">
+                <img src="https://img.shields.io/badge/Dr.-Mario-red?style=plastic&labelColor=blue" /></a><br />
+            <hr />
+            <a href="?style=flat&logo=github&label=GitHub&message=your%2Frepos&color=brightgreen&comment=Simple+Icons+というサイトにあるものであれば、簡単にロゴをつけることができます。%0A色も変えようと思えば変えられます。">
+                <img src="https://img.shields.io/badge/GitHub-your/repos-brightgreen?style=flat&logo=github" /></a><br />
+            <hr />
+            <a href="?style=for-the-badge&logo=data%3Aimage%2Fpng%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAADaSURBVEhL7ZPRDsMgCEVx%2F%2F+RPvoXm1fLYggCZrRPO4lpG5EDVgsRvft4jCHszK+bKaXQ63q%2FjVrr9TZ5vMN0IZJqwJEqZJGVK+Ufjqr7gChSuCrkJBgWJyJGFXISjJ2UZae4W2pJAeaseYkpbK2Np9aJLCQqRkRfq28NJ%2FDmV3axAPGhUxqpHMiuNULCKJHCUoURtsLoNkqsfwhSO%2FRkAG30OD8wg%2FApzeQvTOenQ7O7Ort8iDeF3l1c13GsVfyR0EsErBjgCldWuSSyHhwJJdGuVr7C+fkERB8fMn6DMh50bgAAAABJRU5ErkJggg%3D%3D&label=My+Artistry&message=ZERO&color=lightgray&comment=自作ロゴも埋め込み可能です。">
+                <img src="https://img.shields.io/badge/My Artistry-ZERO-lightgray?style=for-the-badge&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAADaSURBVEhL7ZPRDsMgCEVx//+RPvoXm1fLYggCZrRPO4lpG5EDVgsRvft4jCHszK+bKaXQ63q/jVrr9TZ5vMN0IZJqwJEqZJGVK+Ufjqr7gChSuCrkJBgWJyJGFXISjJ2UZae4W2pJAeaseYkpbK2Np9aJLCQqRkRfq28NJ/DmV3axAPGhUxqpHMiuNULCKJHCUoURtsLoNkqsfwhSO/RkAG30OD8wg/ApzeQvTOenQ7O7Ort8iDeF3l1c13GsVfyR0EsErBjgCldWuSSyHhwJJdGuVr7C+fkERB8fMn6DMh50bgAAAABJRU5ErkJggg==" /></a><br />
+            <hr />
+            <object type="image/svg+xml" data="https://img.shields.io/badge/@chimatter-Follow-blue?style=social&logo=twitter&labelColor=blue&link=https://twitter.com/intent/user?screen_name=chimatter&link=https://twitter.com/intent/follow?screen_name=chimatter" width="256" height="256"></object>
+        </div>
+        <hr />
+        <p>
+            &copy;2019 Shuhei Kubota.
+        </p>
+        <p>
+            <a href="/app/shyield/">back to MainPage</a>
+        </p>
+    </body>
+</html>

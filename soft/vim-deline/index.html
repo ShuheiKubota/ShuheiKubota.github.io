@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="">
+    <head>
+        <meta charset="utf-8">
+        <title>
+            
+                
+                    vim:deline - 作ったものとか
+                
+            
+        </title>
+        
+<!-- META -->
+<meta name="generator" content="Hugo 0.60.0-DEV" />
+<meta name="copyright" content="Copyright 2017-2019 Shuhei Kubota">
+<link rel="alternate" type="application/atom+xml" href="/index.xml" />
+
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+
+<link href="/css/cheep.css" rel="stylesheet">
+<link href="/css/style.css" rel="stylesheet">
+<link href="/css/syntax.css" rel="stylesheet">
+<!-- META -->
+
+    </head>
+    <body>
+        
+        
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-105605213-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+        
+
+        <div class="header">
+            
+<!-- HEADER -->
+<a href="/">作ったものとか</a>&nbsp;&raquo; <a href="/soft/">Softs</a>
+
+<!-- HEADER -->
+
+        </div>
+
+        <div class="main">
+            <div class="toc-area">
+                <nav id="TableOfContents">
+<ul>
+<li><a href="#紹介">紹介</a>
+<ul>
+<li><a href="#statusline-の記法は分かりづらい">statusline の記法は分かりづらい</a></li>
+<li><a href="#deline-での定義">deline での定義</a></li>
+<li><a href="#表現を拡張することもできる">表現を拡張することもできる</a></li>
+</ul></li>
+<li><a href="#カスタマイズ方法">カスタマイズ方法</a>
+<ul>
+<li><a href="#vimrc-に記述する">vimrc に記述する</a></li>
+<li><a href="#自分で定義したハイライトを使う">自分で定義したハイライトを使う</a></li>
+<li><a href="#条件に応じた文字列を出力する">条件に応じた文字列を出力する</a></li>
+</ul></li>
+<li><a href="#より詳細な説明">より詳細な説明</a>
+<ul>
+<li><a href="#関数の種類">関数の種類</a>
+<ul>
+<li><a href="#通常の関数-deline-xxx">通常の関数 deline#xxx()</a></li>
+<li><a href="#動的な関数-deline-dynamic-xxx">動的な関数 deline#dynamic#xxx()</a></li>
+<li><a href="#使い分け">使い分け</a>
+<ul>
+<li><a href="#dynamic-関数">dynamic 関数</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#評価の流れ">評価の流れ</a></li>
+</ul></li>
+<li><a href="#ダウンロード">ダウンロード</a></li>
+</ul>
+</nav>
+            </div>
+            <div class="main-area">
+                
+    <h1>vim:deline</h1>
+
+    <p>Vim の statusline をカスタマイズしやすくするための Vim script.
+すぐに使えるサンプル入り。</p>
+
+<p>Vim の statusline の定義があまりにも難解かつなので、簡単に記述するためのプラグインを作成しました。</p>
+
+<p>このプラグインを入れると、最近ではよくある見た目の statusline が定義されます。</p>
+
+<figure>
+    <img src="ss1.png"/> 
+</figure>
+
+
+<p>ただし、よくある境界を三角にするのには未対応です。</p>
+
+<p>位置の変更や色の変更、条件による表示/非表示、独自の要素を定義できます。</p>
+
+<p><a href="https://www.vim.org/scripts/script.php?script_id=5773">deline</a></p>
+
+<h1 id="紹介">紹介</h1>
+
+<h2 id="statusline-の記法は分かりづらい">statusline の記法は分かりづらい</h2>
+
+<p>上にある statuline は、次のように定義されています。</p>
+
+<p>※極力シンプルにするため、このプラグイン (deline) 独特の関数呼び出しなどは削除しています。<br />
+※実際は1行で記述します。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim">%<span style="color:#00d;font-weight:bold">2</span>* NORMAL %<span style="color:#00d;font-weight:bold">1</span>* <span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>%<span style="color:#00d;font-weight:bold">4</span>*%{&amp;readonly||!(&amp;modifiable)?<span style="color:#d20;background-color:#fff0f0">&#39;[RO] &#39;</span>:<span style="color:#d20;background-color:#fff0f0">&#39;&#39;</span>}<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>%{&amp;modified?<span style="color:#d20;background-color:#fff0f0">&#39;+ &#39;</span>:<span style="color:#d20;background-color:#fff0f0">&#39;&#39;</span>}<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>%<span style="color:#00d;font-weight:bold">3</span>*plugin/%<span style="color:#00d;font-weight:bold">1</span>*deline.vim <span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>%=<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>%<span style="color:#00d;font-weight:bold">4</span>*%{&amp;fileformat}<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>%<span style="color:#00d;font-weight:bold">1</span>* %<span style="color:#00d;font-weight:bold">3</span>*|%<span style="color:#00d;font-weight:bold">1</span>* <span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>%<span style="color:#00d;font-weight:bold">4</span>*%{&amp;fileencoding}<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>%<span style="color:#00d;font-weight:bold">1</span>* %<span style="color:#00d;font-weight:bold">3</span>*|%<span style="color:#00d;font-weight:bold">1</span>* <span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>%{&amp;filetype}<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span> %<span style="color:#00d;font-weight:bold">3</span>*|%<span style="color:#00d;font-weight:bold">1</span>* <span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span> %<span style="color:#00d;font-weight:bold">4</span>l:%<span style="color:#00d;font-weight:bold">3</span>v</code></pre></td></tr></table>
+</div>
+</div>
+<p>本当はハイライト(配色)の定義やファイル名といった動的に変わるコンポーネントの定義もあるのですが、ここでは文字列リテラルにしています。
+そこそこ推測はできそうですが、それでも、どの部分を変更すれば表示がどう変わるのか、分かりづらくありませんか。</p>
+
+<h2 id="deline-での定義">deline での定義</h2>
+
+<p>では、deline の提供する関数を使った場合を見てみます。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim">call Deline([<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ deline#comment(<span style="color:#d20;background-color:#fff0f0">&#34;mode (define User2 and change to it by hl(2))&#34;</span>),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ deline#modeHL(<span style="color:#d20;background-color:#fff0f0">&#34;User2&#34;</span>),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ deline#hl(<span style="color:#00d;font-weight:bold">2</span>),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ deline#space(),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ deline#mode(),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ deline#space(),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ <span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ deline#comment(<span style="color:#d20;background-color:#fff0f0">&#34;filepath and mod, readonly flags&#34;</span>),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ deline#hl(<span style="color:#00d;font-weight:bold">1</span>), deline#space(),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ deline#hl(<span style="color:#00d;font-weight:bold">4</span>),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ deline#readonly(<span style="color:#d20;background-color:#fff0f0">&#39;[RO] &#39;</span>, <span style="color:#d20;background-color:#fff0f0">&#39;&#39;</span>),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ deline#modified(<span style="color:#d20;background-color:#fff0f0">&#39;+ &#39;</span>, <span style="color:#d20;background-color:#fff0f0">&#39;&#39;</span>),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ deline#comment(<span style="color:#d20;background-color:#fff0f0">&#34;v-- expand(%:p:h:t) / expand(%:p:t)&#34;</span>),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ deline#comment(<span style="color:#d20;background-color:#fff0f0">&#34;deline#file(&#39;:p:h:t/:p:t&#39;),&#34;</span>),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ deline#hl(<span style="color:#00d;font-weight:bold">3</span>), deline#file(<span style="color:#d20;background-color:#fff0f0">&#39;:p:h:t&#39;</span>), <span style="color:#d20;background-color:#fff0f0">&#34;/&#34;</span>,<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ deline#hl(<span style="color:#00d;font-weight:bold">1</span>), deline#file(<span style="color:#d20;background-color:#fff0f0">&#39;:p:t&#39;</span>),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ deline#space(),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ deline#rightalign(),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ deline#fileformat(),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ deline#comment(<span style="color:#d20;background-color:#fff0f0">&#34;v-- separator&#34;</span>),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ deline#space(), deline#hl(<span style="color:#00d;font-weight:bold">3</span>), deline#bar(), deline#hl(<span style="color:#00d;font-weight:bold">1</span>), deline#space(),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ deline#fileencoding(),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ deline#space(), deline#hl(<span style="color:#00d;font-weight:bold">3</span>), deline#bar(), deline#hl(<span style="color:#00d;font-weight:bold">1</span>), deline#space(),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ deline#filetype(),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ deline#space(), deline#hl(<span style="color:#00d;font-weight:bold">3</span>), deline#bar(), deline#hl(<span style="color:#00d;font-weight:bold">1</span>), deline#space(),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ deline#line(), <span style="color:#d20;background-color:#fff0f0">&#34;:&#34;</span>, deline#columnv(),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ deline#space(),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ ])</code></pre></td></tr></table>
+</div>
+</div>
+<p>各コンポーネントは関数化されており、Vim の複雑な記法を使わずに表現できます。</p>
+
+<h2 id="表現を拡張することもできる">表現を拡張することもできる</h2>
+
+<p>例えば、Vim の statusline の記法では動的にハイライトを変更することは困難です。
+しかし、deline の関数を使えば、簡単に表現できます。</p>
+
+<p>↓は、UTF-8 以外のファイルでは、エンコーディング名のハイライトを変更する例です。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim">    \ deline#dynamic#<span style="color:#080;font-weight:bold">if</span>(<span style="color:#d20;background-color:#fff0f0">&#34;&amp;fileencoding!=&#39;utf-8&#39;&#34;</span>, deline#hl(<span style="color:#00d;font-weight:bold">4</span>), deline#hl(<span style="color:#00d;font-weight:bold">1</span>)),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ deline#fileencoding(),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ deline#hl(<span style="color:#00d;font-weight:bold">1</span>),</code></pre></td></tr></table>
+</div>
+</div>
+<h1 id="カスタマイズ方法">カスタマイズ方法</h1>
+
+<p>個々の関数については、ヘルプを参照してください。
+ここでは、具体的なカスタマイズを紹介します。</p>
+
+<h2 id="vimrc-に記述する">vimrc に記述する</h2>
+
+<p>カスタマイズをする場合は、vimrc に記述します。</p>
+
+<p>↓に、★がついているのがカスタマイズに関わる箇所です。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">56
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">57
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">58
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">59
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">60
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">61
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">62
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">63
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim">augroup Deline_mysetting <span style="color:#888">&#34;★お決まり</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>autocmd! <span style="color:#888">&#34;★お決まり</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>autocmd BufEnter * call Deline([ <span style="color:#888">&#34;★お決まり</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#comment(<span style="color:#d20;background-color:#fff0f0">&#34; ★ Deline の標準ではないことを視覚的に判別するためのもの(アニメーションする)&#34;</span>),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#dynamic#periodic(<span style="color:#00d;font-weight:bold">300</span>),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#dynamic#cyclic([<span style="color:#d20;background-color:#fff0f0">&#39;-&#39;</span>, <span style="color:#d20;background-color:#fff0f0">&#39;\&#39;</span>, <span style="color:#d20;background-color:#fff0f0">&#39;|&#39;</span>, <span style="color:#d20;background-color:#fff0f0">&#39;/&#39;</span>, <span style="color:#d20;background-color:#fff0f0">&#39;-&#39;</span>, <span style="color:#d20;background-color:#fff0f0">&#39;\&#39;</span>, <span style="color:#d20;background-color:#fff0f0">&#39;|&#39;</span>, <span style="color:#d20;background-color:#fff0f0">&#39;/&#39;</span>, <span style="color:#d20;background-color:#fff0f0">&#39;-&#39;</span>, <span style="color:#d20;background-color:#fff0f0">&#39;-&#39;</span>, <span style="color:#d20;background-color:#fff0f0">&#39;+&#39;</span>, <span style="color:#d20;background-color:#fff0f0">&#39;*&#39;</span>, <span style="color:#d20;background-color:#fff0f0">&#39;+&#39;</span>]),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ <span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#comment(<span style="color:#d20;background-color:#fff0f0">&#34;mode (define User2 and change to it by hl(2))&#34;</span>),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#modeHL(<span style="color:#d20;background-color:#fff0f0">&#34;User2&#34;</span>),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#hl(<span style="color:#00d;font-weight:bold">2</span>),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#space(),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#mode(),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#space(),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ <span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#comment(<span style="color:#d20;background-color:#fff0f0">&#34;filepath and mod, readonly flags&#34;</span>),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#hl(<span style="color:#00d;font-weight:bold">1</span>), deline#space(),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#hl(<span style="color:#00d;font-weight:bold">4</span>),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#readonly(<span style="color:#d20;background-color:#fff0f0">&#39;[RO] &#39;</span>, <span style="color:#d20;background-color:#fff0f0">&#39;&#39;</span>),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#modified(<span style="color:#d20;background-color:#fff0f0">&#39;+ &#39;</span>, <span style="color:#d20;background-color:#fff0f0">&#39;&#39;</span>),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#comment(<span style="color:#d20;background-color:#fff0f0">&#34;v-- expand(%:p:h:t) / expand(%:p:t)&#34;</span>),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#comment(<span style="color:#d20;background-color:#fff0f0">&#34;deline#file(&#39;:p:h:t/:p:t&#39;),&#34;</span>),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#hl(<span style="color:#00d;font-weight:bold">3</span>), deline#file(<span style="color:#d20;background-color:#fff0f0">&#39;:p:h:t&#39;</span>), <span style="color:#d20;background-color:#fff0f0">&#34;/&#34;</span>,<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#hl(<span style="color:#00d;font-weight:bold">1</span>), deline#file(<span style="color:#d20;background-color:#fff0f0">&#39;:p:t&#39;</span>),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#space(),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#hl(<span style="color:#00d;font-weight:bold">4</span>), deline#notsaved(<span style="color:#00d;font-weight:bold">2</span>),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#rightalign(),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#comment(<span style="color:#d20;background-color:#fff0f0">&#34; ★ 幅広のときのみ、時刻と検索文字列を表示する&#34;</span>),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#dynamic#<span style="color:#080;font-weight:bold">if</span>(<span style="color:#d20;background-color:#fff0f0">&#34;winwidth(0) &gt; 80&#34;</span>, <span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>                \ deline#hl(<span style="color:#00d;font-weight:bold">1</span>) . deline#expr(<span style="color:#d20;background-color:#fff0f0">&#34;strftime(&#39;%T&#39;)&#34;</span>) .<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>                \ deline#space() . deline#hl(<span style="color:#00d;font-weight:bold">3</span>) . deline#bar() . deline#hl(<span style="color:#00d;font-weight:bold">1</span>) . deline#space(),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>                \ <span style="color:#d20;background-color:#fff0f0">&#34;&#34;</span>),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#dynamic#<span style="color:#080;font-weight:bold">if</span>(<span style="color:#d20;background-color:#fff0f0">&#34;winwidth(0) &gt; 80 &amp;&amp; !v:hlsearch&#34;</span>, <span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>                \ <span style="color:#d20;background-color:#fff0f0">&#34;/&#34;</span> . deline#expr(<span style="color:#d20;background-color:#fff0f0">&#34;getreg(&#39;/&#39;)&#34;</span>) .<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>                \ deline#space() . deline#hl(<span style="color:#00d;font-weight:bold">3</span>) . deline#bar() . deline#hl(<span style="color:#00d;font-weight:bold">1</span>) . deline#space(),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>                \ <span style="color:#d20;background-color:#fff0f0">&#34;&#34;</span>),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#comment(<span style="color:#d20;background-color:#fff0f0">&#34;\ deline#fileformat(),&#34;</span>),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#dynamic#<span style="color:#080;font-weight:bold">if</span>(<span style="color:#d20;background-color:#fff0f0">&#34;&amp;fileformat!=&#39;unix&#39;&#34;</span>, deline#hl(<span style="color:#00d;font-weight:bold">4</span>), deline#hl(<span style="color:#00d;font-weight:bold">1</span>)),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#fileformat(),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#hl(<span style="color:#00d;font-weight:bold">1</span>),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#comment(<span style="color:#d20;background-color:#fff0f0">&#34;v-- separator&#34;</span>),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#space(), deline#hl(<span style="color:#00d;font-weight:bold">3</span>), deline#bar(), deline#hl(<span style="color:#00d;font-weight:bold">1</span>), deline#space(),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#comment(<span style="color:#d20;background-color:#fff0f0">&#34;\ deline#fileencoding(),&#34;</span>),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#dynamic#<span style="color:#080;font-weight:bold">if</span>(<span style="color:#d20;background-color:#fff0f0">&#34;&amp;fileencoding!=&#39;utf-8&#39;&#34;</span>, deline#hl(<span style="color:#00d;font-weight:bold">4</span>), deline#hl(<span style="color:#00d;font-weight:bold">1</span>)),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#fileencoding(),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#hl(<span style="color:#00d;font-weight:bold">1</span>),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#space(), deline#hl(<span style="color:#00d;font-weight:bold">3</span>), deline#bar(), deline#hl(<span style="color:#00d;font-weight:bold">1</span>), deline#space(),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#filetype(),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#space(), deline#hl(<span style="color:#00d;font-weight:bold">3</span>), deline#bar(), deline#hl(<span style="color:#00d;font-weight:bold">1</span>), deline#space(),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#line(), <span style="color:#d20;background-color:#fff0f0">&#34;:&#34;</span>, deline#columnv(),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ deline#space(),<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>            \ ])<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>augroup END <span style="color:#888">&#34;★お決まり</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>autocmd は、プラグインと vimrc のロード順の関係上、関数定義がされた後で呼び出すために入れています。
+GUI 版を使う場合は、<strong>g</strong>vimrc に <code>call Deline(...)</code> の部分だけを記述すれば OK です。</p>
+
+<h2 id="自分で定義したハイライトを使う">自分で定義したハイライトを使う</h2>
+
+<p><code>deline#hl(&quot;MyHighlight&quot;)</code></p>
+
+<h2 id="条件に応じた文字列を出力する">条件に応じた文字列を出力する</h2>
+
+<h1 id="より詳細な説明">より詳細な説明</h1>
+
+<h2 id="関数の種類">関数の種類</h2>
+
+<h3 id="通常の関数-deline-xxx">通常の関数 deline#xxx()</h3>
+
+<p>deline が提供している関数の内容については、付属のドキュメントを参照していただければと思います。</p>
+
+<p><code>deline#xxx()</code> というのは、その殆どが<strong>文字列を返す関数</strong>です。</p>
+
+<h3 id="動的な関数-deline-dynamic-xxx">動的な関数 deline#dynamic#xxx()</h3>
+
+<p>他方、<code>deline#dynamic#xxx()</code> という関数もあります。
+これは、Vim が statusline を評価するタイミングで statusline の表現に変換されるというものです。
+利用者が新たに定義をすることも可能です。</p>
+
+<p>非 dynamic な関数が単純に文字列を返すものであるのに比べて、dynamic な関数は「文字列を返す関数を返す」関数です。</p>
+
+<h3 id="使い分け">使い分け</h3>
+
+<p>deline が提供する関数の中には、<code>deline#if()</code> や <code>deline#dynamic#if()</code> のように、dynamic なものと非 dynamic なものの両方がある場合があります。</p>
+
+<p>どちらを使うべきかを説明します。</p>
+
+<h4 id="dynamic-関数">dynamic 関数</h4>
+
+<p><code>if({expr}, {t}, {f})</code> の {t} もしくは、{f} に対して、どのような物を渡すかによって、dynamic 版を使うか非 dynamic 版を使うかが分かれます。</p>
+
+<h2 id="評価の流れ">評価の流れ</h2>
+
+<p>この内容はあまり理解していなくても大丈夫です。
+ただ、<strong>dynamic 関数から dynamic 関数を呼び出すことはできない</strong>ことに注意してください。</p>
+
+<p>流れとしては、↓のような感じです。</p>
+
+<ol>
+<li>Deline() に関数呼び出しの結果を配列として渡す。
+→ この時点で、文字列リテラルはさておき、非 dynamic な関数の一部は文字列リテラルとして statusline 向けの文字列 (%f など) を返している。
+→ それ以外の deline が提供する関数は、<code>#{func()}</code> といった関数呼び出しを行うための文字列を返している。</li>
+<li>(カーソル移動などがあり) Vim で statusline を再描画する。そのために statusline に記述されているものが評価される</li>
+<li>流れ 2 を受け、<code>#{func()}</code> のような関数呼び出しを含んでいると、その関数を呼び出す。
+→ 非 dynamic なものは、この時点で statuline に表示するための文字列を返す。
+→ dynamic なものは、deline に対して「あとで返すべき文字列を返す」関数を返す。また同時に、dynamic 関数を後で呼び出すための記述を埋め込むよう指示する。</li>
+<li>(dynamic 関数が含まれる場合のみ) dynamic 関数を statuline に埋め込み、再度 statusline の再描画を Vim に行わせる。
+→ 流れ 2 に戻るが、実は流れ 3 の部分では、無限ループにならないように、時間でスロットリングしている。</li>
+</ol>
+
+<h1 id="ダウンロード">ダウンロード</h1>
+
+<p><a href="https://www.vim.org/scripts/script.php?script_id=5773">www.vim.org</a></p>
+
+    
+<!-- PAGE POINTERS -->
+
+<div class="single_pagenav">
+    <div class="single_pagenav_prev">
+        
+        <a href="/soft/obit/">&laquo; obit &laquo;</a>
+        
+        </div>
+    <div class="single_pagenav_next">
+        
+        <a href="/soft/hosted/">&raquo; hosted &raquo;</a>
+        
+    </div>
+</div>
+
+<!-- PAGE POINTERS -->
+
+
+            </div>
+            <div class="side-area">
+                
+<!-- PROFILE -->
+<div class="profile"><object type='image/svg+xml' data='https://img.shields.io/badge/@chimatter-Follow-blue?style=for-the-badge&logo=twitter&logoColor=white&link=https://twitter.com/intent/user?screen_name=chimatter&link=https://twitter.com/intent/follow?screen_name=chimatter' style='margin-top:2em; margin-left:1em'></object><p class="description">
+    
+    </p>
+</div>
+<!-- PROFILE -->
+
+                <div class="latest_list_container">
+    <ul>
+        
+        
+        <a href="/app/"><li><span style="display:inline-block; text-decoration:none">📂 </span>Apps</li></a>
+        
+        <a href="/app/shyield/"><li><span style="display:inline-block; text-decoration:none">📄 </span>Shyield</li></a>
+        
+        <a href="/"><li><span style="display:inline-block; text-decoration:none">📂 </span>作ったものとか</li></a>
+        
+        <a href="/soft/caffeine/"><li><span style="display:inline-block; text-decoration:none">📄 </span>caffeine</li></a>
+        
+        <a href="/soft/"><li><span style="display:inline-block; text-decoration:none">📂 </span>Softs</li></a>
+        
+        <a href="/soft/hosted/"><li><span style="display:inline-block; text-decoration:none">📄 </span>hosted</li></a>
+        
+        <a href="/soft/vim-deline/"><li><span style="display:inline-block; text-decoration:none">📄 </span>vim:deline</li></a>
+        
+        <a href="/soft/obit/"><li><span style="display:inline-block; text-decoration:none">📄 </span>obit</li></a>
+        
+        <a href="/soft/glass/"><li><span style="display:inline-block; text-decoration:none">📄 </span>glass</li></a>
+        
+        <a href="/hugo_theme/"><li><span style="display:inline-block; text-decoration:none">📂 </span>Hugo テーマ</li></a>
+        
+    </ul>
+</div>
+
+            </div>
+        </div>
+
+        <div class="footer">
+            
+<!-- FOOTER -->
+<hr/>
+Top: <a href="/">作ったものとか</a> | <a rel="alternate" type="application/atom+xml" href="/index.xml">Feed</a><br/>
+
+Copyright 2017-2019 Shuhei Kubota<br/>
+Powered by <a href="https://gohugo.io/">Hugo</a><br/>
+<!-- FOOTER -->
+
+        </div>
+
+        <script src="/js/cheep.js"></script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var ms = document.querySelectorAll(".lastmod")
+                for (var i = 0; i < ms.length; i++) {
+                    var m = ms[i];
+                    replaceSince(m);
+                }
+                })
+        </script>
+
+        
+    </body>
+</html>
