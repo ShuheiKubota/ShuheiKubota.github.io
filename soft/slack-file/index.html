@@ -1,0 +1,38 @@
+<!doctype html><html><head><meta charset=utf-8><title>slack-file - 作ったものとか</title><meta name=generator content="Hugo 0.79.0"><meta name=copyright content="Copyright 2017-2019 Shuhei Kubota"><link rel=alternate type=application/atom+xml href=/index.xml><meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1"><link href=/css/cheep.css rel=stylesheet><link href=/css/style.css rel=stylesheet><link href=/css/syntax.css rel=stylesheet></head><body><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;ga('create','UA-105605213-1','auto');ga('send','pageview');}</script><script async src=https://www.google-analytics.com/analytics.js></script><div class=header><a href=/>作ったものとか</a>&nbsp;&#187; <a href=/soft/>Softs</a></div><div class=main><div class=toc-area><nav id=TableOfContents><ul><li><a href=#用途>用途</a></li><li><a href=#使い方>使い方</a><ul><li><a href=#まずはアプリの設定>まずはアプリの設定</a></li><li><a href=#ファイルのリストを見てみる>ファイルのリストを見てみる</a></li><li><a href=#標準エラーの場合>標準エラーの場合</a></li><li><a href=#古いファイルを削除する>古いファイルを削除する</a></li><li><a href=#重複したファイルを1つだけ残して削除する>重複したファイルを1つだけ残して削除する</a></li></ul></li><li><a href=#ダウンロード>ダウンロード</a></li></ul></nav></div><div class=main-area><h1>slack-file</h1><p>Slackにアップされたファイルを操作するツール(主に削除)</p><h2 id=用途>用途</h2><ul><li>古いファイルが溜まっているので掃除したい。</li><li>同じ名前のファイルを定期的にアップしているが、最新のものだけ残してあとは消したい。</li></ul><p><a href=https://github.com/shu-go/slack-file/releases>ダウンロード</a></p><h2 id=使い方>使い方</h2><h3 id=まずはアプリの設定>まずはアプリの設定</h3><pre><code>&gt; slack-file auth
+</code></pre><p>ブラウザが起動して Slack の Your Apps ページに移動します。</p><h4 id=アプリの作成>アプリの作成</h4><figure><img src=slack-file_1.png></figure><p>ここで Create New App をクリックして、新たにアプリを作成します。</p><figure><img src=slack-file_2.png></figure><p>既存のアプリで、後述する権限を持ったものがあれば、新たに作成する必要はありません。
+その場合は該当するアプリを編集してください。</p><h4 id=権限の設定>権限の設定</h4><figure><img src=slack-file_3.png></figure><p>Redirect URLs に http://localhost:7878 を追加します。
+Save URLs も忘れずにクリックします。</p><figure><img src=slack-file_4.png></figure><p>User Token Scopes で Add an OAuth Scope をクリックし、
+files:read, files:write の両方を追加します。</p><figure><img src=slack-file_5.png></figure><p>アプリのページに戻って(ブラウザの戻る)…</p><figure><img src=slack-file_6.png></figure><p>Client ID と Client Secret を確認します。
+この内容を使って、以下のコマンドを実行します。</p><h4 id=認可>認可</h4><pre><code>&gt; slack-file auth {Client ID} {Client Secret}
+</code></pre><p>※実際には {} は要りません。</p><p>すると、認可のページに遷移しますので、許可します。</p><figure><img src=slack-file_8.png></figure><p>slack-file.conf というファイルがカレントディレクトリーに作成されます。
+この中にはアプリにアクセスするためのトークンが記録されています。</p><figure><img src=slack-file_9.png></figure><h3 id=ファイルのリストを見てみる>ファイルのリストを見てみる</h3><pre><code>&gt; slack-file list
+
+とか
+
+&gt; slack-file list my*.log
+</code></pre><p>古いファイルや特定のチャネルのファイルのみに絞り込むことができます。</p><p>オプションについては、以下のコマンドで確認してみてください。</p><pre><code>&gt; slack-file help list
+</code></pre><h3 id=標準エラーの場合>標準エラーの場合</h3><p>Windows の場合です。</p><pre><code>hoge.exe 2&gt;&amp;1 | ts &gt; log_ts.txt
+</code></pre><h3 id=古いファイルを削除する>古いファイルを削除する</h3><h4 id=まずは確認>まずは確認</h4><p>1日前 以前のファイルを削除してみます。</p><pre><code>&gt; slack-file delete --dry-run  --older 24h *
+</code></pre><p>最後の <code>*</code> は、削除するファイル名をワイルドカードで指定しています。</p><p>※オプション <code>--dry-run</code> を指定すると、実際には削除されません。</p><h4 id=実際に削除する>実際に削除する</h4><p>オプション <code>--dry-run</code> を外すと、実際に削除されます。</p><pre><code>&gt; slack-file delete --older 24h *
+</code></pre><h3 id=重複したファイルを1つだけ残して削除する>重複したファイルを1つだけ残して削除する</h3><pre><code>&gt; slack-file uniq --dry-run
+</code></pre><p>※オプション <code>--dry-run</code> を指定すると、実際には削除されません。</p><h4 id=uniq-サブコマンドのオプション>uniq サブコマンドのオプション</h4><p>何をもって同一のファイルとするかは、オプション <code>--key</code> で指定します。</p><p>また、どのファイルを残すかは、オプション <code>--sort</code> で指定したフィールドに基づきます。
+<code>-Created</code> のように、先頭に <code>-</code> がついているものは、最後のものが優先としてみなされます。</p><p><code>--dry-run</code> を使って確認してみてください。</p><pre><code>&gt; slack-file help uniq
+
+command uniq - delete duplicated files
+
+Options:
+  --key      a unique key set of files (default: Name,Title)
+  --sort     sort fields of each --key group (default: -Created,-Timestamp,ID)
+  --exclude  do not delete if any properties not empty (default: IsStarred,IsExternal)
+  --dry-run  do not delete files actually
+
+Global Options:
+  --config   (default: ./slack-file.conf)
+
+Usage:
+  # SIMULATE delete duplicated files by Name, keep newest Timestamp
+  slack-file uniq --key Name --sort -Timestamp --dry-run
+  # DELETE
+  slack-file uniq --key Name --sort -Timestamp
+</code></pre><h2 id=ダウンロード>ダウンロード</h2><p><a href=https://github.com/shu-go/slack-file/releases>ダウンロード</a></p><div class=single_pagenav><div class=single_pagenav_prev><a href=/soft/ts/>&#171; ts &#171;</a></div><div class=single_pagenav_next></div></div></div><div class=side-area><div class=profile><object type=image/svg+xml data="https://img.shields.io/badge/@chimatter-Follow-blue?style=for-the-badge&logo=twitter&logoColor=white&link=https://twitter.com/intent/user?screen_name=chimatter&link=https://twitter.com/intent/follow?screen_name=chimatter" style=margin-top:2em;margin-left:1em></object><p class=description></p></div><div class=latest_list_container><ul><a href=/soft/slack-file/><li><span style=display:inline-block;text-decoration:none>📄 </span>slack-file</li></a><a href=/soft/><li><span style=display:inline-block;text-decoration:none>📂 </span>Softs</li></a><a href=/><li><span style=display:inline-block;text-decoration:none>📂 </span>作ったものとか</li></a><a href=/article/><li><span style=display:inline-block;text-decoration:none>📂 </span>Articles</li></a><a href=/article/20200603-sesame/><li><span style=display:inline-block;text-decoration:none>📄 </span>SESAME</li></a><a href=/soft/ts/><li><span style=display:inline-block;text-decoration:none>📄 </span>ts</li></a><a href=/soft/detour/><li><span style=display:inline-block;text-decoration:none>📄 </span>detour</li></a><a href=/soft/vvin/><li><span style=display:inline-block;text-decoration:none>📄 </span>vvin</li></a><a href=/app/><li><span style=display:inline-block;text-decoration:none>📂 </span>Apps</li></a><a href=/app/shyield/><li><span style=display:inline-block;text-decoration:none>📄 </span>Shyield</li></a></ul></div></div></div><div class=footer><hr>Top: <a href=/>作ったものとか</a> | <a rel=alternate type=application/atom+xml href=/index.xml>Feed</a><br>Copyright 2017-2019 Shuhei Kubota<br>Powered by <a href=https://gohugo.io/>Hugo</a><br></div><script src=/js/cheep.js></script><script>document.addEventListener("DOMContentLoaded",function(){var ms=document.querySelectorAll(".lastmod")
+for(var i=0;i<ms.length;i++){var m=ms[i];replaceSince(m);}})</script></body></html>
