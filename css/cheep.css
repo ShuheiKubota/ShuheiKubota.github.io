@@ -49,8 +49,6 @@
 
 .footer {
     text-align: right;
-    margin-left: 1em;
-    margin-right: 1em;
 }
 
 .main-area {
@@ -294,4 +292,81 @@ hr.listsep {
 }
 .latest_list_container li:nth-child(even) {
     background-color: rgb(245, 245, 245);
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        color: rgb(250,250,250);
+    }
+    .header {
+        background-color: black;
+        color: white;
+    }
+    .header * {
+        color: white;
+    }
+    .main {
+        background-color: rgb(25,25,25);
+    }
+    .main a:link {
+        color: lightblue;
+    }
+    .main a:visited {
+        color: indianred;
+    }
+    .main-area h3 {
+        background: #545454;
+    }
+    .main-area h3:after {
+        border-top: 15px solid #545454;
+    }
+    .main-area > pre {
+        background: #171717;
+        border: solid thin rgb(160,160,160);
+    }
+    .main-area > .highlight {
+        background: #171717;
+        border: solid thin rgb(160,160,160);
+    }
+    .footer {
+        color: rgb(250,250,250);
+        background-color: rgb(25,25,25);
+        /*
+        background-color: rgb(25,25,25);
+        color: black;
+        */
+    }
+    .footer a:link {
+        color: lightblue;
+    }
+    .footer a:visited {
+        color: indianred;
+    }
+    .footer hr {
+        color: rgb(250,250,250);
+        background-color: rgb(25,25,25);
+        margin: 0;
+    }
+
+    img {
+        filter: brightness(.85);
+    }
+    code .ln {
+        color: lightgray;
+    }
+    #TableOfContents:before {
+        background-color: rgb(74,74,74);
+    }
+    #TableOfContents {
+        background-color: rgb(45,45,45);
+    }
+    .profile:before {
+        background-color: rgb(74,74,74);
+    }
+    .latest_list_container:before {
+        background-color: rgb(74,74,74);
+    }
+    .latest_list_container li:nth-child(even) {
+        background-color: rgb(45,45,45);
+    }
 }
