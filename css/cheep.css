@@ -296,7 +296,7 @@ hr.listsep {
 
 @media (prefers-color-scheme: dark) {
     body {
-        color: rgb(250,250,250);
+        color: rgb(218,218,218);
     }
     .header {
         background-color: black;
