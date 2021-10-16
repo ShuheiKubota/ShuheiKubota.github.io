@@ -1,5 +1,43 @@
-<!doctype html><html><head><meta charset=utf-8><title>Hugo テーマ 1. single テンプレート - 作ったものとか</title><meta name=generator content="Hugo 0.80.0"><meta name=copyright content="Copyright 2017-2019 Shuhei Kubota"><link rel=alternate type=application/atom+xml href=/index.xml><meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1"><link href=/css/cheep.css rel=stylesheet><link href=/css/style.css rel=stylesheet><link href=/css/syntax.css rel=stylesheet></head><body><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;ga('create','UA-105605213-1','auto');ga('send','pageview');}</script><script async src=https://www.google-analytics.com/analytics.js></script><div class=header><a href=/>作ったものとか</a>&nbsp;&#187; <a href=/hugo_theme/>Hugo テーマ</a></div><div class=main><div class=toc-area><nav id=TableOfContents><ul><li><a href=#表示結果>表示結果</a></li></ul></nav></div><div class=main-area><h1>Hugo テーマ 1. single テンプレート</h1><p>hugo new theme から始まり、テンプレート single.html の編集を行います。それにより、個別のページが表示されるようにします。</p><h1 id=やりたいこと>やりたいこと</h1><p>まずは、極力シンプルに、必要最低限の表示がされることを確認していきます。</p><p>表示確認は、このページに対して行います。</p><h1 id=hugo-new-theme-absence>hugo new theme absence</h1><p>今回のテーマ名は「absence」とします。</p><pre><code>hugo new theme absence
-</code></pre><p>すると、以下のようなファイルツリーが出来上がります。</p><p>※テーマの作成に関係のないものは除外しています。</p><pre><code>&gt; tree
+<!doctype html><html lang>
+<head>
+<meta charset=utf-8>
+<title>
+Hugo テーマ 1. single テンプレート - 作ったものとか
+</title>
+<meta name=generator content="Hugo 0.88.1">
+<meta name=copyright content="Copyright 2017-2019 Shuhei Kubota">
+<link rel=alternate type=application/atom+xml href=/index.xml>
+<meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1">
+<link href=/css/cheep.css rel=stylesheet>
+<link href=/css/style.css rel=stylesheet>
+<link href=/css/syntax.css rel=stylesheet>
+</head>
+<body>
+<script type=application/javascript>var doNotTrack=!1;doNotTrack||(window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga('create','UA-105605213-1','auto'),ga('send','pageview'))</script>
+<script async src=https://www.google-analytics.com/analytics.js></script>
+<div class=header>
+<a href=/>作ったものとか</a>&nbsp;&#187; <a href=/hugo_theme/>Hugo テーマ</a>
+</div>
+<div class=main>
+<div class=toc-area>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#表示結果>表示結果</a></li>
+</ul>
+</nav>
+</div>
+<div class=main-area>
+<h1>Hugo テーマ 1. single テンプレート</h1>
+<p>hugo new theme から始まり、テンプレート single.html の編集を行います。それにより、個別のページが表示されるようにします。</p>
+<h1 id=やりたいこと>やりたいこと</h1>
+<p>まずは、極力シンプルに、必要最低限の表示がされることを確認していきます。</p>
+<p>表示確認は、このページに対して行います。</p>
+<h1 id=hugo-new-theme-absence>hugo new theme absence</h1>
+<p>今回のテーマ名は「absence」とします。</p>
+<pre tabindex=0><code>hugo new theme absence
+</code></pre><p>すると、以下のようなファイルツリーが出来上がります。</p>
+<p>※テーマの作成に関係のないものは除外しています。</p>
+<pre tabindex=0><code>&gt; tree
 .
 |-- themes
 |   |-- absence
@@ -19,8 +57,15 @@
 |       |   |-- css
 |       |   `-- js
 |       `-- theme.toml
-</code></pre><p>今回は、上記の中ほどにある themes/absence/layouts/_default/single.html を編集します。</p><h1 id=表示するのは最低限とする>表示するのは最低限とする</h1><p>とりあえず、タイトルと内容が表示されるようにします。</p><p>他の、例えばメニューやらタグやら Google Analytics やらの対応は行いません。
-CSS や JavaScript なんてとんでもない！ …というくらい最低限のページにします。</p><h1 id=最終形>最終形</h1><div class=highlight><div style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</code></pre><p>今回は、上記の中ほどにある themes/absence/layouts/_default/single.html を編集します。</p>
+<h1 id=表示するのは最低限とする>表示するのは最低限とする</h1>
+<p>とりあえず、タイトルと内容が表示されるようにします。</p>
+<p>他の、例えばメニューやらタグやら Google Analytics やらの対応は行いません。
+CSS や JavaScript なんてとんでもない！ …というくらい最低限のページにします。</p>
+<h1 id=最終形>最終形</h1>
+<div class=highlight><div style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
@@ -30,7 +75,9 @@ CSS や JavaScript なんてとんでもない！ …というくらい最低限
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html><span style=color:#c00;font-weight:700>&lt;!DOCTYPE html&gt;</span>
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html><span style=color:#c00;font-weight:700>&lt;!DOCTYPE html&gt;</span>
 &lt;<span style=color:#b06;font-weight:700>html</span> <span style=color:#369>lang</span>=<span style=color:#d20;background-color:#fff0f0>&#34;{{ .Site.Language.Lang }}&#34;</span>&gt;
 &lt;<span style=color:#b06;font-weight:700>head</span>&gt;
     &lt;<span style=color:#b06;font-weight:700>meta</span> <span style=color:#369>charset</span>=<span style=color:#d20;background-color:#fff0f0>&#34;UTF-8&#34;</span>&gt;
@@ -40,6 +87,66 @@ CSS や JavaScript なんてとんでもない！ …というくらい最低限
     {{ .Page.Content }}
 &lt;/<span style=color:#b06;font-weight:700>body</span>&gt;
 &lt;/<span style=color:#b06;font-weight:700>html</span>&gt;
-</code></pre></td></tr></table></div></div><table><thead><tr><th>参照したもの</th><th>URL</th></tr></thead><tbody><tr><td>Site 変数</td><td><a href=https://gohugo.io/variables/site/>https://gohugo.io/variables/site/</a></td></tr><tr><td>Page 変数</td><td><a href=https://gohugo.io/variables/page/>https://gohugo.io/variables/page/</a></td></tr></tbody></table><h2 id=表示結果>表示結果</h2><pre><code>hugo server -w -D -t absence
-</code></pre><figure><img src=01.png></figure><div class=single_pagenav><div class=single_pagenav_prev><a href=/hugo_theme/00/>&#171; Hugo テーマ 0. 作成について &#171;</a></div><div class=single_pagenav_next><a href=/hugo_theme/02/>&#187; Hugo テーマ 2. list テンプレート &#187;</a></div></div></div><div class=side-area><div class=profile><object type=image/svg+xml data="https://img.shields.io/badge/@chimatter-Follow-blue?style=for-the-badge&logo=twitter&logoColor=white&link=https://twitter.com/intent/user?screen_name=chimatter&link=https://twitter.com/intent/follow?screen_name=chimatter" style=margin-top:2em;margin-left:1em></object><p class=description></p></div><div class=latest_list_container><ul><a href=/article/><li><span style=display:inline-block;text-decoration:none>📂 </span>Articles</li></a><a href=/article/20210210-raspi_dlna_omv/><li><span style=display:inline-block;text-decoration:none>📄 </span>Raspberry Pi 4 で DLNA/OMV セットアップ</li></a><a href=/><li><span style=display:inline-block;text-decoration:none>📂 </span>作ったものとか</li></a><a href=/soft/slack-file/><li><span style=display:inline-block;text-decoration:none>📄 </span>slack-file</li></a><a href=/soft/><li><span style=display:inline-block;text-decoration:none>📂 </span>Softs</li></a><a href=/article/20200603-sesame/><li><span style=display:inline-block;text-decoration:none>📄 </span>SESAME</li></a><a href=/soft/ts/><li><span style=display:inline-block;text-decoration:none>📄 </span>ts</li></a><a href=/soft/detour/><li><span style=display:inline-block;text-decoration:none>📄 </span>detour</li></a><a href=/soft/vvin/><li><span style=display:inline-block;text-decoration:none>📄 </span>vvin</li></a><a href=/app/><li><span style=display:inline-block;text-decoration:none>📂 </span>Apps</li></a></ul></div></div></div><div class=footer><hr>Top: <a href=/>作ったものとか</a> | <a rel=alternate type=application/atom+xml href=/index.xml>Feed</a><br>Copyright 2017-2019 Shuhei Kubota<br>Powered by <a href=https://gohugo.io/>Hugo</a><br></div><script src=/js/cheep.js></script><script>document.addEventListener("DOMContentLoaded",function(){var ms=document.querySelectorAll(".lastmod")
-for(var i=0;i<ms.length;i++){var m=ms[i];replaceSince(m);}})</script></body></html>
+</code></pre></td></tr></table>
+</div>
+</div><table>
+<thead>
+<tr>
+<th>参照したもの</th>
+<th>URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Site 変数</td>
+<td><a href=https://gohugo.io/variables/site/>https://gohugo.io/variables/site/</a></td>
+</tr>
+<tr>
+<td>Page 変数</td>
+<td><a href=https://gohugo.io/variables/page/>https://gohugo.io/variables/page/</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id=表示結果>表示結果</h2>
+<pre tabindex=0><code>hugo server -w -D -t absence
+</code></pre><figure><img src=01.png>
+</figure>
+<div class=single_pagenav>
+<div class=single_pagenav_prev>
+<a href=/hugo_theme/00/>&#171; Hugo テーマ 0. 作成について &#171;</a>
+</div>
+<div class=single_pagenav_next>
+<a href=/hugo_theme/02/>&#187; Hugo テーマ 2. list テンプレート &#187;</a>
+</div>
+</div>
+</div>
+<div class=side-area>
+<div class=profile><object type=image/svg+xml data="https://img.shields.io/badge/@chimatter-Follow-blue?style=for-the-badge&logo=twitter&logoColor=white&link=https://twitter.com/intent/user?screen_name=chimatter&link=https://twitter.com/intent/follow?screen_name=chimatter" style=margin-top:2em;margin-left:1em></object><p class=description>
+</p>
+</div>
+<div class=latest_list_container>
+<ul>
+<a href=/soft/pmsync/><li><span style=display:inline-block;text-decoration:none>📄 </span>pmsync</li></a>
+<a href=/soft/><li><span style=display:inline-block;text-decoration:none>📂 </span>Softs</li></a>
+<a href=/><li><span style=display:inline-block;text-decoration:none>📂 </span>作ったものとか</li></a>
+<a href=/article/><li><span style=display:inline-block;text-decoration:none>📂 </span>Articles</li></a>
+<a href=/article/20210210-raspi_dlna_omv/><li><span style=display:inline-block;text-decoration:none>📄 </span>Raspberry Pi 4 で DLNA/OMV セットアップ</li></a>
+<a href=/soft/slack-file/><li><span style=display:inline-block;text-decoration:none>📄 </span>slack-file</li></a>
+<a href=/article/20200603-sesame/><li><span style=display:inline-block;text-decoration:none>📄 </span>SESAME</li></a>
+<a href=/soft/ts/><li><span style=display:inline-block;text-decoration:none>📄 </span>ts</li></a>
+<a href=/soft/detour/><li><span style=display:inline-block;text-decoration:none>📄 </span>detour</li></a>
+<a href=/soft/vvin/><li><span style=display:inline-block;text-decoration:none>📄 </span>vvin</li></a>
+</ul>
+</div>
+</div>
+</div>
+<div class=footer>
+<hr>
+Top: <a href=/>作ったものとか</a> | <a rel=alternate type=application/atom+xml href=/index.xml>Feed</a><br>
+Copyright 2017-2019 Shuhei Kubota<br>
+Powered by <a href=https://gohugo.io/>Hugo</a><br>
+</div>
+<script src=/js/cheep.js></script>
+<script>document.addEventListener("DOMContentLoaded",function(){for(var b=document.querySelectorAll(".lastmod"),a=0,c;a<b.length;a++)c=b[a],replaceSince(c)})</script>
+</body>
+</html>

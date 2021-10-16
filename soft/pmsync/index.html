@@ -1,0 +1,268 @@
+<!doctype html><html lang>
+<head>
+<meta charset=utf-8>
+<title>
+pmsync - 作ったものとか
+</title>
+<meta name=generator content="Hugo 0.88.1">
+<meta name=copyright content="Copyright 2017-2019 Shuhei Kubota">
+<link rel=alternate type=application/atom+xml href=/index.xml>
+<meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1">
+<link href=/css/cheep.css rel=stylesheet>
+<link href=/css/style.css rel=stylesheet>
+<link href=/css/syntax.css rel=stylesheet>
+</head>
+<body>
+<script type=application/javascript>var doNotTrack=!1;doNotTrack||(window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga('create','UA-105605213-1','auto'),ga('send','pageview'))</script>
+<script async src=https://www.google-analytics.com/analytics.js></script>
+<div class=header>
+<a href=/>作ったものとか</a>&nbsp;&#187; <a href=/soft/>Softs</a>
+</div>
+<div class=main>
+<div class=toc-area>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#ポメラsyncしたメモをpcでダウンロードアップロードする>ポメラSyncしたメモをPCでダウンロード・アップロードする</a></li>
+<li><a href=#もう少し詳しく>もう少し詳しく</a></li>
+</ul>
+<ul>
+<li><a href=#コマンドライン>コマンドライン</a></li>
+<li><a href=#先にpmsync自体のダウンロード>先にpmsync自体のダウンロード</a></li>
+<li><a href=#使い始めの設定>使い始めの設定</a>
+<ul>
+<li><a href=#1-google-cloud-platform-のプロジェクト作成認証情報作成>1. Google Cloud Platform のプロジェクト作成～認証情報作成</a></li>
+<li><a href=#1-gmail-への接続設定>1. Gmail への接続設定</a></li>
+<li><a href=#2-接続確認>2. 接続確認</a></li>
+<li><a href=#3-動作確認2-メモの取得>3. 動作確認2 メモの取得</a></li>
+<li><a href=#3-1-メモをファイルとして保存する>3-1. メモをファイルとして保存する</a></li>
+<li><a href=#4-動作確認3-メモの格納>4. 動作確認3 メモの格納</a></li>
+</ul>
+</li>
+<li><a href=#使い方のヒント>使い方のヒント</a></li>
+</ul>
+</nav>
+</div>
+<div class=main-area>
+<h1>pmsync</h1>
+<p>ポメラSyncされたメモを操作するツール 刷新版</p>
+<p>既存のツールpomiをある程度 踏襲しつつ、Gmail関係のAPIを更新したものです。</p>
+<h1 id=紹介>紹介</h1>
+<h2 id=ポメラsyncしたメモをpcでダウンロードアップロードする>ポメラSyncしたメモをPCでダウンロード・アップロードする</h2>
+<p>ポメラDM200には「ポメラSync」という機能が搭載されています。
+これは、ポメラで編集したメモを iPad や iPhone のメモアプリと同期する機能です。</p>
+<p>pmsync は、この同期に使われる情報をもとにパソコンにテキストファイルとしてダウンロードしたり、逆にパソコンで編集したテキストファイルをメモとしてアップロードしたりするためのツールです。</p>
+<h2 id=もう少し詳しく>もう少し詳しく</h2>
+<p>DM200からポメラSyncされたメモはGmail上にラベルNotes/Pomera_syncとして保存されます。</p>
+<p>pmsync は、このラベルが付与されたメールメッセージをアップロード・ダウンロードするためのコマンドラインツールです。</p>
+<h1 id=使い方>使い方</h1>
+<h2 id=コマンドライン>コマンドライン</h2>
+<p>pmsync はコマンドラインで実行するソフトウェアです。
+つまり、コマンドプロンプトから、</p>
+<ul>
+<li>どのメモをダウンロードするか</li>
+<li>どのファイルをアップロードするか</li>
+</ul>
+<p>を指示するわけです。</p>
+<h2 id=先にpmsync自体のダウンロード>先にpmsync自体のダウンロード</h2>
+<p>以下の場所からダウンロードできます。</p>
+<p><a href=#%E3%83%80%E3%82%A6%E3%83%B3%E3%83%AD%E3%83%BC%E3%83%89>ダウンロード</a></p>
+<h2 id=使い始めの設定>使い始めの設定</h2>
+<p>pmsync はコマンドラインアプリケーションです。
+Windows ではコマンドプロンプトを使って操作をします。</p>
+<h3 id=1-google-cloud-platform-のプロジェクト作成認証情報作成>1. Google Cloud Platform のプロジェクト作成～認証情報作成</h3>
+<p><a href=https://console.cloud.google.com/projectcreate>https://console.cloud.google.com/projectcreate</a> にアクセスします。</p>
+<p>以降の手順は、スクリーンショットを参考にしてください。</p>
+<hr>
+<figure><img src=pmsync_auth_1.png>
+</figure>
+<hr>
+<figure><img src=pmsync_auth_2.png>
+</figure>
+<hr>
+<figure><img src=pmsync_auth_3.png>
+</figure>
+<hr>
+<figure><img src=pmsync_auth_4.png>
+</figure>
+<hr>
+<figure><img src=pmsync_auth_5.png>
+</figure>
+<hr>
+<figure><img src=pmsync_auth_6.png>
+</figure>
+<hr>
+<figure><img src=pmsync_auth_7.png>
+</figure>
+<hr>
+<figure><img src=pmsync_auth_8.png>
+</figure>
+<hr>
+<figure><img src=pmsync_auth_9.png>
+</figure>
+<hr>
+<figure><img src=pmsync_auth_10.png>
+</figure>
+<hr>
+<figure><img src=pmsync_auth_11.png>
+</figure>
+<hr>
+<figure><img src=pmsync_auth_12.png>
+</figure>
+<hr>
+<figure><img src=pmsync_auth_13.png>
+</figure>
+<hr>
+<figure><img src=pmsync_auth_14.png>
+</figure>
+<hr>
+<figure><img src=pmsync_auth_15.png>
+</figure>
+<p>ここまで来たら、「JSONをダウンロード」をクリックして、必要なファイルをダウンロードします。</p>
+<p>ファイル名は「credentials.json」とし、pmsync の実行ファイルがある場所に保存します。</p>
+<h3 id=1-gmail-への接続設定>1. Gmail への接続設定</h3>
+<p>コマンドプロンプトから pmsync auth コマンドを実行して、Gmail に接続します。</p>
+<pre><code>&gt; pmsync auth
+</code></pre>
+<p>再びブラウザーでの操作になります。</p>
+<hr>
+<figure><img src=pmsync_use_1.png>
+</figure>
+<hr>
+<figure><img src=pmsync_use_2.png>
+</figure>
+<hr>
+<figure><img src=pmsync_use_3.png>
+</figure>
+<hr>
+<figure><img src=pmsync_use_4.png>
+</figure>
+<h3 id=2-接続確認>2. 接続確認</h3>
+<p>コマンド pmsync list を実行して、ポメラSyncの内容が見えることを確認してください。</p>
+<pre><code>&gt; pmsync list
+(以下は表示例)
+xxxxxx テスト (Fri, 18 Nov 2016 11:23:22 +0900)
+xxxxxx ★メモ★ (Wed, 09 Nov 2016 18:16:46 +0900)
+</code></pre>
+<h3 id=3-動作確認2-メモの取得>3. 動作確認2 メモの取得</h3>
+<p>コマンド pmsync get を使うと、条件を指定してメモをファイルとして取得できます。</p>
+<pre><code>&gt; pmsync get
+</code></pre>
+<p>保存先を指定しない場合、コマンドプロンプト画面にメモの内容をつらつらと表示します。
+表示を途中で止めたい場合は、Ctrl+C で強制終了させてください。</p>
+<h3 id=3-1-メモをファイルとして保存する>3-1. メモをファイルとして保存する</h3>
+<p>今度は、同じく pmsync get でファイルに保存してみます。</p>
+<pre><code>&gt; pmsync get -o file
+</code></pre>
+<p>デフォルトの保存先は、「(カレントディレクトリ)/pomera_sync」 となっています。
+これは、-d オプションで変更可能です。</p>
+<h3 id=4-動作確認3-メモの格納>4. 動作確認3 メモの格納</h3>
+<p>ローカルにあるファイルをポメラSyncに格納するためには、pmsync put コマンドを使います。</p>
+<p>(ここでは、ローカルのファイル ★メモ★.txt を編集したものとします)</p>
+<pre><code>&gt; pmsync put ★メモ★.txt
+putting pomera_sync\★メモ★.txt
+</code></pre>
+<p>ファイルの指定には、ワイルドカードとして * が使えます。</p>
+<pre><code>&gt; pmsync put ★*
+putting pomera_sync\★メモ★.txt
+</code></pre>
+<p><code>*</code> だけを指定することで、pomera_syncフォルダー内のすべてのファイルがアップロード対象となります。</p>
+<p>※ファイルシステムのルートディレクトリーから始まるファイル名を指定した場合、-d の指定に関わらず、そのファイルをアップロードします。</p>
+<h2 id=使い方のヒント>使い方のヒント</h2>
+<p>コマンドラインから、pmsync help コマンドを実行して、何ができるか確認してみてください。</p>
+<p>※コマンドは今後増える可能性があります。</p>
+<pre><code>&gt; pmsync help
+pmsync - Gmail&lt;--&gt;file sync for Pomera DM200(dev-20211016)
+
+Sub commands:
+  auth      update token
+  list, ls  list notes(mail messages)
+  get       display or download as a file
+  put       upload files as notes(gmail messages)
+
+Options:
+  --userid                      (default: me)
+  --box, --label                (default: Notes/pomera_sync)
+  -c, --credentials FILE_NAME  your client configuration file from Google Developer Console (default: ./credentials.json)
+  -t, --token FILE_NAME        file path to read/write retrieved token (default: ./token.json)
+  --clientid                   if no credentials.json
+  --clientsecret               if no credentials.json
+  --auth-port NUMBER            (default: 7878)
+
+Usage:
+  * create credentials at https://console.developers.google.com/apis/credentials
+  * download credentials.json
+  * pmsync auth
+  * pmsync get
+  * pmsync get -o file
+
+Help sub commands:
+  help     pmsync help subcommnad subsubcommand
+  version  show version
+</code></pre>
+<p>また、各コマンドの詳細な使い方は、「pmsync help コマンド名」を実行することで確認できます。</p>
+<pre><code>&gt; pmsync help list
+command list - list notes(mail messages)
+
+Options:
+  -f, --format  {id}, {subject}, {date}, {snippet}, {body} (default: {id} {subject} ({date}))
+
+Global Options:
+  --userid                      (default: me)
+  --box, --label                (default: Notes/pomera_sync)
+  -c, --credentials FILE_NAME  your client configuration file from Google Developer Console (default: ./credentials.json)
+  -t, --token FILE_NAME        file path to read/write retrieved token (default: ./token.json)
+  --clientid                   if no credentials.json
+  --clientsecret               if no credentials.json
+  --auth-port NUMBER            (default: 7878)
+
+Usage:
+  args accepts Gmail advanced search syntax (https://support.google.com/mail/answer/7190)
+</code></pre>
+<h1 id=ダウンロード>ダウンロード</h1>
+<p><a href=https://github.com/shu-go/pmsync/releases>ダウンロード</a></p>
+<h1 id=更新履歴>更新履歴</h1>
+<ul>
+<li>0.1.1 (2021-10-16)
+<ul>
+<li>刷新</li>
+</ul>
+</li>
+</ul>
+<div class=single_pagenav>
+<div class=single_pagenav_prev>
+<a href=/soft/slack-file/>&#171; slack-file &#171;</a>
+</div>
+<div class=single_pagenav_next>
+</div>
+</div>
+</div>
+<div class=side-area>
+<div class=profile><object type=image/svg+xml data="https://img.shields.io/badge/@chimatter-Follow-blue?style=for-the-badge&logo=twitter&logoColor=white&link=https://twitter.com/intent/user?screen_name=chimatter&link=https://twitter.com/intent/follow?screen_name=chimatter" style=margin-top:2em;margin-left:1em></object><p class=description>
+</p>
+</div>
+<div class=latest_list_container>
+<ul>
+<a href=/soft/pmsync/><li><span style=display:inline-block;text-decoration:none>📄 </span>pmsync</li></a>
+<a href=/soft/><li><span style=display:inline-block;text-decoration:none>📂 </span>Softs</li></a>
+<a href=/><li><span style=display:inline-block;text-decoration:none>📂 </span>作ったものとか</li></a>
+<a href=/article/><li><span style=display:inline-block;text-decoration:none>📂 </span>Articles</li></a>
+<a href=/article/20210210-raspi_dlna_omv/><li><span style=display:inline-block;text-decoration:none>📄 </span>Raspberry Pi 4 で DLNA/OMV セットアップ</li></a>
+<a href=/soft/slack-file/><li><span style=display:inline-block;text-decoration:none>📄 </span>slack-file</li></a>
+<a href=/article/20200603-sesame/><li><span style=display:inline-block;text-decoration:none>📄 </span>SESAME</li></a>
+<a href=/soft/ts/><li><span style=display:inline-block;text-decoration:none>📄 </span>ts</li></a>
+<a href=/soft/detour/><li><span style=display:inline-block;text-decoration:none>📄 </span>detour</li></a>
+<a href=/soft/vvin/><li><span style=display:inline-block;text-decoration:none>📄 </span>vvin</li></a>
+</ul>
+</div>
+</div>
+</div>
+<div class=footer>
+<hr>
+Top: <a href=/>作ったものとか</a> | <a rel=alternate type=application/atom+xml href=/index.xml>Feed</a><br>
+Copyright 2017-2019 Shuhei Kubota<br>
+Powered by <a href=https://gohugo.io/>Hugo</a><br>
+</div>
+<script src=/js/cheep.js></script>
+<script>document.addEventListener("DOMContentLoaded",function(){for(var b=document.querySelectorAll(".lastmod"),a=0,c;a<b.length;a++)c=b[a],replaceSince(c)})</script>
+</body>
+</html>

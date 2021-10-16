@@ -1,4 +1,42 @@
-<!doctype html><html><head><meta charset=utf-8><title>Hugo テーマ 2. list テンプレート - 作ったものとか</title><meta name=generator content="Hugo 0.80.0"><meta name=copyright content="Copyright 2017-2019 Shuhei Kubota"><link rel=alternate type=application/atom+xml href=/index.xml><meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1"><link href=/css/cheep.css rel=stylesheet><link href=/css/style.css rel=stylesheet><link href=/css/syntax.css rel=stylesheet></head><body><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;ga('create','UA-105605213-1','auto');ga('send','pageview');}</script><script async src=https://www.google-analytics.com/analytics.js></script><div class=header><a href=/>作ったものとか</a>&nbsp;&#187; <a href=/hugo_theme/>Hugo テーマ</a></div><div class=main><div class=toc-area><nav id=TableOfContents><ul><li><a href=#表示結果>表示結果</a></li></ul></nav></div><div class=main-area><h1>Hugo テーマ 2. list テンプレート</h1><p>list.html を編集し、Section やホームページのレイアウトを作成します。</p><h1 id=最初にlayoutsindexhtml-を削除する>最初に、layouts/index.html を削除する</h1><p><a href=../00/#%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E3%81%A8%E3%81%97%E3%81%A6%E3%81%AF%E4%B8%8D%E8%A6%81%E3%81%AA%E3%81%AE%E3%81%A7%E3%81%AF>思うところがあり</a>、今回は list.html で代用します。</p><p>ですので、themes/absence/layouts/index.html は削除してしまいます。</p><h1 id=listhtml-を編集>list.html を編集</h1><p>最終形は次のようになります。</p><div class=highlight><div style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+<!doctype html><html lang>
+<head>
+<meta charset=utf-8>
+<title>
+Hugo テーマ 2. list テンプレート - 作ったものとか
+</title>
+<meta name=generator content="Hugo 0.88.1">
+<meta name=copyright content="Copyright 2017-2019 Shuhei Kubota">
+<link rel=alternate type=application/atom+xml href=/index.xml>
+<meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1">
+<link href=/css/cheep.css rel=stylesheet>
+<link href=/css/style.css rel=stylesheet>
+<link href=/css/syntax.css rel=stylesheet>
+</head>
+<body>
+<script type=application/javascript>var doNotTrack=!1;doNotTrack||(window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga('create','UA-105605213-1','auto'),ga('send','pageview'))</script>
+<script async src=https://www.google-analytics.com/analytics.js></script>
+<div class=header>
+<a href=/>作ったものとか</a>&nbsp;&#187; <a href=/hugo_theme/>Hugo テーマ</a>
+</div>
+<div class=main>
+<div class=toc-area>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#表示結果>表示結果</a></li>
+</ul>
+</nav>
+</div>
+<div class=main-area>
+<h1>Hugo テーマ 2. list テンプレート</h1>
+<p>list.html を編集し、Section やホームページのレイアウトを作成します。</p>
+<h1 id=最初にlayoutsindexhtml-を削除する>最初に、layouts/index.html を削除する</h1>
+<p><a href=../00/#%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E3%81%A8%E3%81%97%E3%81%A6%E3%81%AF%E4%B8%8D%E8%A6%81%E3%81%AA%E3%81%AE%E3%81%A7%E3%81%AF>思うところがあり</a>、今回は list.html で代用します。</p>
+<p>ですので、themes/absence/layouts/index.html は削除してしまいます。</p>
+<h1 id=listhtml-を編集>list.html を編集</h1>
+<p>最終形は次のようになります。</p>
+<div class=highlight><div style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
@@ -25,7 +63,9 @@
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">25
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">26
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">27
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html><span style=color:#c00;font-weight:700>&lt;!DOCTYPE html&gt;</span>
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html><span style=color:#c00;font-weight:700>&lt;!DOCTYPE html&gt;</span>
 &lt;<span style=color:#b06;font-weight:700>html</span> <span style=color:#369>lang</span>=<span style=color:#d20;background-color:#fff0f0>&#34;{{ .Site.Language.Lang }}&#34;</span>&gt;
 &lt;<span style=color:#b06;font-weight:700>head</span>&gt;
     &lt;<span style=color:#b06;font-weight:700>meta</span> <span style=color:#369>charset</span>=<span style=color:#d20;background-color:#fff0f0>&#34;UTF-8&#34;</span>&gt;
@@ -52,7 +92,55 @@
 
 &lt;/<span style=color:#b06;font-weight:700>body</span>&gt;
 &lt;/<span style=color:#b06;font-weight:700>html</span>&gt;
-</code></pre></td></tr></table></div></div><p>比較したかったので、.Site.Pages も出力するようにしています。</p><h2 id=表示結果>表示結果</h2><div class=highlight><div style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>hugo server -w -D -t absence
-</code></pre></td></tr></table></div></div><figure><img src=02.png></figure><div class=single_pagenav><div class=single_pagenav_prev><a href=/hugo_theme/01/>&#171; Hugo テーマ 1. single テンプレート &#171;</a></div><div class=single_pagenav_next></div></div></div><div class=side-area><div class=profile><object type=image/svg+xml data="https://img.shields.io/badge/@chimatter-Follow-blue?style=for-the-badge&logo=twitter&logoColor=white&link=https://twitter.com/intent/user?screen_name=chimatter&link=https://twitter.com/intent/follow?screen_name=chimatter" style=margin-top:2em;margin-left:1em></object><p class=description></p></div><div class=latest_list_container><ul><a href=/article/><li><span style=display:inline-block;text-decoration:none>📂 </span>Articles</li></a><a href=/article/20210210-raspi_dlna_omv/><li><span style=display:inline-block;text-decoration:none>📄 </span>Raspberry Pi 4 で DLNA/OMV セットアップ</li></a><a href=/><li><span style=display:inline-block;text-decoration:none>📂 </span>作ったものとか</li></a><a href=/soft/slack-file/><li><span style=display:inline-block;text-decoration:none>📄 </span>slack-file</li></a><a href=/soft/><li><span style=display:inline-block;text-decoration:none>📂 </span>Softs</li></a><a href=/article/20200603-sesame/><li><span style=display:inline-block;text-decoration:none>📄 </span>SESAME</li></a><a href=/soft/ts/><li><span style=display:inline-block;text-decoration:none>📄 </span>ts</li></a><a href=/soft/detour/><li><span style=display:inline-block;text-decoration:none>📄 </span>detour</li></a><a href=/soft/vvin/><li><span style=display:inline-block;text-decoration:none>📄 </span>vvin</li></a><a href=/app/><li><span style=display:inline-block;text-decoration:none>📂 </span>Apps</li></a></ul></div></div></div><div class=footer><hr>Top: <a href=/>作ったものとか</a> | <a rel=alternate type=application/atom+xml href=/index.xml>Feed</a><br>Copyright 2017-2019 Shuhei Kubota<br>Powered by <a href=https://gohugo.io/>Hugo</a><br></div><script src=/js/cheep.js></script><script>document.addEventListener("DOMContentLoaded",function(){var ms=document.querySelectorAll(".lastmod")
-for(var i=0;i<ms.length;i++){var m=ms[i];replaceSince(m);}})</script></body></html>
+</code></pre></td></tr></table>
+</div>
+</div><p>比較したかったので、.Site.Pages も出力するようにしています。</p>
+<h2 id=表示結果>表示結果</h2>
+<div class=highlight><div style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>hugo server -w -D -t absence
+</code></pre></td></tr></table>
+</div>
+</div><figure><img src=02.png>
+</figure>
+<div class=single_pagenav>
+<div class=single_pagenav_prev>
+<a href=/hugo_theme/01/>&#171; Hugo テーマ 1. single テンプレート &#171;</a>
+</div>
+<div class=single_pagenav_next>
+</div>
+</div>
+</div>
+<div class=side-area>
+<div class=profile><object type=image/svg+xml data="https://img.shields.io/badge/@chimatter-Follow-blue?style=for-the-badge&logo=twitter&logoColor=white&link=https://twitter.com/intent/user?screen_name=chimatter&link=https://twitter.com/intent/follow?screen_name=chimatter" style=margin-top:2em;margin-left:1em></object><p class=description>
+</p>
+</div>
+<div class=latest_list_container>
+<ul>
+<a href=/soft/pmsync/><li><span style=display:inline-block;text-decoration:none>📄 </span>pmsync</li></a>
+<a href=/soft/><li><span style=display:inline-block;text-decoration:none>📂 </span>Softs</li></a>
+<a href=/><li><span style=display:inline-block;text-decoration:none>📂 </span>作ったものとか</li></a>
+<a href=/article/><li><span style=display:inline-block;text-decoration:none>📂 </span>Articles</li></a>
+<a href=/article/20210210-raspi_dlna_omv/><li><span style=display:inline-block;text-decoration:none>📄 </span>Raspberry Pi 4 で DLNA/OMV セットアップ</li></a>
+<a href=/soft/slack-file/><li><span style=display:inline-block;text-decoration:none>📄 </span>slack-file</li></a>
+<a href=/article/20200603-sesame/><li><span style=display:inline-block;text-decoration:none>📄 </span>SESAME</li></a>
+<a href=/soft/ts/><li><span style=display:inline-block;text-decoration:none>📄 </span>ts</li></a>
+<a href=/soft/detour/><li><span style=display:inline-block;text-decoration:none>📄 </span>detour</li></a>
+<a href=/soft/vvin/><li><span style=display:inline-block;text-decoration:none>📄 </span>vvin</li></a>
+</ul>
+</div>
+</div>
+</div>
+<div class=footer>
+<hr>
+Top: <a href=/>作ったものとか</a> | <a rel=alternate type=application/atom+xml href=/index.xml>Feed</a><br>
+Copyright 2017-2019 Shuhei Kubota<br>
+Powered by <a href=https://gohugo.io/>Hugo</a><br>
+</div>
+<script src=/js/cheep.js></script>
+<script>document.addEventListener("DOMContentLoaded",function(){for(var b=document.querySelectorAll(".lastmod"),a=0,c;a<b.length;a++)c=b[a],replaceSince(c)})</script>
+</body>
+</html>

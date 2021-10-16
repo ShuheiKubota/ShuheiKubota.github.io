@@ -1,2 +1,105 @@
-<!doctype html><html><head><meta charset=utf-8><title>作ったものとか</title><meta name=generator content="Hugo 0.80.0"><meta name=copyright content="Copyright 2017-2019 Shuhei Kubota"><link rel=alternate type=application/atom+xml href=/index.xml><meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1"><link href=/css/cheep.css rel=stylesheet><link href=/css/style.css rel=stylesheet><link href=/css/syntax.css rel=stylesheet></head><body><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;ga('create','UA-105605213-1','auto');ga('send','pageview');}</script><script async src=https://www.google-analytics.com/analytics.js></script><div class=header><a href=/>作ったものとか</a></div><div class=main><div class=toc-area></div><div class=main-area><h1>作ったものとか</h1><div class=list_container><ul><li><a href=/article/20210210-raspi_dlna_omv/>Raspberry Pi 4 で DLNA/OMV セットアップ</a> | <span class=lastmod>2021-02-10 10:58:45</span><p>Raspberry Pi 4 のセットアップから OMV、その上に DLNA をセットアップするところまでを 粗く記録しておきます。</p><p>OpenMediaVault をインストールし、外付け SSD を共有フォルダーにしつつ、DLNA でデータ化した音楽・動画を視聴できるようにします。</p><p class=readmore><a href=/article/20210210-raspi_dlna_omv/>&#171; more &#187;</a></p><hr class=listsep></li><li><a href=/soft/slack-file/>slack-file</a> | <span class=lastmod>2020-12-21 09:56:41</span><p>Slackにアップされたファイルを操作するツール(主に削除)</p><p class=readmore><a href=/soft/slack-file/>&#171; more &#187;</a></p><hr class=listsep></li><li><a href=/article/20200603-sesame/>SESAME</a> | <span class=lastmod>2020-06-06 06:59:51</span><p>スマートロック SESAME で自動化</p><p class=readmore><a href=/article/20200603-sesame/>&#171; more &#187;</a></p><hr class=listsep></li><li><a href=/soft/ts/>ts</a> | <span class=lastmod>2020-05-21 07:57:51</span><p>標準入力にタイムスタンプを付加するコマンドラインツール</p><p class=readmore><a href=/soft/ts/>&#171; more &#187;</a></p><hr class=listsep></li><li><a href=/soft/detour/>detour</a> | <span class=lastmod>2020-05-05 05:46:19</span><p>Windows のショートカット先を書き換える CLI アプリ</p><p class=readmore><a href=/soft/detour/>&#171; more &#187;</a></p><hr class=listsep></li></ul><nav class=pagination><ul class=pagination><li class=active><a href=/>1</a></li><li><a href=/page/2/>2</a></li><li><a href=/page/3/>3</a></li><li><a href=/page/4/>4</a></li><li class=disabled><a href=/page/2/ aria-label=Next><span aria-hidden=true>></span></a></li><li><a href=/page/4/ aria-label=Last><span aria-hidden=true>&#187;</span></a></li></ul></nav></div></div><div class=side-area><div class=profile><object type=image/svg+xml data="https://img.shields.io/badge/@chimatter-Follow-blue?style=for-the-badge&logo=twitter&logoColor=white&link=https://twitter.com/intent/user?screen_name=chimatter&link=https://twitter.com/intent/follow?screen_name=chimatter" style=margin-top:2em;margin-left:1em></object><p class=description></p></div><div class=latest_list_container><ul><a href=/article/><li><span style=display:inline-block;text-decoration:none>📂 </span>Articles</li></a><a href=/article/20210210-raspi_dlna_omv/><li><span style=display:inline-block;text-decoration:none>📄 </span>Raspberry Pi 4 で DLNA/OMV セットアップ</li></a><a href=/><li><span style=display:inline-block;text-decoration:none>📂 </span>作ったものとか</li></a><a href=/soft/slack-file/><li><span style=display:inline-block;text-decoration:none>📄 </span>slack-file</li></a><a href=/soft/><li><span style=display:inline-block;text-decoration:none>📂 </span>Softs</li></a><a href=/article/20200603-sesame/><li><span style=display:inline-block;text-decoration:none>📄 </span>SESAME</li></a><a href=/soft/ts/><li><span style=display:inline-block;text-decoration:none>📄 </span>ts</li></a><a href=/soft/detour/><li><span style=display:inline-block;text-decoration:none>📄 </span>detour</li></a><a href=/soft/vvin/><li><span style=display:inline-block;text-decoration:none>📄 </span>vvin</li></a><a href=/app/><li><span style=display:inline-block;text-decoration:none>📂 </span>Apps</li></a></ul></div></div></div><div class=footer><hr>Top: <a href=/>作ったものとか</a> | <a rel=alternate type=application/atom+xml href=/index.xml>Feed</a><br>Copyright 2017-2019 Shuhei Kubota<br>Powered by <a href=https://gohugo.io/>Hugo</a><br></div><script src=/js/cheep.js></script><script>document.addEventListener("DOMContentLoaded",function(){var ms=document.querySelectorAll(".lastmod")
-for(var i=0;i<ms.length;i++){var m=ms[i];replaceSince(m);}})</script></body></html>
+<!doctype html><html lang>
+<head>
+<meta charset=utf-8>
+<title>
+作ったものとか
+</title>
+<meta name=generator content="Hugo 0.88.1">
+<meta name=copyright content="Copyright 2017-2019 Shuhei Kubota">
+<link rel=alternate type=application/atom+xml href=/index.xml>
+<meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1">
+<link href=/css/cheep.css rel=stylesheet>
+<link href=/css/style.css rel=stylesheet>
+<link href=/css/syntax.css rel=stylesheet>
+</head>
+<body>
+<script type=application/javascript>var doNotTrack=!1;doNotTrack||(window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga('create','UA-105605213-1','auto'),ga('send','pageview'))</script>
+<script async src=https://www.google-analytics.com/analytics.js></script>
+<div class=header>
+<a href=/>作ったものとか</a>
+</div>
+<div class=main>
+<div class=toc-area>
+</div>
+<div class=main-area>
+<h1>作ったものとか</h1>
+<div class=list_container>
+<ul>
+<li>
+<a href=/soft/pmsync/>pmsync</a> | <span class=lastmod>2021-10-16 04:40:54</span>
+<p>ポメラSyncされたメモを操作するツール 刷新版</p>
+<p class=readmore><a href=/soft/pmsync/>&#171; more &#187;</a></p>
+<hr class=listsep>
+</li>
+<li>
+<a href=/article/20210210-raspi_dlna_omv/>Raspberry Pi 4 で DLNA/OMV セットアップ</a> | <span class=lastmod>2021-02-10 10:58:45</span>
+<p>Raspberry Pi 4 のセットアップから OMV、その上に DLNA をセットアップするところまでを 粗く記録しておきます。</p>
+<p>OpenMediaVault をインストールし、外付け SSD を共有フォルダーにしつつ、DLNA でデータ化した音楽・動画を視聴できるようにします。</p>
+<p class=readmore><a href=/article/20210210-raspi_dlna_omv/>&#171; more &#187;</a></p>
+<hr class=listsep>
+</li>
+<li>
+<a href=/soft/slack-file/>slack-file</a> | <span class=lastmod>2020-12-21 09:56:41</span>
+<p>Slackにアップされたファイルを操作するツール(主に削除)</p>
+<p class=readmore><a href=/soft/slack-file/>&#171; more &#187;</a></p>
+<hr class=listsep>
+</li>
+<li>
+<a href=/article/20200603-sesame/>SESAME</a> | <span class=lastmod>2020-06-06 06:59:51</span>
+<p>スマートロック SESAME で自動化</p>
+<p class=readmore><a href=/article/20200603-sesame/>&#171; more &#187;</a></p>
+<hr class=listsep>
+</li>
+<li>
+<a href=/soft/ts/>ts</a> | <span class=lastmod>2020-05-21 07:57:51</span>
+<p>標準入力にタイムスタンプを付加するコマンドラインツール</p>
+<p class=readmore><a href=/soft/ts/>&#171; more &#187;</a></p>
+<hr class=listsep>
+</li>
+</ul>
+<nav class=pagination>
+<ul class=pagination>
+<li class=active><a href=/>1</a></li>
+<li><a href=/page/2/>2</a></li>
+<li><a href=/page/3/>3</a></li>
+<li><a href=/page/4/>4</a></li>
+<li class=disabled>
+<a href=/page/2/ aria-label=Next><span aria-hidden=true>></span></a>
+</li>
+<li>
+<a href=/page/4/ aria-label=Last><span aria-hidden=true>&#187;</span></a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+<div class=side-area>
+<div class=profile><object type=image/svg+xml data="https://img.shields.io/badge/@chimatter-Follow-blue?style=for-the-badge&logo=twitter&logoColor=white&link=https://twitter.com/intent/user?screen_name=chimatter&link=https://twitter.com/intent/follow?screen_name=chimatter" style=margin-top:2em;margin-left:1em></object><p class=description>
+</p>
+</div>
+<div class=latest_list_container>
+<ul>
+<a href=/soft/pmsync/><li><span style=display:inline-block;text-decoration:none>📄 </span>pmsync</li></a>
+<a href=/soft/><li><span style=display:inline-block;text-decoration:none>📂 </span>Softs</li></a>
+<a href=/><li><span style=display:inline-block;text-decoration:none>📂 </span>作ったものとか</li></a>
+<a href=/article/><li><span style=display:inline-block;text-decoration:none>📂 </span>Articles</li></a>
+<a href=/article/20210210-raspi_dlna_omv/><li><span style=display:inline-block;text-decoration:none>📄 </span>Raspberry Pi 4 で DLNA/OMV セットアップ</li></a>
+<a href=/soft/slack-file/><li><span style=display:inline-block;text-decoration:none>📄 </span>slack-file</li></a>
+<a href=/article/20200603-sesame/><li><span style=display:inline-block;text-decoration:none>📄 </span>SESAME</li></a>
+<a href=/soft/ts/><li><span style=display:inline-block;text-decoration:none>📄 </span>ts</li></a>
+<a href=/soft/detour/><li><span style=display:inline-block;text-decoration:none>📄 </span>detour</li></a>
+<a href=/soft/vvin/><li><span style=display:inline-block;text-decoration:none>📄 </span>vvin</li></a>
+</ul>
+</div>
+</div>
+</div>
+<div class=footer>
+<hr>
+Top: <a href=/>作ったものとか</a> | <a rel=alternate type=application/atom+xml href=/index.xml>Feed</a><br>
+Copyright 2017-2019 Shuhei Kubota<br>
+Powered by <a href=https://gohugo.io/>Hugo</a><br>
+</div>
+<script src=/js/cheep.js></script>
+<script>document.addEventListener("DOMContentLoaded",function(){for(var b=document.querySelectorAll(".lastmod"),a=0,c;a<b.length;a++)c=b[a],replaceSince(c)})</script>
+</body>
+</html>
