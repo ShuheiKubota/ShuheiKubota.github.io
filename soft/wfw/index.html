@@ -1,0 +1,204 @@
+<!doctype html><html lang>
+<head>
+<meta charset=utf-8>
+<title>
+wfw - 作ったものとか
+</title>
+<meta name=generator content="Hugo 0.88.1">
+<meta name=copyright content="Copyright 2017-2019 Shuhei Kubota">
+<link rel=alternate type=application/atom+xml href=/index.xml>
+<meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1">
+<link href=/css/cheep.css rel=stylesheet>
+<link href=/css/style.css rel=stylesheet>
+<link href=/css/syntax.css rel=stylesheet>
+</head>
+<body>
+<script type=application/javascript>var doNotTrack=!1;doNotTrack||(window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga('create','UA-105605213-1','auto'),ga('send','pageview'))</script>
+<script async src=https://www.google-analytics.com/analytics.js></script>
+<div class=header>
+<a href=/>作ったものとか</a>&nbsp;&#187; <a href=/soft/>Softs</a>
+</div>
+<div class=main>
+<div class=toc-area>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#雛形の生成>雛形の生成</a></li>
+<li><a href=#雛形の解説>雛形の解説</a></li>
+<li><a href=#結果確認>結果確認</a></li>
+<li><a href=#ルールのまとめ>ルールのまとめ</a></li>
+<li><a href=#コマンドの生成>コマンドの生成</a></li>
+</ul>
+</nav>
+</div>
+<div class=main-area>
+<h1>wfw</h1>
+<p>Windows ファイアウォール向けのコマンドを生成するツール</p>
+<p>受信ルール、ポートの指定のみサポートしています。</p>
+<h1 id=使い方>使い方</h1>
+<p>ルールを JSON 形式で作成し、<code>wfw</code> に読み込ませて、コマンドを生成させます。</p>
+<h2 id=雛形の生成>雛形の生成</h2>
+<pre tabindex=0><code>wfw gen
+</code></pre><p>ファイル <code>example.json</code> が作成されます。</p>
+<p>この内容を参考にして、ルールを作ります。</p>
+<h2 id=雛形の解説>雛形の解説</h2>
+<pre tabindex=0><code>[
+  {
+    &quot;Name&quot;: &quot;allow HTTP&quot;,
+    &quot;Desc&quot;: &quot;1st priority&quot;,
+    &quot;Protocol&quot;: &quot;TCP&quot;,
+    &quot;Allow&quot;: true,
+    &quot;Port&quot;: &quot;80&quot;,
+    &quot;IP&quot;: &quot;192.168.0.101&quot;
+  },
+  {
+    &quot;Name&quot;: &quot;ban all 192.168&quot;,
+    &quot;Desc&quot;: &quot;2nd priority&quot;,
+    &quot;Protocol&quot;: &quot;TCP&quot;,
+    &quot;Allow&quot;: false,
+    &quot;Port&quot;: &quot;0-65535&quot;,
+    &quot;IP&quot;: &quot;192.168.0.1-192.168.255.255&quot;
+  },
+  {
+    &quot;Name&quot;: &quot;ban all 192.168&quot;,
+    &quot;Desc&quot;: &quot;3rd priority, this rule will be disappeared&quot;,
+    &quot;Protocol&quot;: &quot;TCP&quot;,
+    &quot;Allow&quot;: true,
+    &quot;Port&quot;: &quot;3389&quot;,
+    &quot;IP&quot;: &quot;192.168.0.101&quot;
+  }
+]
+</code></pre><p>最初のルール「allow HTTP」では、192.168.0.101 からの TCP 80 ポートアクセスを許可しています。</p>
+<p>2番目のルール「ban all 192.168」では、192.168.0.1～255 からのすべての TCP アクセスをブロックしています。
+ただし、最初のルールが優先されます。これは後ほどの<a href=#%E7%B5%90%E6%9E%9C%E7%A2%BA%E8%AA%8D>結果確認</a>で消えていることが確認できます。</p>
+<p>最後のルールは、2番目のルールが優先されるため、結果的に消えてしまいます。</p>
+<hr>
+<p><code>Name</code> と <code>Desc</code> は、分かりやすいように記入します。
+特に <code>Name</code> は Windows ファイアウォールの一覧に表示されます。</p>
+<p><code>Protocol</code> は、Windows ファイアウォールの「プロトコルの種類」にあるものを記入してください。
+<code>wfw</code> では特に内容のチェックまではしていません。</p>
+<p><code>Allow</code> は、<code>true</code> で接続を許可することを、<code>false</code> で接続をブロックすることを意味します。</p>
+<p><code>Port</code> で、許可・ブロックする(<code>Allow</code> の指定に依る)ポートを列挙します。
+&ldquo;80, 443&rdquo; のように単独のポートを , で区切って指定することも、0-65535 のように範囲を指定することもできます。
+(&ldquo;80, 443, 8080-8089&rdquo; のような指定も可能)</p>
+<p><code>IP</code> には、このルールが適用されるスコープ(その中の「リモート IP アドレス」)を指定します。
+<code>Port</code> 同様に、 , と - を使った複数指定ができます。</p>
+<h2 id=結果確認>結果確認</h2>
+<p>まずは、リスト表示で結果確認。</p>
+<pre tabindex=0><code>wfw example.json
+</code></pre><p>↓結果↓</p>
+<pre tabindex=0><code>----------------------------------------
+Name: allow HTTP
+Desc: 1st priority
+Action: allow
+Protocol: TCP
+Port: 80
+IP: 192.168.0.101
+----------------------------------------
+Name: ban all 192.168
+Desc: 2nd priority
+Action: BLOCK
+Protocol: TCP
+Port: 0-65535
+IP: 192.168.0.1-192.168.0.100,192.168.0.102-192.168.255.255
+----------------------------------------
+Name: ban all 192.168
+Desc: 2nd priority
+Action: BLOCK
+Protocol: TCP
+Port: 0-79,81-65535
+IP: 192.168.0.101
+</code></pre><p>結果として、3つのルールに分かれることがわかります。</p>
+<p><code>example.json</code> の最初のルールが最初に、2番目のルールが2つに分かれています。</p>
+<p>最初の結果は言わずもがな。</p>
+<p>2番目は最初のルールにあった IP である 192.168.0.101 を避けてた IP になっていることがわかると思います。</p>
+<p>最後は元々の2番目のルールが分かれたもので、192.168.0.101 からの TCP 80 ポート以外のアクセスをブロックしています。</p>
+<h2 id=ルールのまとめ>ルールのまとめ</h2>
+<ul>
+<li>IP, Port は、, と - を使った複数指定が可能</li>
+<li>上にあるルールが優先される</li>
+<li>IP, Port は、優先されるルールの範囲を避けるように改変される
+<ul>
+<li>場合によっては、複数のルールに分割されることもある</li>
+</ul>
+</li>
+</ul>
+<h2 id=コマンドの生成>コマンドの生成</h2>
+<p>先程までは結果の確認のためにリスト表示をしていました。</p>
+<p>今度は netsh advfirewall 向けのコマンドを生成してみます。</p>
+<p>※<code>wfw</code> では直接 Windows ファイアウォールのルールを書き換える機能はありません。</p>
+<pre tabindex=0><code>wfw --format cmd example.json
+</code></pre><p>↓結果↓</p>
+<pre tabindex=0><code>netsh advfirewall firewall add rule  name=&quot;allow HTTP&quot;  enable=no
+  description=&quot;1st priority&quot;
+  dir=in  profile=any
+  action=allow
+  protocol=&quot;tcp&quot;  localport=&quot;80&quot;
+  remoteip=&quot;192.168.0.101&quot;
+netsh advfirewall firewall add rule  name=&quot;ban all 192.168&quot;  enable=no
+  description=&quot;2nd priority&quot;
+  dir=in  profile=any
+  action=block
+  protocol=&quot;tcp&quot;  localport=&quot;0-65535&quot;
+  remoteip=&quot;192.168.0.1-192.168.0.100,192.168.0.102-192.168.255.255&quot;
+netsh advfirewall firewall add rule  name=&quot;ban all 192.168&quot;  enable=no
+  description=&quot;2nd priority&quot;
+  dir=in  profile=any
+  action=block
+  protocol=&quot;tcp&quot;  localport=&quot;0-79,81-65535&quot;
+  remoteip=&quot;192.168.0.101&quot;
+</code></pre><p>※ページの見た目のため、本来は入っていない改行を入れています。</p>
+<p>この結果を<strong>管理者権限で起動した</strong>コマンドプロンプトに貼り付ければ、Windows ファイアウォールのルールが追加されます。</p>
+<hr>
+<p>デフォルトでは無効化されたルールを作成するコマンドを生成します。
+(上で生成されたコマンドでは <code>enable=no</code> となっていますね)</p>
+<p>以下のようにすることで、最初から有効なルールを生成させることもできます。</p>
+<pre tabindex=0><code>wfw -f cmd  --enabled  example.json
+</code></pre><p>個人的にはこのオプションは使わず、無効化されたルールをよく確認した上で有効化することをおすすめします。</p>
+<h1 id=ダウンロード>ダウンロード</h1>
+<p><a href=https://github.com/shu-go/wfw/releases>ダウンロード</a></p>
+<h1 id=更新履歴>更新履歴</h1>
+<ul>
+<li>0.1.0 (2021-10-19)
+<ul>
+<li>新規</li>
+</ul>
+</li>
+</ul>
+<div class=single_pagenav>
+<div class=single_pagenav_prev>
+<a href=/soft/pomi/>&#171; pomi &#171;</a>
+</div>
+<div class=single_pagenav_next>
+</div>
+</div>
+</div>
+<div class=side-area>
+<div class=profile><object type=image/svg+xml data="https://img.shields.io/badge/@chimatter-Follow-blue?style=for-the-badge&logo=twitter&logoColor=white&link=https://twitter.com/intent/user?screen_name=chimatter&link=https://twitter.com/intent/follow?screen_name=chimatter" style=margin-top:2em;margin-left:1em></object><p class=description>
+</p>
+</div>
+<div class=latest_list_container>
+<ul>
+<a href=/soft/><li><span style=display:inline-block;text-decoration:none>📂 </span>Softs</li></a>
+<a href=/soft/wfw/><li><span style=display:inline-block;text-decoration:none>📄 </span>wfw</li></a>
+<a href=/><li><span style=display:inline-block;text-decoration:none>📂 </span>作ったものとか</li></a>
+<a href=/soft/pomi/><li><span style=display:inline-block;text-decoration:none>📄 </span>pomi</li></a>
+<a href=/soft/pmsync/><li><span style=display:inline-block;text-decoration:none>📄 </span>pmsync</li></a>
+<a href=/article/><li><span style=display:inline-block;text-decoration:none>📂 </span>Articles</li></a>
+<a href=/article/20210210-raspi_dlna_omv/><li><span style=display:inline-block;text-decoration:none>📄 </span>Raspberry Pi 4 で DLNA/OMV セットアップ</li></a>
+<a href=/soft/slack-file/><li><span style=display:inline-block;text-decoration:none>📄 </span>slack-file</li></a>
+<a href=/article/20200603-sesame/><li><span style=display:inline-block;text-decoration:none>📄 </span>SESAME</li></a>
+<a href=/soft/ts/><li><span style=display:inline-block;text-decoration:none>📄 </span>ts</li></a>
+</ul>
+</div>
+</div>
+</div>
+<div class=footer>
+<hr>
+Top: <a href=/>作ったものとか</a> | <a rel=alternate type=application/atom+xml href=/index.xml>Feed</a><br>
+Copyright 2017-2019 Shuhei Kubota<br>
+Powered by <a href=https://gohugo.io/>Hugo</a><br>
+</div>
+<script src=/js/cheep.js></script>
+<script>document.addEventListener("DOMContentLoaded",function(){for(var b=document.querySelectorAll(".lastmod"),a=0,c;a<b.length;a++)c=b[a],replaceSince(c)})</script>
+</body>
+</html>
