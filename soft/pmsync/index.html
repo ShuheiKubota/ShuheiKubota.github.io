@@ -22,6 +22,11 @@ pmsync - 作ったものとか
 <div class=toc-area>
 <nav id=TableOfContents>
 <ul>
+<li><a href=#ダウンロード>ダウンロード</a>
+<ul>
+<li><a href=#更新履歴>更新履歴</a></li>
+</ul>
+</li>
 <li><a href=#紹介>紹介</a>
 <ul>
 <li><a href=#ポメラsyncしたメモをpcでダウンロードアップロードする>ポメラSyncしたメモをPCでダウンロード・アップロードする</a></li>
@@ -45,8 +50,6 @@ pmsync - 作ったものとか
 <li><a href=#使い方のヒント>使い方のヒント</a></li>
 </ul>
 </li>
-<li><a href=#ダウンロード>ダウンロード</a></li>
-<li><a href=#更新履歴>更新履歴</a></li>
 </ul>
 </nav>
 </div>
@@ -54,6 +57,32 @@ pmsync - 作ったものとか
 <h1>pmsync</h1>
 <p>ポメラSyncされたメモを操作するツール 刷新版</p>
 <p>既存のツールpomiをある程度 踏襲しつつ、Gmail関係のAPIを更新したものです。</p>
+<h1 id=ダウンロード>ダウンロード</h1>
+<p><a href=https://github.com/shu-go/pmsync/releases>ダウンロード</a></p>
+<h2 id=更新履歴>更新履歴</h2>
+<ul>
+<li>0.3.0 (2021-10-23)
+<ul>
+<li>list, trash サブコマンドを高速化</li>
+<li>もし不具合があるようなら、0.2.3を使ってください</li>
+</ul>
+</li>
+<li>0.2.3 (2021-10-23)
+<ul>
+<li>list, trash サブコマンドに並び替えのオプション &ndash;sort を追加</li>
+</ul>
+</li>
+<li>0.2.0 (2021-10-23)
+<ul>
+<li>Gmail側のメッセージをゴミ箱に送る trash サブコマンド追加</li>
+</ul>
+</li>
+<li>0.1.1 (2021-10-16)
+<ul>
+<li>刷新</li>
+</ul>
+</li>
+</ul>
 <h1 id=紹介>紹介</h1>
 <h2 id=ポメラsyncしたメモをpcでダウンロードアップロードする>ポメラSyncしたメモをPCでダウンロード・アップロードする</h2>
 <p>ポメラDM200には「ポメラSync」という機能が搭載されています。
@@ -73,7 +102,7 @@ pmsync - 作ったものとか
 <p>を指示するわけです。</p>
 <h2 id=先にpmsync自体のダウンロード>先にpmsync自体のダウンロード</h2>
 <p>以下の場所からダウンロードできます。</p>
-<p><a href=#%E3%83%80%E3%82%A6%E3%83%B3%E3%83%AD%E3%83%BC%E3%83%89>ダウンロード</a></p>
+<p><a href=https://github.com/shu-go/pmsync/releases>ダウンロード</a></p>
 <h2 id=使い始めの設定>使い始めの設定</h2>
 <p>pmsync はコマンドラインアプリケーションです。
 Windows ではコマンドプロンプトを使って操作をします。</p>
@@ -179,13 +208,14 @@ putting pomera_sync\★メモ★.txt
 <p>コマンドラインから、pmsync help コマンドを実行して、何ができるか確認してみてください。</p>
 <p>※コマンドは今後増える可能性があります。</p>
 <pre><code>&gt; pmsync help
-pmsync - Gmail&lt;--&gt;file sync for Pomera DM200(dev-20211016)
+pmsync - Gmail&lt;--&gt;file sync for Pomera DM200(dev-20211023)
 
 Sub commands:
-  auth      update token
-  list, ls  list notes(mail messages)
-  get       display or download as a file
-  put       upload files as notes(gmail messages)
+  auth       update token
+  list, ls   list notes(mail messages)
+  get        display or download as a file
+  put        upload files as notes(gmail messages)
+  trash, rm  send messages to the trash
 
 Options:
   --userid                      (default: me)
@@ -226,32 +256,6 @@ Global Options:
 Usage:
   args accepts Gmail advanced search syntax (https://support.google.com/mail/answer/7190)
 </code></pre>
-<h1 id=ダウンロード>ダウンロード</h1>
-<p><a href=https://github.com/shu-go/pmsync/releases>ダウンロード</a></p>
-<h1 id=更新履歴>更新履歴</h1>
-<ul>
-<li>0.3.0 (2021-10-23)
-<ul>
-<li>list, trash サブコマンドを高速化</li>
-<li>もし不具合があるようなら、0.2.3を使ってください</li>
-</ul>
-</li>
-<li>0.2.3 (2021-10-23)
-<ul>
-<li>list, trash サブコマンドに並び替えのオプション &ndash;sort を追加</li>
-</ul>
-</li>
-<li>0.2.0 (2021-10-23)
-<ul>
-<li>Gmail側のメッセージをゴミ箱に送る trash サブコマンド追加</li>
-</ul>
-</li>
-<li>0.1.1 (2021-10-16)
-<ul>
-<li>刷新</li>
-</ul>
-</li>
-</ul>
 <div class=single_pagenav>
 <div class=single_pagenav_prev>
 <a href=/soft/slack-file/>&#171; slack-file &#171;</a>
