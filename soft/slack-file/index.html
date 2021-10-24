@@ -22,20 +22,31 @@ slack-file - 作ったものとか
 <div class=toc-area>
 <nav id=TableOfContents>
 <ul>
-<li>
-<ul>
+<li><a href=#ダウンロード>ダウンロード</a></li>
 <li><a href=#用途>用途</a></li>
 <li><a href=#使い方>使い方</a>
 <ul>
-<li><a href=#まずはアプリの設定>まずはアプリの設定</a></li>
-<li><a href=#ファイルのリストを見てみる>ファイルのリストを見てみる</a></li>
-<li><a href=#標準エラーの場合>標準エラーの場合</a></li>
-<li><a href=#古いファイルを削除する>古いファイルを削除する</a></li>
-<li><a href=#重複したファイルを1つだけ残して削除する>重複したファイルを1つだけ残して削除する</a></li>
-<li><a href=#ファイルをダウンロードする>ファイルをダウンロードする</a></li>
+<li><a href=#まずはアプリの設定>まずはアプリの設定</a>
+<ul>
+<li></li>
+<li><a href=#権限の設定>権限の設定</a></li>
+<li><a href=#認可>認可</a></li>
 </ul>
 </li>
-<li><a href=#ダウンロード>ダウンロード</a></li>
+<li><a href=#ファイルのリストを見てみる>ファイルのリストを見てみる</a></li>
+<li><a href=#標準エラーの場合>標準エラーの場合</a></li>
+<li><a href=#古いファイルを削除する>古いファイルを削除する</a>
+<ul>
+<li><a href=#まずは確認>まずは確認</a></li>
+<li><a href=#実際に削除する>実際に削除する</a></li>
+</ul>
+</li>
+<li><a href=#重複したファイルを1つだけ残して削除する>重複したファイルを1つだけ残して削除する</a>
+<ul>
+<li><a href=#uniq-サブコマンドのオプション>uniq サブコマンドのオプション</a></li>
+</ul>
+</li>
+<li><a href=#ファイルをダウンロードする>ファイルをダウンロードする</a></li>
 </ul>
 </li>
 </ul>
@@ -44,14 +55,15 @@ slack-file - 作ったものとか
 <div class=main-area>
 <h1>slack-file</h1>
 <p>Slackにアップされたファイルを操作するツール(主に削除)</p>
-<h2 id=用途>用途</h2>
+<h1 id=ダウンロード>ダウンロード</h1>
+<p><a href=https://github.com/shu-go/slack-file/releases>ダウンロード</a></p>
+<h1 id=用途>用途</h1>
 <ul>
 <li>古いファイルが溜まっているので掃除したい。</li>
 <li>同じ名前のファイルを定期的にアップしているが、最新のものだけ残してあとは消したい。</li>
 </ul>
-<p><a href=https://github.com/shu-go/slack-file/releases>ダウンロード</a></p>
-<h2 id=使い方>使い方</h2>
-<h3 id=まずはアプリの設定>まずはアプリの設定</h3>
+<h1 id=使い方>使い方</h1>
+<h2 id=まずはアプリの設定>まずはアプリの設定</h2>
 <pre tabindex=0><code>&gt; slack-file auth
 </code></pre><p>ブラウザが起動して Slack の Your Apps ページに移動します。</p>
 <h4 id=アプリの作成>アプリの作成</h4>
@@ -62,7 +74,7 @@ slack-file - 作ったものとか
 </figure>
 <p>既存のアプリで、後述する権限を持ったものがあれば、新たに作成する必要はありません。
 その場合は該当するアプリを編集してください。</p>
-<h4 id=権限の設定>権限の設定</h4>
+<h3 id=権限の設定>権限の設定</h3>
 <figure><img src=slack-file_3.png>
 </figure>
 <p>Redirect URLs に http://localhost:7878 を追加します。
@@ -78,7 +90,7 @@ files:read, files:write の両方を追加します。</p>
 </figure>
 <p>Client ID と Client Secret を確認します。
 この内容を使って、以下のコマンドを実行します。</p>
-<h4 id=認可>認可</h4>
+<h3 id=認可>認可</h3>
 <pre tabindex=0><code>&gt; slack-file auth {Client ID} {Client Secret}
 </code></pre><p>※実際には {} は要りません。</p>
 <p>すると、認可のページに遷移しますので、許可します。</p>
@@ -88,7 +100,7 @@ files:read, files:write の両方を追加します。</p>
 この中にはアプリにアクセスするためのトークンが記録されています。</p>
 <figure><img src=slack-file_9.png>
 </figure>
-<h3 id=ファイルのリストを見てみる>ファイルのリストを見てみる</h3>
+<h2 id=ファイルのリストを見てみる>ファイルのリストを見てみる</h2>
 <pre tabindex=0><code>&gt; slack-file list
 
 とか
@@ -97,22 +109,22 @@ files:read, files:write の両方を追加します。</p>
 </code></pre><p>古いファイルや特定のチャネルのファイルのみに絞り込むことができます。</p>
 <p>オプションについては、以下のコマンドで確認してみてください。</p>
 <pre tabindex=0><code>&gt; slack-file help list
-</code></pre><h3 id=標準エラーの場合>標準エラーの場合</h3>
+</code></pre><h2 id=標準エラーの場合>標準エラーの場合</h2>
 <p>Windows の場合です。</p>
 <pre tabindex=0><code>hoge.exe 2&gt;&amp;1 | ts &gt; log_ts.txt
-</code></pre><h3 id=古いファイルを削除する>古いファイルを削除する</h3>
-<h4 id=まずは確認>まずは確認</h4>
+</code></pre><h2 id=古いファイルを削除する>古いファイルを削除する</h2>
+<h3 id=まずは確認>まずは確認</h3>
 <p>1日前 以前のファイルを削除してみます。</p>
 <pre tabindex=0><code>&gt; slack-file delete --dry-run  --older 24h *
 </code></pre><p>最後の <code>*</code> は、削除するファイル名をワイルドカードで指定しています。</p>
 <p>※オプション <code>--dry-run</code> を指定すると、実際には削除されません。</p>
-<h4 id=実際に削除する>実際に削除する</h4>
+<h3 id=実際に削除する>実際に削除する</h3>
 <p>オプション <code>--dry-run</code> を外すと、実際に削除されます。</p>
 <pre tabindex=0><code>&gt; slack-file delete --older 24h *
-</code></pre><h3 id=重複したファイルを1つだけ残して削除する>重複したファイルを1つだけ残して削除する</h3>
+</code></pre><h2 id=重複したファイルを1つだけ残して削除する>重複したファイルを1つだけ残して削除する</h2>
 <pre tabindex=0><code>&gt; slack-file uniq --dry-run
 </code></pre><p>※オプション <code>--dry-run</code> を指定すると、実際には削除されません。</p>
-<h4 id=uniq-サブコマンドのオプション>uniq サブコマンドのオプション</h4>
+<h3 id=uniq-サブコマンドのオプション>uniq サブコマンドのオプション</h3>
 <p>何をもって同一のファイルとするかは、オプション <code>--key</code> で指定します。</p>
 <p>また、どのファイルを残すかは、オプション <code>--sort</code> で指定したフィールドに基づきます。
 <code>-Created</code> のように、先頭に <code>-</code> がついているものは、最後のものが優先としてみなされます。</p>
@@ -135,11 +147,10 @@ Usage:
   slack-file uniq --key Name --sort -Timestamp --dry-run
   # DELETE
   slack-file uniq --key Name --sort -Timestamp
-</code></pre><h3 id=ファイルをダウンロードする>ファイルをダウンロードする</h3>
+</code></pre><h2 id=ファイルをダウンロードする>ファイルをダウンロードする</h2>
 <p>デフォルトでは、指定したファイル名に一致する最新のタイムスタンプのファイルがダウンロード対象になります。</p>
 <pre tabindex=0><code>&gt; slack-file download my*.log &gt; my_latest.log
-</code></pre><h2 id=ダウンロード>ダウンロード</h2>
-<p><a href=https://github.com/shu-go/slack-file/releases>ダウンロード</a></p>
+</code></pre>
 <div class=single_pagenav>
 <div class=single_pagenav_prev>
 <a href=/soft/ts/>&#171; ts &#171;</a>
@@ -155,16 +166,26 @@ Usage:
 </div>
 <div class=latest_list_container>
 <ul>
+<a href=/soft/git-konfig/><li><span style=display:inline-block;text-decoration:none>📄 </span>git-konfig</li></a>
 <a href=/soft/><li><span style=display:inline-block;text-decoration:none>📂 </span>Softs</li></a>
-<a href=/soft/wfw/><li><span style=display:inline-block;text-decoration:none>📄 </span>wfw</li></a>
 <a href=/><li><span style=display:inline-block;text-decoration:none>📂 </span>作ったものとか</li></a>
+<a href=/tags/system/><li><span style=display:inline-block;text-decoration:none>📂 </span>system</li></a>
+<a href=/tags/><li><span style=display:inline-block;text-decoration:none>📂 </span>Tags</li></a>
+<a href=/soft/wfw/><li><span style=display:inline-block;text-decoration:none>📄 </span>wfw</li></a>
+<a href=/tags/pomera/><li><span style=display:inline-block;text-decoration:none>📂 </span>pomera</li></a>
 <a href=/soft/pomi/><li><span style=display:inline-block;text-decoration:none>📄 </span>pomi</li></a>
 <a href=/soft/pmsync/><li><span style=display:inline-block;text-decoration:none>📄 </span>pmsync</li></a>
 <a href=/article/><li><span style=display:inline-block;text-decoration:none>📂 </span>Articles</li></a>
-<a href=/article/20210210-raspi_dlna_omv/><li><span style=display:inline-block;text-decoration:none>📄 </span>Raspberry Pi 4 で DLNA/OMV セットアップ</li></a>
-<a href=/soft/slack-file/><li><span style=display:inline-block;text-decoration:none>📄 </span>slack-file</li></a>
-<a href=/article/20200603-sesame/><li><span style=display:inline-block;text-decoration:none>📄 </span>SESAME</li></a>
-<a href=/soft/ts/><li><span style=display:inline-block;text-decoration:none>📄 </span>ts</li></a>
+</ul>
+</div>
+<div class=tags_container>
+<ul>
+<li class=tag><a href=/tags/hugo>hugo<span class=tag_count>4</span></a></li>
+<li class=tag><a href=/tags/pomera>pomera<span class=tag_count>2</span></a></li>
+<li class=tag><a href=/tags/system>system<span class=tag_count>2</span></a></li>
+<li class=tag><a href=/tags/raspberrypi>raspberrypi<span class=tag_count>1</span></a></li>
+<li class=tag><a href=/tags/sesame>sesame<span class=tag_count>1</span></a></li>
+<li class=tag><a href=/tags/vim>vim<span class=tag_count>1</span></a></li>
 </ul>
 </div>
 </div>

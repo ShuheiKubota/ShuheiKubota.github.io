@@ -22,8 +22,7 @@ detour - 作ったものとか
 <div class=toc-area>
 <nav id=TableOfContents>
 <ul>
-<li>
-<ul>
+<li><a href=#ダウンロード>ダウンロード</a></li>
 <li><a href=#ショートカットの書き換え>ショートカットの書き換え</a>
 <ul>
 <li><a href=#-r-でルールを指定>-r でルールを指定</a></li>
@@ -34,22 +33,22 @@ detour - 作ったものとか
 </li>
 <li><a href=#書き換えルールをファイルに保存>書き換えルールをファイルに保存</a></li>
 <li><a href=#制限urlショートカットは対象外>制限:URLショートカットは対象外</a></li>
-<li><a href=#ダウンロード>ダウンロード</a></li>
-</ul>
-</li>
 </ul>
 </nav>
 </div>
 <div class=main-area>
 <h1>detour</h1>
 <p>Windows のショートカット先を書き換える CLI アプリ</p>
-<h2 id=ショートカットの書き換え>ショートカットの書き換え</h2>
-<h3 id=-r-でルールを指定>-r でルールを指定</h3>
+<h1 id=ダウンロード>ダウンロード</h1>
+<p>Windows 版のみの配布です。</p>
+<p><a href=https://github.com/shu-go/detour/releases>ダウンロード</a></p>
+<h1 id=ショートカットの書き換え>ショートカットの書き換え</h1>
+<h2 id=-r-でルールを指定>-r でルールを指定</h2>
 <pre tabindex=0><code>detour -r old:new
 </code></pre><p><code>-r</code> の後に書き換え前(今)と書き換え後(これから)を <code>:</code> で区切って指定します。</p>
 <p>大文字小文字は無視されます。</p>
 <p>また、<code>-r old1:new1 -r old2:new2</code> のように複数指定もできます。</p>
-<h3 id=複数ファイルの書き換え>複数ファイルの書き換え</h3>
+<h2 id=複数ファイルの書き換え>複数ファイルの書き換え</h2>
 <p>コマンドにショートカットのパスを複数渡すことができます。</p>
 <pre tabindex=0><code>detour -v old:new shorcut1 shorcut2
 </code></pre><p>拡張子 lnk は省略可能です。</p>
@@ -58,13 +57,13 @@ detour - 作ったものとか
 </code></pre><p>上の例では、「shortcut」から始まるショートカットを対象とします。</p>
 <p><code>**/</code> でサブフォルダーを再帰的に列挙できます。
 下で説明している <code>-n</code> オプションを使うと確認が容易です。</p>
-<h3 id=-v-で詳細情報>-v で詳細情報</h3>
+<h2 id=-v-で詳細情報>-v で詳細情報</h2>
 <p>通常はほとんど表示をしません。</p>
 <p><code>-v</code> オプションを指定すると、ルール・ショートカットファイルの列挙と書き換えられるファイルを明示します。</p>
-<h3 id=-n-でテスト実行>-n でテスト実行</h3>
+<h2 id=-n-でテスト実行>-n でテスト実行</h2>
 <p><code>-n</code> オプションを指定すると、実際には書き換えを行いません。</p>
 <p>上記の <code>-v</code> オプションと同時に指定することで、対処を確認するのに使えます。</p>
-<h2 id=書き換えルールをファイルに保存>書き換えルールをファイルに保存</h2>
+<h1 id=書き換えルールをファイルに保存>書き換えルールをファイルに保存</h1>
 <p>テキストファイルに、1行1ルールを書いておくことで、コマンドの指定を感緑化できます。</p>
 <div class=highlight><div style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4>
 <table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
@@ -83,11 +82,8 @@ detour:shortcut
 </div><p><code>#</code> から始まる行はコメントです。</p>
 <p>最初のルール(2行目)は <code>C:</code> から <code>D:</code> に書き換えるルールです。
 <code>:</code> が書き換え前後の目印なので、<code>\</code> でエスケープしています。</p>
-<h2 id=制限urlショートカットは対象外>制限:URLショートカットは対象外</h2>
+<h1 id=制限urlショートカットは対象外>制限:URLショートカットは対象外</h1>
 <p>今のところ、URLショートカットは対象外です。</p>
-<h2 id=ダウンロード>ダウンロード</h2>
-<p>Windows 版のみの配布です。</p>
-<p><a href=https://github.com/shu-go/detour/releases>ダウンロード</a></p>
 <div class=single_pagenav>
 <div class=single_pagenav_prev>
 <a href=/soft/vvin/>&#171; vvin &#171;</a>
@@ -103,16 +99,26 @@ detour:shortcut
 </div>
 <div class=latest_list_container>
 <ul>
+<a href=/soft/git-konfig/><li><span style=display:inline-block;text-decoration:none>📄 </span>git-konfig</li></a>
 <a href=/soft/><li><span style=display:inline-block;text-decoration:none>📂 </span>Softs</li></a>
-<a href=/soft/wfw/><li><span style=display:inline-block;text-decoration:none>📄 </span>wfw</li></a>
 <a href=/><li><span style=display:inline-block;text-decoration:none>📂 </span>作ったものとか</li></a>
+<a href=/tags/system/><li><span style=display:inline-block;text-decoration:none>📂 </span>system</li></a>
+<a href=/tags/><li><span style=display:inline-block;text-decoration:none>📂 </span>Tags</li></a>
+<a href=/soft/wfw/><li><span style=display:inline-block;text-decoration:none>📄 </span>wfw</li></a>
+<a href=/tags/pomera/><li><span style=display:inline-block;text-decoration:none>📂 </span>pomera</li></a>
 <a href=/soft/pomi/><li><span style=display:inline-block;text-decoration:none>📄 </span>pomi</li></a>
 <a href=/soft/pmsync/><li><span style=display:inline-block;text-decoration:none>📄 </span>pmsync</li></a>
 <a href=/article/><li><span style=display:inline-block;text-decoration:none>📂 </span>Articles</li></a>
-<a href=/article/20210210-raspi_dlna_omv/><li><span style=display:inline-block;text-decoration:none>📄 </span>Raspberry Pi 4 で DLNA/OMV セットアップ</li></a>
-<a href=/soft/slack-file/><li><span style=display:inline-block;text-decoration:none>📄 </span>slack-file</li></a>
-<a href=/article/20200603-sesame/><li><span style=display:inline-block;text-decoration:none>📄 </span>SESAME</li></a>
-<a href=/soft/ts/><li><span style=display:inline-block;text-decoration:none>📄 </span>ts</li></a>
+</ul>
+</div>
+<div class=tags_container>
+<ul>
+<li class=tag><a href=/tags/hugo>hugo<span class=tag_count>4</span></a></li>
+<li class=tag><a href=/tags/pomera>pomera<span class=tag_count>2</span></a></li>
+<li class=tag><a href=/tags/system>system<span class=tag_count>2</span></a></li>
+<li class=tag><a href=/tags/raspberrypi>raspberrypi<span class=tag_count>1</span></a></li>
+<li class=tag><a href=/tags/sesame>sesame<span class=tag_count>1</span></a></li>
+<li class=tag><a href=/tags/vim>vim<span class=tag_count>1</span></a></li>
 </ul>
 </div>
 </div>

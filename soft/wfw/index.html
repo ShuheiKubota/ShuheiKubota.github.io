@@ -22,6 +22,11 @@ wfw - 作ったものとか
 <div class=toc-area>
 <nav id=TableOfContents>
 <ul>
+<li><a href=#ダウンロード>ダウンロード</a>
+<ul>
+<li><a href=#更新履歴>更新履歴</a></li>
+</ul>
+</li>
 <li><a href=#使い方>使い方</a>
 <ul>
 <li><a href=#雛形の生成>雛形の生成</a></li>
@@ -31,15 +36,29 @@ wfw - 作ったものとか
 <li><a href=#コマンドの生成>コマンドの生成</a></li>
 </ul>
 </li>
-<li><a href=#ダウンロード>ダウンロード</a></li>
-<li><a href=#更新履歴>更新履歴</a></li>
 </ul>
 </nav>
 </div>
 <div class=main-area>
 <h1>wfw</h1>
+<span class=tag><a href=/tags/system>system</a></span>
 <p>Windows ファイアウォール向けのコマンドを生成するツール</p>
 <p>受信ルール、ポートの指定のみサポートしています。</p>
+<h1 id=ダウンロード>ダウンロード</h1>
+<p><a href=https://github.com/shu-go/wfw/releases>ダウンロード</a></p>
+<h2 id=更新履歴>更新履歴</h2>
+<ul>
+<li>0.1.1 (2021-10-20)
+<ul>
+<li>TCP もしくは UDP 以外のプロトコルの場合、localport を出力しないようにする</li>
+</ul>
+</li>
+<li>0.1.0 (2021-10-19)
+<ul>
+<li>新規</li>
+</ul>
+</li>
+</ul>
 <h1 id=使い方>使い方</h1>
 <p>ルールを JSON 形式で作成し、<code>wfw</code> に読み込ませて、コマンドを生成させます。</p>
 <h2 id=雛形の生成>雛形の生成</h2>
@@ -160,26 +179,12 @@ netsh advfirewall firewall add rule  name=&quot;ban all 192.168&quot;  enable=no
 <p>以下のようにすることで、最初から有効なルールを生成させることもできます。</p>
 <pre tabindex=0><code>wfw -f cmd  --enabled  example.json
 </code></pre><p>個人的にはこのオプションは使わず、無効化されたルールをよく確認した上で有効化することをおすすめします。</p>
-<h1 id=ダウンロード>ダウンロード</h1>
-<p><a href=https://github.com/shu-go/wfw/releases>ダウンロード</a></p>
-<h1 id=更新履歴>更新履歴</h1>
-<ul>
-<li>0.1.1 (2021-10-20)
-<ul>
-<li>TCP もしくは UDP 以外のプロトコルの場合、localport を出力しないようにする</li>
-</ul>
-</li>
-<li>0.1.0 (2021-10-19)
-<ul>
-<li>新規</li>
-</ul>
-</li>
-</ul>
 <div class=single_pagenav>
 <div class=single_pagenav_prev>
 <a href=/soft/pomi/>&#171; pomi &#171;</a>
 </div>
 <div class=single_pagenav_next>
+<a href=/soft/git-konfig/>&#187; git-konfig &#187;</a>
 </div>
 </div>
 </div>
@@ -189,16 +194,26 @@ netsh advfirewall firewall add rule  name=&quot;ban all 192.168&quot;  enable=no
 </div>
 <div class=latest_list_container>
 <ul>
+<a href=/soft/git-konfig/><li><span style=display:inline-block;text-decoration:none>📄 </span>git-konfig</li></a>
 <a href=/soft/><li><span style=display:inline-block;text-decoration:none>📂 </span>Softs</li></a>
-<a href=/soft/wfw/><li><span style=display:inline-block;text-decoration:none>📄 </span>wfw</li></a>
 <a href=/><li><span style=display:inline-block;text-decoration:none>📂 </span>作ったものとか</li></a>
+<a href=/tags/system/><li><span style=display:inline-block;text-decoration:none>📂 </span>system</li></a>
+<a href=/tags/><li><span style=display:inline-block;text-decoration:none>📂 </span>Tags</li></a>
+<a href=/soft/wfw/><li><span style=display:inline-block;text-decoration:none>📄 </span>wfw</li></a>
+<a href=/tags/pomera/><li><span style=display:inline-block;text-decoration:none>📂 </span>pomera</li></a>
 <a href=/soft/pomi/><li><span style=display:inline-block;text-decoration:none>📄 </span>pomi</li></a>
 <a href=/soft/pmsync/><li><span style=display:inline-block;text-decoration:none>📄 </span>pmsync</li></a>
 <a href=/article/><li><span style=display:inline-block;text-decoration:none>📂 </span>Articles</li></a>
-<a href=/article/20210210-raspi_dlna_omv/><li><span style=display:inline-block;text-decoration:none>📄 </span>Raspberry Pi 4 で DLNA/OMV セットアップ</li></a>
-<a href=/soft/slack-file/><li><span style=display:inline-block;text-decoration:none>📄 </span>slack-file</li></a>
-<a href=/article/20200603-sesame/><li><span style=display:inline-block;text-decoration:none>📄 </span>SESAME</li></a>
-<a href=/soft/ts/><li><span style=display:inline-block;text-decoration:none>📄 </span>ts</li></a>
+</ul>
+</div>
+<div class=tags_container>
+<ul>
+<li class=tag><a href=/tags/hugo>hugo<span class=tag_count>4</span></a></li>
+<li class=tag><a href=/tags/pomera>pomera<span class=tag_count>2</span></a></li>
+<li class=tag><a href=/tags/system>system<span class=tag_count>2</span></a></li>
+<li class=tag><a href=/tags/raspberrypi>raspberrypi<span class=tag_count>1</span></a></li>
+<li class=tag><a href=/tags/sesame>sesame<span class=tag_count>1</span></a></li>
+<li class=tag><a href=/tags/vim>vim<span class=tag_count>1</span></a></li>
 </ul>
 </div>
 </div>
