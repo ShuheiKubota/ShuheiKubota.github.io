@@ -276,6 +276,15 @@ hr.listsep {
 .latest_list_container li:nth-child(even) {
     background-color: rgb(245, 245, 245);
 }
+.latest_summary {
+    padding-left:2em;
+
+    display:inline-block;
+
+    text-decoration:none;
+    font-size:small;
+    color: gray;
+}
 
 
 .tags_container {
@@ -410,6 +419,10 @@ hr.listsep {
     .latest_list_container li:nth-child(even) {
         background-color: rgb(45,45,45);
     }
+    .latest_summary {
+        color: lightgray;
+    }
+
     .tags_container:before {
         background-color: rgb(74,74,74);
     }
