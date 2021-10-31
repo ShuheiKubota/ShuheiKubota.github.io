@@ -208,6 +208,12 @@ li > p {
   list-style-type: none;
   padding: 0;
 }
+#TableOfContents li {
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-top: 0.1em;
+  padding-bottom: 0.1em;
+}
 
 /* hide h3~ links */
 body {
@@ -318,6 +324,7 @@ hr.listsep {
 .latest_list_container li {
   border-bottom: thin dotted var(--side_border_color);
   padding-left: 1em;
+  padding-right: 1em;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
 }
