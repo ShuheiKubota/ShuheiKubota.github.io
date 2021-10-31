@@ -105,6 +105,10 @@
   background-color: var(--footer_bgcolor);
   color: var(--footer_color);
 }
+.footer a {
+  color: var(--header_color);
+  text-decoration: none;
+}
 
 .main-area {
   padding-left: 5%;
@@ -313,9 +317,6 @@ hr.listsep {
   padding-top: 0.5em;
   padding-bottom: 0.5em;
 }
-.latest_list_container li:nth-child(even) {
-  background-color: whitesmoke;
-}
 
 .latest_summary {
   padding-left: 2em;
@@ -350,23 +351,6 @@ hr.listsep {
 
 .tag {
   display: inline-block;
-  /* yellow
-  border-left: 0.75ex solid rgb(255, 238, 188);
-  background-color: rgb(255, 255, 220);
-  border-right: thin solid rgb(249, 204, 157);
-  border-bottom: thin solid rgb(249, 204, 157);
-  */
-  /* gray
-  border-left: 0.75ex solid rgb(215, 215, 215);
-  background-color: rgb(245, 245, 245);
-  border-right: thin solid rgb(200, 200, 200);
-  border-bottom: thin solid rgb(200, 200, 200);
-  margin: 0.2ex;
-  padding-left: 0.5ex;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-right: 1ex;
-  */
   border-left: 0.75ex solid var(--tag_marker_color);
   background-color: var(--tag_color);
   border-right: thin solid var(--tag_color);
@@ -391,40 +375,6 @@ hr.listsep {
 }
 
 @media (prefers-color-scheme: dark) {
-  /*
-  .main a {
-    &:link {
-      color: lightblue;
-    }
-
-    &:visited {
-      color: indianred;
-    }
-  }
-  */
-  .footer {
-    /*
-    background-color: rgb(25,25,25);
-    color: black;
-    */
-    /*
-        a {
-          &:link {
-            color: lightblue;
-          }
-
-          &:visited {
-            color: indianred;
-          }
-        }
-        */
-  }
-  .footer hr {
-    color: #fafafa;
-    background-color: #191919;
-    margin: 0;
-  }
-
   img {
     filter: brightness(0.85);
   }
