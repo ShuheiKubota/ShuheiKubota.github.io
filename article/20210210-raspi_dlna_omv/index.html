@@ -72,24 +72,24 @@ Raspberry Pi 4 で DLNA/OMV セットアップ - 作ったものとか
 <li>ssh は空のファイル。</li>
 <li>wpa_sapplicant.conf は以下のようなファイル。</li>
 </ul>
-<div class=highlight><div style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4>
-<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
-<pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">6
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">7
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
 </span></code></pre></td>
-<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
-<pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-apache data-lang=apache><span style=color:#a61717;background-color:#e3d2d2>ctrl_interface=DIR=/var/run/</span><span style=color:#038>wpa_supplicant</span> <span style=color:#080;font-weight:700>GROUP</span>=netdev
-<span style=color:#a61717;background-color:#e3d2d2>update_config=1</span>
-<span style=color:#a61717;background-color:#e3d2d2>country=</span><span style=color:#038>JP</span>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-apache data-lang=apache><span class=err>ctrl_interface=DIR=/var/run/</span><span class=nb>wpa_supplicant</span> <span class=k>GROUP</span>=netdev
+<span class=err>update_config=1</span>
+<span class=err>country=</span><span class=nb>JP</span>
 network={
-   <span style=color:#a61717;background-color:#e3d2d2>ssid=&#34;my-sssid&#34;</span>
-   <span style=color:#a61717;background-color:#e3d2d2>psk=&#34;my-password&#34;</span>
-<span style=color:#a61717;background-color:#e3d2d2>}</span>
+   <span class=err>ssid=&#34;my-sssid&#34;</span>
+   <span class=err>psk=&#34;my-password&#34;</span>
+<span class=err>}</span>
 </code></pre></td></tr></table>
 </div>
 </div><h3 id=起動>起動</h3>
@@ -100,19 +100,19 @@ network={
 <p>ssh あたりの再設定？</p>
 <h2 id=omv-インストール>OMV インストール</h2>
 <p><a href=https://qiita.com/wisteria3221/items/6ad8c75c60f59d245c0d>Raspberry Pi + WifiアダプタでNAS化</a> より引用。</p>
-<div class=highlight><div style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4>
-<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
-<pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
 </span></code></pre></td>
-<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
-<pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>wget https://github.com/OpenMediaVault-Plugin-Developers/installScript/raw/master/install
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>wget https://github.com/OpenMediaVault-Plugin-Developers/installScript/raw/master/install
 chmod +x install
 
-<span style=color:#888># nオプションが重要</span>
+<span class=c1># nオプションが重要</span>
 sudo ./install -n
 </code></pre></td></tr></table>
 </div>
@@ -161,32 +161,32 @@ SMB 経由で更新したいので。</p>
 <p>DLNA の場合はクライアントが自動的に探してくれるようだ？</p>
 <p>ともあれ、IP アドレスを固定したい場合は、以下のファイルに追記する。</p>
 <h4 id=etcdhcpcdconf-を設定>/etc/dhcpcd.conf を設定</h4>
-<div class=highlight><div style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4>
-<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
-<pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
 </span></code></pre></td>
-<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
-<pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-apache data-lang=apache><span style=color:#888>#ファイルの末尾に追加</span>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-apache data-lang=apache><span class=c>#ファイルの末尾に追加</span>
 
-<span style=color:#038>interface</span> eth0
-<span style=color:#038>static</span> ip_address=192.168.0.100/24
-<span style=color:#038>static</span> routers=192.168.0.1
-<span style=color:#038>static</span> domain_name_servers=192.168.0.1 <span style=color:#00d;font-weight:700>8.8.8.8</span>
+<span class=nb>interface</span> eth0
+<span class=nb>static</span> ip_address=192.168.0.100/24
+<span class=nb>static</span> routers=192.168.0.1
+<span class=nb>static</span> domain_name_servers=192.168.0.1 <span class=m>8.8.8.8</span>
 
-<span style=color:#038>interface</span> wlan0
-<span style=color:#038>static</span> ip_address=192.168.0.101/24
-<span style=color:#038>static</span> routers=192.168.0.1
-<span style=color:#038>static</span> domain_name_servers=192.168.0.1 <span style=color:#00d;font-weight:700>8.8.8.8</span>
+<span class=nb>interface</span> wlan0
+<span class=nb>static</span> ip_address=192.168.0.101/24
+<span class=nb>static</span> routers=192.168.0.1
+<span class=nb>static</span> domain_name_servers=192.168.0.1 <span class=m>8.8.8.8</span>
 </code></pre></td></tr></table>
 </div>
 </div><h3 id=eth0-での-ssh-接続を確認する>eth0 での SSH 接続を確認する</h3>
@@ -208,14 +208,14 @@ Host key verification failed.
 wlan0 に接続したときの記述(自動的にできていた)を真似するといい。</p>
 <h3 id=wlan0-接続を無効化する>wlan0 接続を無効化する</h3>
 <p>無効化しなくてもよいかもしれない。</p>
-<div class=highlight><div style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4>
-<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
-<pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
 </span></code></pre></td>
-<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
-<pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>sudo iwconfig wlan0 txpower off
-<span style=color:#888># sudo iwconfig wlan0 txpower auto</span>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>sudo iwconfig wlan0 txpower off
+<span class=c1># sudo iwconfig wlan0 txpower auto</span>
 </code></pre></td></tr></table>
 </div>
 </div>

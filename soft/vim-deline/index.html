@@ -68,122 +68,122 @@ vim:deline - 作ったものとか
 <p>上にある statuline は、次のように定義されています。</p>
 <p>※極力シンプルにするため、このプラグイン (deline) 独特の関数呼び出しなどは削除しています。
 ※実際は1行で記述します。</p>
-<div class=highlight><div style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4>
-<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
-<pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
 </span></code></pre></td>
-<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
-<pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-vim data-lang=vim>%<span style=color:#00d;font-weight:700>2</span>* NORMAL %<span style=color:#00d;font-weight:700>1</span>* <span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>%<span style=color:#00d;font-weight:700>4</span>*%{&amp;readonly||!(&amp;modifiable)?<span style=color:#d20;background-color:#fff0f0>&#39;[RO] &#39;</span>:<span style=color:#d20;background-color:#fff0f0>&#39;&#39;</span>}<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>%{&amp;modified?<span style=color:#d20;background-color:#fff0f0>&#39;+ &#39;</span>:<span style=color:#d20;background-color:#fff0f0>&#39;&#39;</span>}<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>%<span style=color:#00d;font-weight:700>3</span>*plugin/%<span style=color:#00d;font-weight:700>1</span>*deline.vim <span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>%=<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>%<span style=color:#00d;font-weight:700>4</span>*%{&amp;fileformat}<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>%<span style=color:#00d;font-weight:700>1</span>* %<span style=color:#00d;font-weight:700>3</span>*|%<span style=color:#00d;font-weight:700>1</span>* <span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>%<span style=color:#00d;font-weight:700>4</span>*%{&amp;fileencoding}<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>%<span style=color:#00d;font-weight:700>1</span>* %<span style=color:#00d;font-weight:700>3</span>*|%<span style=color:#00d;font-weight:700>1</span>* <span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>%{&amp;filetype}<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span> %<span style=color:#00d;font-weight:700>3</span>*|%<span style=color:#00d;font-weight:700>1</span>* <span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span> %<span style=color:#00d;font-weight:700>4</span>l:%<span style=color:#00d;font-weight:700>3</span>v<span style=color:#a61717;background-color:#e3d2d2>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-vim data-lang=vim>%<span class=m>2</span>* <span class=nx>NORMAL</span> %<span class=m>1</span>* <span class=err>
+</span><span class=err></span>%<span class=m>4</span>*%{&amp;<span class=nx>readonly</span><span class=p>||!(</span>&amp;<span class=nx>modifiable</span><span class=p>)</span>?<span class=s1>&#39;[RO] &#39;</span>:<span class=s1>&#39;&#39;</span>}<span class=err>
+</span><span class=err></span>%{&amp;<span class=nx>modified</span>?<span class=s1>&#39;+ &#39;</span>:<span class=s1>&#39;&#39;</span>}<span class=err>
+</span><span class=err></span>%<span class=m>3</span>*<span class=nx>plugin</span>/%<span class=m>1</span>*<span class=nx>deline</span>.<span class=nx>vim</span> <span class=err>
+</span><span class=err></span>%<span class=p>=</span><span class=err>
+</span><span class=err></span>%<span class=m>4</span>*%{&amp;<span class=nx>fileformat</span>}<span class=err>
+</span><span class=err></span>%<span class=m>1</span>* %<span class=m>3</span>*<span class=p>|</span>%<span class=m>1</span>* <span class=err>
+</span><span class=err></span>%<span class=m>4</span>*%{&amp;<span class=nx>fileencoding</span>}<span class=err>
+</span><span class=err></span>%<span class=m>1</span>* %<span class=m>3</span>*<span class=p>|</span>%<span class=m>1</span>* <span class=err>
+</span><span class=err></span>%{&amp;<span class=nx>filetype</span>}<span class=err>
+</span><span class=err></span> %<span class=m>3</span>*<span class=p>|</span>%<span class=m>1</span>* <span class=err>
+</span><span class=err></span> %<span class=m>4</span>l:%<span class=m>3</span>v<span class=err>
 </span></code></pre></td></tr></table>
 </div>
 </div><p>本当はハイライト(配色)の定義やファイル名といった動的に変わるコンポーネントの定義もあるのですが、ここでは文字列リテラルにしています。
 そこそこ推測はできそうですが、それでも、どの部分を変更すれば表示がどう変わるのか、分かりづらくありませんか。</p>
 <h2 id=deline-での定義>deline での定義</h2>
 <p>では、deline の提供する関数を使った場合を見てみます。</p>
-<div class=highlight><div style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4>
-<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
-<pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">16
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">17
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">18
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">19
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">20
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">21
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">22
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">23
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">24
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">25
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">26
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">27
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">28
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">29
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">30
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">31
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">32
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">33
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">34
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">35
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">36
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">37
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">38
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">39
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
 </span></code></pre></td>
-<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
-<pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-vim data-lang=vim>call Deline([<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \ deline#comment(<span style=color:#d20;background-color:#fff0f0>&#34;mode (define User2 and change to it by hl(2))&#34;</span>),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \ deline#modeHL(<span style=color:#d20;background-color:#fff0f0>&#34;User2&#34;</span>),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \ deline#hl(<span style=color:#00d;font-weight:700>2</span>),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \ deline#space(),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \ deline#mode(),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \ deline#space(),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \ <span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \ deline#comment(<span style=color:#d20;background-color:#fff0f0>&#34;filepath and mod, readonly flags&#34;</span>),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \ deline#hl(<span style=color:#00d;font-weight:700>1</span>), deline#space(),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \ deline#hl(<span style=color:#00d;font-weight:700>4</span>),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \ deline#readonly(<span style=color:#d20;background-color:#fff0f0>&#39;[RO] &#39;</span>, <span style=color:#d20;background-color:#fff0f0>&#39;&#39;</span>),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \ deline#modified(<span style=color:#d20;background-color:#fff0f0>&#39;+ &#39;</span>, <span style=color:#d20;background-color:#fff0f0>&#39;&#39;</span>),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \ deline#comment(<span style=color:#d20;background-color:#fff0f0>&#34;v-- expand(%:p:h:t) / expand(%:p:t)&#34;</span>),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \ deline#comment(<span style=color:#d20;background-color:#fff0f0>&#34;deline#file(&#39;:p:h:t/:p:t&#39;),&#34;</span>),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \ deline#hl(<span style=color:#00d;font-weight:700>3</span>), deline#file(<span style=color:#d20;background-color:#fff0f0>&#39;:p:h:t&#39;</span>), <span style=color:#d20;background-color:#fff0f0>&#34;/&#34;</span>,<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \ deline#hl(<span style=color:#00d;font-weight:700>1</span>), deline#file(<span style=color:#d20;background-color:#fff0f0>&#39;:p:t&#39;</span>),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \ deline#space(),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \ deline#rightalign(),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \ deline#fileformat(),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \ deline#comment(<span style=color:#d20;background-color:#fff0f0>&#34;v-- separator&#34;</span>),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \ deline#space(), deline#hl(<span style=color:#00d;font-weight:700>3</span>), deline#bar(), deline#hl(<span style=color:#00d;font-weight:700>1</span>), deline#space(),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \ deline#fileencoding(),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \ deline#space(), deline#hl(<span style=color:#00d;font-weight:700>3</span>), deline#bar(), deline#hl(<span style=color:#00d;font-weight:700>1</span>), deline#space(),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \ deline#filetype(),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \ deline#space(), deline#hl(<span style=color:#00d;font-weight:700>3</span>), deline#bar(), deline#hl(<span style=color:#00d;font-weight:700>1</span>), deline#space(),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \ deline#line(), <span style=color:#d20;background-color:#fff0f0>&#34;:&#34;</span>, deline#columnv(),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \ deline#space(),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \ ])<span style=color:#a61717;background-color:#e3d2d2>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-vim data-lang=vim><span class=nx>call</span> <span class=nx>Deline</span><span class=p>(</span>[<span class=err>
+</span><span class=err></span>    \ <span class=nx>deline</span>#<span class=nx>comment</span><span class=p>(</span><span class=s2>&#34;mode (define User2 and change to it by hl(2))&#34;</span><span class=p>),</span><span class=err>
+</span><span class=err></span>    \ <span class=nx>deline</span>#<span class=nx>modeHL</span><span class=p>(</span><span class=s2>&#34;User2&#34;</span><span class=p>),</span><span class=err>
+</span><span class=err></span>    \ <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>2</span><span class=p>),</span><span class=err>
+</span><span class=err></span>    \ <span class=nx>deline</span>#<span class=nx>space</span><span class=p>(),</span><span class=err>
+</span><span class=err></span>    \ <span class=nx>deline</span>#<span class=nx>mode</span><span class=p>(),</span><span class=err>
+</span><span class=err></span>    \ <span class=nx>deline</span>#<span class=nx>space</span><span class=p>(),</span><span class=err>
+</span><span class=err></span>    \ <span class=err>
+</span><span class=err></span>    \ <span class=nx>deline</span>#<span class=nx>comment</span><span class=p>(</span><span class=s2>&#34;filepath and mod, readonly flags&#34;</span><span class=p>),</span><span class=err>
+</span><span class=err></span>    \ <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>1</span><span class=p>),</span> <span class=nx>deline</span>#<span class=nx>space</span><span class=p>(),</span><span class=err>
+</span><span class=err></span>    \ <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>4</span><span class=p>),</span><span class=err>
+</span><span class=err></span>    \ <span class=nx>deline</span>#<span class=nx>readonly</span><span class=p>(</span><span class=s1>&#39;[RO] &#39;</span><span class=p>,</span> <span class=s1>&#39;&#39;</span><span class=p>),</span><span class=err>
+</span><span class=err></span>    \ <span class=nx>deline</span>#<span class=nx>modified</span><span class=p>(</span><span class=s1>&#39;+ &#39;</span><span class=p>,</span> <span class=s1>&#39;&#39;</span><span class=p>),</span><span class=err>
+</span><span class=err></span>    \<span class=err>
+</span><span class=err></span>    \ <span class=nx>deline</span>#<span class=nx>comment</span><span class=p>(</span><span class=s2>&#34;v-- expand(%:p:h:t) / expand(%:p:t)&#34;</span><span class=p>),</span><span class=err>
+</span><span class=err></span>    \ <span class=nx>deline</span>#<span class=nx>comment</span><span class=p>(</span><span class=s2>&#34;deline#file(&#39;:p:h:t/:p:t&#39;),&#34;</span><span class=p>),</span><span class=err>
+</span><span class=err></span>    \ <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>3</span><span class=p>),</span> <span class=nx>deline</span>#<span class=nx>file</span><span class=p>(</span><span class=s1>&#39;:p:h:t&#39;</span><span class=p>),</span> <span class=s2>&#34;/&#34;</span><span class=p>,</span><span class=err>
+</span><span class=err></span>    \ <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>1</span><span class=p>),</span> <span class=nx>deline</span>#<span class=nx>file</span><span class=p>(</span><span class=s1>&#39;:p:t&#39;</span><span class=p>),</span><span class=err>
+</span><span class=err></span>    \ <span class=nx>deline</span>#<span class=nx>space</span><span class=p>(),</span><span class=err>
+</span><span class=err></span>    \<span class=err>
+</span><span class=err></span>    \ <span class=nx>deline</span>#<span class=nx>rightalign</span><span class=p>(),</span><span class=err>
+</span><span class=err></span>    \<span class=err>
+</span><span class=err></span>    \ <span class=nx>deline</span>#<span class=nx>fileformat</span><span class=p>(),</span><span class=err>
+</span><span class=err></span>    \<span class=err>
+</span><span class=err></span>    \ <span class=nx>deline</span>#<span class=nx>comment</span><span class=p>(</span><span class=s2>&#34;v-- separator&#34;</span><span class=p>),</span><span class=err>
+</span><span class=err></span>    \ <span class=nx>deline</span>#<span class=nx>space</span><span class=p>(),</span> <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>3</span><span class=p>),</span> <span class=nx>deline</span>#<span class=nx>bar</span><span class=p>(),</span> <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>1</span><span class=p>),</span> <span class=nx>deline</span>#<span class=nx>space</span><span class=p>(),</span><span class=err>
+</span><span class=err></span>    \<span class=err>
+</span><span class=err></span>    \ <span class=nx>deline</span>#<span class=nx>fileencoding</span><span class=p>(),</span><span class=err>
+</span><span class=err></span>    \<span class=err>
+</span><span class=err></span>    \ <span class=nx>deline</span>#<span class=nx>space</span><span class=p>(),</span> <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>3</span><span class=p>),</span> <span class=nx>deline</span>#<span class=nx>bar</span><span class=p>(),</span> <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>1</span><span class=p>),</span> <span class=nx>deline</span>#<span class=nx>space</span><span class=p>(),</span><span class=err>
+</span><span class=err></span>    \<span class=err>
+</span><span class=err></span>    \ <span class=nx>deline</span>#<span class=nx>filetype</span><span class=p>(),</span><span class=err>
+</span><span class=err></span>    \<span class=err>
+</span><span class=err></span>    \ <span class=nx>deline</span>#<span class=nx>space</span><span class=p>(),</span> <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>3</span><span class=p>),</span> <span class=nx>deline</span>#<span class=nx>bar</span><span class=p>(),</span> <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>1</span><span class=p>),</span> <span class=nx>deline</span>#<span class=nx>space</span><span class=p>(),</span><span class=err>
+</span><span class=err></span>    \<span class=err>
+</span><span class=err></span>    \ <span class=nx>deline</span>#<span class=nx>line</span><span class=p>(),</span> <span class=s2>&#34;:&#34;</span><span class=p>,</span> <span class=nx>deline</span>#<span class=nx>columnv</span><span class=p>(),</span><span class=err>
+</span><span class=err></span>    \<span class=err>
+</span><span class=err></span>    \ <span class=nx>deline</span>#<span class=nx>space</span><span class=p>(),</span><span class=err>
+</span><span class=err></span>    \ ]<span class=p>)</span><span class=err>
 </span></code></pre></td></tr></table>
 </div>
 </div><p>各コンポーネントは関数化されており、Vim の複雑な記法を使わずに表現できます。</p>
@@ -191,16 +191,16 @@ vim:deline - 作ったものとか
 <p>例えば、Vim の statusline の記法では動的にハイライトを変更することは困難です。
 しかし、deline の関数を使えば、簡単に表現できます。</p>
 <p>↓は、UTF-8 以外のファイルでは、エンコーディング名のハイライトを変更する例です。</p>
-<div class=highlight><div style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4>
-<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
-<pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
 </span></code></pre></td>
-<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
-<pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-vim data-lang=vim>    \ deline#dynamic#<span style=color:#080;font-weight:700>if</span>(<span style=color:#d20;background-color:#fff0f0>&#34;&amp;fileencoding!=&#39;utf-8&#39;&#34;</span>, deline#hl(<span style=color:#00d;font-weight:700>4</span>), deline#hl(<span style=color:#00d;font-weight:700>1</span>)),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \ deline#fileencoding(),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>    \ deline#hl(<span style=color:#00d;font-weight:700>1</span>),<span style=color:#a61717;background-color:#e3d2d2>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-vim data-lang=vim>    \ <span class=nx>deline</span>#<span class=nx>dynamic</span>#<span class=k>if</span><span class=p>(</span><span class=s2>&#34;&amp;fileencoding!=&#39;utf-8&#39;&#34;</span><span class=p>,</span> <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>4</span><span class=p>),</span> <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>1</span><span class=p>)),</span><span class=err>
+</span><span class=err></span>    \ <span class=nx>deline</span>#<span class=nx>fileencoding</span><span class=p>(),</span><span class=err>
+</span><span class=err></span>    \ <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>1</span><span class=p>),</span><span class=err>
 </span></code></pre></td></tr></table>
 </div>
 </div><h1 id=カスタマイズ方法>カスタマイズ方法</h1>
@@ -209,136 +209,136 @@ vim:deline - 作ったものとか
 <h2 id=vimrc-に記述する>vimrc に記述する</h2>
 <p>カスタマイズをする場合は、vimrc に記述します。</p>
 <p>↓に、★がついているのがカスタマイズに関わる箇所です。</p>
-<div class=highlight><div style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4>
-<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
-<pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">16
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">17
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">18
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">19
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">20
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">21
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">22
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">23
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">24
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">25
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">26
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">27
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">28
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">29
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">30
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">31
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">32
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">33
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">34
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">35
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">36
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">37
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">38
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">39
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">40
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">41
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">42
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">43
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">44
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">45
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">46
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">47
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">48
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">49
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">50
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">51
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">52
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">53
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">54
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">55
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">56
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">57
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">58
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">59
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">60
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">61
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">62
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">63
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
 </span></code></pre></td>
-<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
-<pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-vim data-lang=vim>augroup Deline_mysetting <span style=color:#888>&#34;★お決まり</span><span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>autocmd! <span style=color:#888>&#34;★お決まり</span><span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>autocmd BufEnter * call Deline([ <span style=color:#888>&#34;★お決まり</span><span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#comment(<span style=color:#d20;background-color:#fff0f0>&#34; ★ Deline の標準ではないことを視覚的に判別するためのもの(アニメーションする)&#34;</span>),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#dynamic#periodic(<span style=color:#00d;font-weight:700>300</span>),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#dynamic#cyclic([<span style=color:#d20;background-color:#fff0f0>&#39;-&#39;</span>, <span style=color:#d20;background-color:#fff0f0>&#39;\&#39;</span>, <span style=color:#d20;background-color:#fff0f0>&#39;|&#39;</span>, <span style=color:#d20;background-color:#fff0f0>&#39;/&#39;</span>, <span style=color:#d20;background-color:#fff0f0>&#39;-&#39;</span>, <span style=color:#d20;background-color:#fff0f0>&#39;\&#39;</span>, <span style=color:#d20;background-color:#fff0f0>&#39;|&#39;</span>, <span style=color:#d20;background-color:#fff0f0>&#39;/&#39;</span>, <span style=color:#d20;background-color:#fff0f0>&#39;-&#39;</span>, <span style=color:#d20;background-color:#fff0f0>&#39;-&#39;</span>, <span style=color:#d20;background-color:#fff0f0>&#39;+&#39;</span>, <span style=color:#d20;background-color:#fff0f0>&#39;*&#39;</span>, <span style=color:#d20;background-color:#fff0f0>&#39;+&#39;</span>]),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ <span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#comment(<span style=color:#d20;background-color:#fff0f0>&#34;mode (define User2 and change to it by hl(2))&#34;</span>),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#modeHL(<span style=color:#d20;background-color:#fff0f0>&#34;User2&#34;</span>),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#hl(<span style=color:#00d;font-weight:700>2</span>),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#space(),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#mode(),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#space(),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ <span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#comment(<span style=color:#d20;background-color:#fff0f0>&#34;filepath and mod, readonly flags&#34;</span>),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#hl(<span style=color:#00d;font-weight:700>1</span>), deline#space(),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#hl(<span style=color:#00d;font-weight:700>4</span>),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#readonly(<span style=color:#d20;background-color:#fff0f0>&#39;[RO] &#39;</span>, <span style=color:#d20;background-color:#fff0f0>&#39;&#39;</span>),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#modified(<span style=color:#d20;background-color:#fff0f0>&#39;+ &#39;</span>, <span style=color:#d20;background-color:#fff0f0>&#39;&#39;</span>),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#comment(<span style=color:#d20;background-color:#fff0f0>&#34;v-- expand(%:p:h:t) / expand(%:p:t)&#34;</span>),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#comment(<span style=color:#d20;background-color:#fff0f0>&#34;deline#file(&#39;:p:h:t/:p:t&#39;),&#34;</span>),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#hl(<span style=color:#00d;font-weight:700>3</span>), deline#file(<span style=color:#d20;background-color:#fff0f0>&#39;:p:h:t&#39;</span>), <span style=color:#d20;background-color:#fff0f0>&#34;/&#34;</span>,<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#hl(<span style=color:#00d;font-weight:700>1</span>), deline#file(<span style=color:#d20;background-color:#fff0f0>&#39;:p:t&#39;</span>),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#space(),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#hl(<span style=color:#00d;font-weight:700>4</span>), deline#notsaved(<span style=color:#00d;font-weight:700>2</span>),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#rightalign(),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#comment(<span style=color:#d20;background-color:#fff0f0>&#34; ★ 幅広のときのみ、時刻と検索文字列を表示する&#34;</span>),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#dynamic#<span style=color:#080;font-weight:700>if</span>(<span style=color:#d20;background-color:#fff0f0>&#34;winwidth(0) &gt; 80&#34;</span>, <span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>                \ deline#hl(<span style=color:#00d;font-weight:700>1</span>) . deline#expr(<span style=color:#d20;background-color:#fff0f0>&#34;strftime(&#39;%T&#39;)&#34;</span>) .<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>                \ deline#space() . deline#hl(<span style=color:#00d;font-weight:700>3</span>) . deline#bar() . deline#hl(<span style=color:#00d;font-weight:700>1</span>) . deline#space(),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>                \ <span style=color:#d20;background-color:#fff0f0>&#34;&#34;</span>),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#dynamic#<span style=color:#080;font-weight:700>if</span>(<span style=color:#d20;background-color:#fff0f0>&#34;winwidth(0) &gt; 80 &amp;&amp; !v:hlsearch&#34;</span>, <span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>                \ <span style=color:#d20;background-color:#fff0f0>&#34;/&#34;</span> . deline#expr(<span style=color:#d20;background-color:#fff0f0>&#34;getreg(&#39;/&#39;)&#34;</span>) .<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>                \ deline#space() . deline#hl(<span style=color:#00d;font-weight:700>3</span>) . deline#bar() . deline#hl(<span style=color:#00d;font-weight:700>1</span>) . deline#space(),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>                \ <span style=color:#d20;background-color:#fff0f0>&#34;&#34;</span>),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#comment(<span style=color:#d20;background-color:#fff0f0>&#34;\ deline#fileformat(),&#34;</span>),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#dynamic#<span style=color:#080;font-weight:700>if</span>(<span style=color:#d20;background-color:#fff0f0>&#34;&amp;fileformat!=&#39;unix&#39;&#34;</span>, deline#hl(<span style=color:#00d;font-weight:700>4</span>), deline#hl(<span style=color:#00d;font-weight:700>1</span>)),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#fileformat(),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#hl(<span style=color:#00d;font-weight:700>1</span>),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#comment(<span style=color:#d20;background-color:#fff0f0>&#34;v-- separator&#34;</span>),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#space(), deline#hl(<span style=color:#00d;font-weight:700>3</span>), deline#bar(), deline#hl(<span style=color:#00d;font-weight:700>1</span>), deline#space(),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#comment(<span style=color:#d20;background-color:#fff0f0>&#34;\ deline#fileencoding(),&#34;</span>),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#dynamic#<span style=color:#080;font-weight:700>if</span>(<span style=color:#d20;background-color:#fff0f0>&#34;&amp;fileencoding!=&#39;utf-8&#39;&#34;</span>, deline#hl(<span style=color:#00d;font-weight:700>4</span>), deline#hl(<span style=color:#00d;font-weight:700>1</span>)),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#fileencoding(),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#hl(<span style=color:#00d;font-weight:700>1</span>),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#space(), deline#hl(<span style=color:#00d;font-weight:700>3</span>), deline#bar(), deline#hl(<span style=color:#00d;font-weight:700>1</span>), deline#space(),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#filetype(),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#space(), deline#hl(<span style=color:#00d;font-weight:700>3</span>), deline#bar(), deline#hl(<span style=color:#00d;font-weight:700>1</span>), deline#space(),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#line(), <span style=color:#d20;background-color:#fff0f0>&#34;:&#34;</span>, deline#columnv(),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ deline#space(),<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>            \ ])<span style=color:#a61717;background-color:#e3d2d2>
-</span><span style=color:#a61717;background-color:#e3d2d2></span>augroup END <span style=color:#888>&#34;★お決まり</span><span style=color:#a61717;background-color:#e3d2d2>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-vim data-lang=vim><span class=nx>augroup</span> <span class=nx>Deline_mysetting</span> <span class=c>&#34;★お決まり</span><span class=err>
+</span><span class=err></span><span class=nx>autocmd</span><span class=p>!</span> <span class=c>&#34;★お決まり</span><span class=err>
+</span><span class=err></span><span class=nx>autocmd</span> <span class=nx>BufEnter</span> * <span class=nx>call</span> <span class=nx>Deline</span><span class=p>(</span>[ <span class=c>&#34;★お決まり</span><span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>comment</span><span class=p>(</span><span class=s2>&#34; ★ Deline の標準ではないことを視覚的に判別するためのもの(アニメーションする)&#34;</span><span class=p>),</span><span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>dynamic</span>#<span class=nx>periodic</span><span class=p>(</span><span class=m>300</span><span class=p>),</span><span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>dynamic</span>#<span class=nx>cyclic</span><span class=p>(</span>[<span class=s1>&#39;-&#39;</span><span class=p>,</span> <span class=s1>&#39;\&#39;</span><span class=p>,</span> <span class=s1>&#39;|&#39;</span><span class=p>,</span> <span class=s1>&#39;/&#39;</span><span class=p>,</span> <span class=s1>&#39;-&#39;</span><span class=p>,</span> <span class=s1>&#39;\&#39;</span><span class=p>,</span> <span class=s1>&#39;|&#39;</span><span class=p>,</span> <span class=s1>&#39;/&#39;</span><span class=p>,</span> <span class=s1>&#39;-&#39;</span><span class=p>,</span> <span class=s1>&#39;-&#39;</span><span class=p>,</span> <span class=s1>&#39;+&#39;</span><span class=p>,</span> <span class=s1>&#39;*&#39;</span><span class=p>,</span> <span class=s1>&#39;+&#39;</span>]<span class=p>),</span><span class=err>
+</span><span class=err></span>            \ <span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>comment</span><span class=p>(</span><span class=s2>&#34;mode (define User2 and change to it by hl(2))&#34;</span><span class=p>),</span><span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>modeHL</span><span class=p>(</span><span class=s2>&#34;User2&#34;</span><span class=p>),</span><span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>2</span><span class=p>),</span><span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>space</span><span class=p>(),</span><span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>mode</span><span class=p>(),</span><span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>space</span><span class=p>(),</span><span class=err>
+</span><span class=err></span>            \ <span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>comment</span><span class=p>(</span><span class=s2>&#34;filepath and mod, readonly flags&#34;</span><span class=p>),</span><span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>1</span><span class=p>),</span> <span class=nx>deline</span>#<span class=nx>space</span><span class=p>(),</span><span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>4</span><span class=p>),</span><span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>readonly</span><span class=p>(</span><span class=s1>&#39;[RO] &#39;</span><span class=p>,</span> <span class=s1>&#39;&#39;</span><span class=p>),</span><span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>modified</span><span class=p>(</span><span class=s1>&#39;+ &#39;</span><span class=p>,</span> <span class=s1>&#39;&#39;</span><span class=p>),</span><span class=err>
+</span><span class=err></span>            \<span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>comment</span><span class=p>(</span><span class=s2>&#34;v-- expand(%:p:h:t) / expand(%:p:t)&#34;</span><span class=p>),</span><span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>comment</span><span class=p>(</span><span class=s2>&#34;deline#file(&#39;:p:h:t/:p:t&#39;),&#34;</span><span class=p>),</span><span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>3</span><span class=p>),</span> <span class=nx>deline</span>#<span class=nx>file</span><span class=p>(</span><span class=s1>&#39;:p:h:t&#39;</span><span class=p>),</span> <span class=s2>&#34;/&#34;</span><span class=p>,</span><span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>1</span><span class=p>),</span> <span class=nx>deline</span>#<span class=nx>file</span><span class=p>(</span><span class=s1>&#39;:p:t&#39;</span><span class=p>),</span><span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>space</span><span class=p>(),</span><span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>4</span><span class=p>),</span> <span class=nx>deline</span>#<span class=nx>notsaved</span><span class=p>(</span><span class=m>2</span><span class=p>),</span><span class=err>
+</span><span class=err></span>            \<span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>rightalign</span><span class=p>(),</span><span class=err>
+</span><span class=err></span>            \<span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>comment</span><span class=p>(</span><span class=s2>&#34; ★ 幅広のときのみ、時刻と検索文字列を表示する&#34;</span><span class=p>),</span><span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>dynamic</span>#<span class=k>if</span><span class=p>(</span><span class=s2>&#34;winwidth(0) &gt; 80&#34;</span><span class=p>,</span> <span class=err>
+</span><span class=err></span>                \ <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>1</span><span class=p>)</span> . <span class=nx>deline</span>#<span class=nx>expr</span><span class=p>(</span><span class=s2>&#34;strftime(&#39;%T&#39;)&#34;</span><span class=p>)</span> .<span class=err>
+</span><span class=err></span>                \ <span class=nx>deline</span>#<span class=nx>space</span><span class=p>()</span> . <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>3</span><span class=p>)</span> . <span class=nx>deline</span>#<span class=nx>bar</span><span class=p>()</span> . <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>1</span><span class=p>)</span> . <span class=nx>deline</span>#<span class=nx>space</span><span class=p>(),</span><span class=err>
+</span><span class=err></span>                \ <span class=s2>&#34;&#34;</span><span class=p>),</span><span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>dynamic</span>#<span class=k>if</span><span class=p>(</span><span class=s2>&#34;winwidth(0) &gt; 80 &amp;&amp; !v:hlsearch&#34;</span><span class=p>,</span> <span class=err>
+</span><span class=err></span>                \ <span class=s2>&#34;/&#34;</span> . <span class=nx>deline</span>#<span class=nx>expr</span><span class=p>(</span><span class=s2>&#34;getreg(&#39;/&#39;)&#34;</span><span class=p>)</span> .<span class=err>
+</span><span class=err></span>                \ <span class=nx>deline</span>#<span class=nx>space</span><span class=p>()</span> . <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>3</span><span class=p>)</span> . <span class=nx>deline</span>#<span class=nx>bar</span><span class=p>()</span> . <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>1</span><span class=p>)</span> . <span class=nx>deline</span>#<span class=nx>space</span><span class=p>(),</span><span class=err>
+</span><span class=err></span>                \ <span class=s2>&#34;&#34;</span><span class=p>),</span><span class=err>
+</span><span class=err></span>            \<span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>comment</span><span class=p>(</span><span class=s2>&#34;\ deline#fileformat(),&#34;</span><span class=p>),</span><span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>dynamic</span>#<span class=k>if</span><span class=p>(</span><span class=s2>&#34;&amp;fileformat!=&#39;unix&#39;&#34;</span><span class=p>,</span> <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>4</span><span class=p>),</span> <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>1</span><span class=p>)),</span><span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>fileformat</span><span class=p>(),</span><span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>1</span><span class=p>),</span><span class=err>
+</span><span class=err></span>            \<span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>comment</span><span class=p>(</span><span class=s2>&#34;v-- separator&#34;</span><span class=p>),</span><span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>space</span><span class=p>(),</span> <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>3</span><span class=p>),</span> <span class=nx>deline</span>#<span class=nx>bar</span><span class=p>(),</span> <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>1</span><span class=p>),</span> <span class=nx>deline</span>#<span class=nx>space</span><span class=p>(),</span><span class=err>
+</span><span class=err></span>            \<span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>comment</span><span class=p>(</span><span class=s2>&#34;\ deline#fileencoding(),&#34;</span><span class=p>),</span><span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>dynamic</span>#<span class=k>if</span><span class=p>(</span><span class=s2>&#34;&amp;fileencoding!=&#39;utf-8&#39;&#34;</span><span class=p>,</span> <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>4</span><span class=p>),</span> <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>1</span><span class=p>)),</span><span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>fileencoding</span><span class=p>(),</span><span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>1</span><span class=p>),</span><span class=err>
+</span><span class=err></span>            \<span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>space</span><span class=p>(),</span> <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>3</span><span class=p>),</span> <span class=nx>deline</span>#<span class=nx>bar</span><span class=p>(),</span> <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>1</span><span class=p>),</span> <span class=nx>deline</span>#<span class=nx>space</span><span class=p>(),</span><span class=err>
+</span><span class=err></span>            \<span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>filetype</span><span class=p>(),</span><span class=err>
+</span><span class=err></span>            \<span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>space</span><span class=p>(),</span> <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>3</span><span class=p>),</span> <span class=nx>deline</span>#<span class=nx>bar</span><span class=p>(),</span> <span class=nx>deline</span>#<span class=nx>hl</span><span class=p>(</span><span class=m>1</span><span class=p>),</span> <span class=nx>deline</span>#<span class=nx>space</span><span class=p>(),</span><span class=err>
+</span><span class=err></span>            \<span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>line</span><span class=p>(),</span> <span class=s2>&#34;:&#34;</span><span class=p>,</span> <span class=nx>deline</span>#<span class=nx>columnv</span><span class=p>(),</span><span class=err>
+</span><span class=err></span>            \<span class=err>
+</span><span class=err></span>            \ <span class=nx>deline</span>#<span class=nx>space</span><span class=p>(),</span><span class=err>
+</span><span class=err></span>            \ ]<span class=p>)</span><span class=err>
+</span><span class=err></span><span class=nx>augroup</span> <span class=nx>END</span> <span class=c>&#34;★お決まり</span><span class=err>
 </span></code></pre></td></tr></table>
 </div>
 </div><p>autocmd は、プラグインと vimrc のロード順の関係上、関数定義がされた後で呼び出すために入れています。
