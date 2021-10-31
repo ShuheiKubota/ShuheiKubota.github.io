@@ -19,6 +19,7 @@
   --latest_summary_color: gray;
   --tag_color: #ededed;
   --tag_marker_color: #bababa;
+  --code_hl: #fbfbbc;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -42,6 +43,7 @@
     --latest_summary_color: lightgray;
     --tag_color: #3f3f3f;
     --tag_marker_color: #999999;
+    --code_hl: #535313;
   }
 }
 @media (min-width: 1024px) {
@@ -172,14 +174,16 @@ p ~ h1, p ~ h2, p ~ h3 {
   margin-left: 2em;
 }
 
-code .ln {
-  border-right: solid thin darkgray;
-  color: darkgray;
-}
-
 /* modify Hugo gen */
 li > p {
   margin: 0;
+}
+
+.chroma span.hl {
+  background-color: var(--code_hl);
+}
+.chroma span.hl .lnt {
+  font-weight: bold;
 }
 
 /*****/
