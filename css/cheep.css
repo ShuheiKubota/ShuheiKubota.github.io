@@ -1,63 +1,66 @@
 @charset "UTF-8";
 :root {
   --bgcolor: #fafafa;
-  --color: #191919;
-  --link_color: #195bc6;
-  --link_hover_color: black;
-  --link_visited_color: #c63f06;
+  --color: #2d2d2d;
+  --link_color: #1e60cb;
+  --link_hover_color: #93b6ef;
+  --link_visited_color: #cb440b;
+  --link_visited_hover_color: #f25817;
   --header_bgcolor: black;
   --header_color: white;
   --footer_bgcolor: black;
   --footer_color: white;
   --band_bgcolor: #fafafa;
-  --band_color: #191919;
+  --band_color: #2d2d2d;
   --side_border_color: #c8c8c8;
   --main_border_color: #a0a0a0;
   --main_filled_bgcolor: gainsboro;
-  --main_filled_color: #191919;
+  --main_filled_color: #2d2d2d;
   --pre_bgcolor: whitesmoke;
   --latest_summary_color: gray;
-  --tag_color: #ededed;
-  --tag_marker_color: #bababa;
+  --tag_color: #f2f2f2;
+  --tag_marker_color: #d9d9d9;
   --code_hl: #fbfbbc;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bgcolor: #191919;
+    --bgcolor: #2d2d2d;
     --color: #c7c7c7;
     --link_color: #85abe7;
-    --link_hover_color: #dbe6f8;
+    --link_hover_color: #b0c8f0;
     --link_visited_color: #df794e;
+    --link_visited_hover_color: #e7997a;
     --header_bgcolor: black;
     --header_color: white;
     --footer_bgcolor: black;
     --footer_color: white;
-    --band_bgcolor: #191919;
+    --band_bgcolor: #2d2d2d;
     --band_color: #c7c7c7;
     --side_border_color: #a0a0a0;
     --main_border_color: #a0a0a0;
     --main_filled_bgcolor: #5a5a5a;
     --main_filled_color: #c7c7c7;
-    --pre_bgcolor: #333333;
+    --pre_bgcolor: #474747;
     --latest_summary_color: lightgray;
-    --tag_color: #3f3f3f;
-    --tag_marker_color: #999999;
-    --code_hl: #535313;
+    --tag_color: #3a3a3a;
+    --tag_marker_color: #6d6d6d;
+    --code_hl: #626222;
   }
 }
-@media (min-width: 1024px) {
+@media (min-width: 1440px) {
   .main {
     display: table;
+    table-layout: fixed;
     width: 100%;
   }
 
   .toc-area {
     display: table-cell;
     width: 10%;
-    min-width: 10em;
+    min-width: 20em;
     padding-left: 2%;
-    padding-right: 3%;
+    padding-right: 2%;
   }
 
   .main-area {
@@ -68,8 +71,8 @@
   .side-area {
     display: table-cell;
     width: 10%;
-    min-width: 10em;
-    padding-left: 3%;
+    min-width: 20em;
+    padding-left: 2%;
     padding-right: 2%;
   }
 
@@ -88,6 +91,9 @@
 }
 .main a:visited {
   color: var(--link_visited_color);
+}
+.main a:visited:hover {
+  color: var(--link_visited_hover_color);
 }
 
 .header {
@@ -113,8 +119,8 @@
 }
 
 .main-area {
-  padding-left: 5%;
-  padding-right: 5%;
+  padding-left: 2%;
+  padding-right: 2%;
 }
 .main-area h1 {
   border-bottom: double 5px var(--main_border_color);
@@ -364,13 +370,13 @@ hr.listsep {
   display: inline-block;
   border-left: 0.75ex solid var(--tag_marker_color);
   background-color: var(--tag_color);
-  border-right: thin solid var(--tag_color);
-  border-bottom: thin solid var(--tag_color);
+  border-right: thin solid var(--tag_marker_color);
+  border-bottom: thin solid var(--tag_marker_color);
   padding-left: 0.5ex;
   padding-top: 0;
   padding-bottom: 0;
   padding-right: 1ex;
-  box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.2);
+  filter: drop-shadow(1px 1px 3px rgba(0, 0, 0, 0.1));
 }
 .tag .tag_count {
   font-size: x-small;
@@ -395,6 +401,8 @@ hr.listsep {
   }
 
   .tag {
-    box-shadow: 2px 1px 2px 1px rgba(255, 255, 255, 0.2);
+    border-right: thin solid var(--tag_color);
+    border-bottom: thin solid var(--tag_color);
+    filter: drop-shadow(1px 2px 3px black);
   }
 }
