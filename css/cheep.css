@@ -176,13 +176,14 @@ p ~ h1, p ~ h2, p ~ h3 {
   background: var(--pre_bgcolor);
   border: solid thin var(--main_border_color);
 }
-.main-area > .highlight td:nth-child(2) pre {
-  margin-left: 2em;
-}
 
-/* modify Hugo gen */
+/* modify hugo gen */
 li > p {
   margin: 0;
+}
+
+.chroma span.lnt {
+  color: var(--color);
 }
 
 .chroma span.hl {
