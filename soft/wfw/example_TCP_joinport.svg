@@ -9,6 +9,12 @@ rect.allow{fill:lightblue}
 rect.block{fill:red}
 rect.onmouse{fill:yellow}
 rect:hover{stroke:green}
+@media (prefers-color-scheme: dark) {
+    :root {
+        background-color: black;
+        fill: white;
+    }
+}
 
 ]]>
 </style>
