@@ -32,6 +32,18 @@ wfw - 作ったものとか
 <li><a href=#結果確認>結果確認</a></li>
 <li><a href=#ルールのまとめ>ルールのまとめ</a></li>
 <li><a href=#コマンドの生成>コマンドの生成</a></li>
+<li><a href=#svg-ファイルの生成>SVG ファイルの生成</a>
+<ul>
+<li><a href=#tcp-example_tcpsvg>TCP (example_TCP.svg)</a></li>
+<li><a href=#udp-example_udpsvg>UDP (example_UDP.svg)</a></li>
+</ul>
+</li>
+<li><a href=#結合の傾向の切り替え>結合の傾向の切り替え</a>
+<ul>
+<li><a href=#変更-ポートを広範囲にip-アドレスはぶつ切りでok>変更: ポートを広範囲に、IP アドレスはぶつ切りでOK</a></li>
+<li><a href=#比較用に再掲-ip-アドレスを広範囲にポートはぶつ切りでok>比較用に再掲: IP アドレスを広範囲に、ポートはぶつ切りでOK</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -40,27 +52,49 @@ wfw - 作ったものとか
 <div class=main-area>
 <h1>wfw</h1>
 <span class=tag><a href=/tags/system>system</a></span>
-<p>Windows ファイアウォール向けのコマンドを生成するツール</p>
-<p>受信ルール(リモートIPアドレスとローカルポート)の指定のみサポートしています。</p>
-<p>広範囲のブロックを基本として、そこに許可するIPアドレスやポートを追加していくスタイルのルール記述(JSONフォーマット)から、Windows Firewall での設定を出力するためのツールです。</p>
+<p>Windows ファイアウォール向けのコマンドや可視化された SVG ファイルを生成するツール</p>
+<p>ファイアウォールでよくある許可・拒否の流れとしては、列挙されたルール中で優先度順に最初にマッチしたルールに従うというものです。
+例えば、①最優先のルールで 80 ポートを許可しておき、②その次の優先度のルールとしてすべてのポートを拒否するというものです。</p>
+<p>こうしておくと、80 ポートは許可、それ以外のポートは拒否となるというものです。</p>
+<hr>
+<p>一方で、Windows のファイアウォールはルールの規則が特殊です。
+自分で優先度を指定できないため、必然的に拒否が優先されます。(例外はありますが)</p>
+<p>そのため、上の例のようなルールを作っておくと、②の「すべてのポートを拒否」が優先され、結果的に 80 ポートにアクセスできなくなります。</p>
+<p>Windows ファイアウォールでの正解は、①は変わらず 80 ポートを許可、②は 0-79および81-65535を拒否、となります。</p>
+<hr>
+<p>wfw では、優先度付きのルールで記述したファイアウォールルールを、Windows ファイアウォール仕様のルールに変換します。</p>
+<p>広範囲のブロックを基本として、そこに許可するIPアドレスやポートを追加していくスタイルのルールをJSONフォーマットを介して、以下の出力を行います。</p>
+<ul>
+<li>JSONファイル</li>
+<li>リスト形式</li>
+<li>netsh advfirewall firewall 向けのコマンド</li>
+<li>変換結果を可視化するための SVG ファイル</li>
+</ul>
+<p>なお、受信ルール(リモートIPアドレスとローカルポート)の指定のみサポートしています。</p>
 <h1 id=ダウンロード>ダウンロード</h1>
 <p><a href=https://github.com/shu-go/wfw/releases>ダウンロード</a></p>
 <h2 id=更新履歴>更新履歴</h2>
 <ul>
+<li>0.4.0 (2021-11-06)
+<ul>
+<li><code>--svg {ファイル名}</code> オプションを渡すことで、<code>ファイル名_TCP.svg</code> といった命名規則で SVG ファイルを生成できるようになりました。</li>
+<li><a href=#svg-%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%AE%E7%94%9F%E6%88%90>SVG ファイルの生成</a></li>
+</ul>
+</li>
 <li>0.3.1 (2021-10-30)
 <ul>
-<li>ルールが分割された場合に、分割後のルール名に分割の原因となったルール名を追記するようにする。</li>
+<li>ルールが分割された場合に、分割後のルール名に分割の原因となったルール名を追記するようになりました。</li>
 <li>オプション &ndash;except でフォーマットを指定可能。(空白にすると追記なし)</li>
 </ul>
 </li>
 <li>0.2.0 (2021-10-28)
 <ul>
-<li>オプション &ndash;format=json を追加。入力ファイルと同じフォーマットで出力できるようにする。</li>
+<li>オプション &ndash;format=json を追加。入力ファイルと同じフォーマットで出力できるようなりました。</li>
 </ul>
 </li>
 <li>0.1.1 (2021-10-20)
 <ul>
-<li>TCP もしくは UDP 以外のプロトコルの場合、localport を出力しないようにする</li>
+<li>TCP もしくは UDP 以外のプロトコルの場合、localport を出力しないようにしました。</li>
 </ul>
 </li>
 <li>0.1.0 (2021-10-19)
@@ -76,36 +110,102 @@ wfw - 作ったものとか
 </code></pre><p>ファイル <code>example.json</code> が作成されます。</p>
 <p>この内容を参考にして、ルールを作ります。</p>
 <h2 id=雛形の解説>雛形の解説</h2>
-<pre tabindex=0><code>[
-  {
-    &quot;Name&quot;: &quot;allow HTTP&quot;,
-    &quot;Desc&quot;: &quot;1st priority&quot;,
-    &quot;Protocol&quot;: &quot;TCP&quot;,
-    &quot;Allow&quot;: true,
-    &quot;Port&quot;: &quot;80&quot;,
-    &quot;IP&quot;: &quot;192.168.0.101&quot;
-  },
-  {
-    &quot;Name&quot;: &quot;ban all 192.168&quot;,
-    &quot;Desc&quot;: &quot;2nd priority&quot;,
-    &quot;Protocol&quot;: &quot;TCP&quot;,
-    &quot;Allow&quot;: false,
-    &quot;Port&quot;: &quot;0-65535&quot;,
-    &quot;IP&quot;: &quot;192.168.0.1-192.168.255.255&quot;
-  },
-  {
-    &quot;Name&quot;: &quot;ban all 192.168&quot;,
-    &quot;Desc&quot;: &quot;3rd priority, this rule will be disappeared&quot;,
-    &quot;Protocol&quot;: &quot;TCP&quot;,
-    &quot;Allow&quot;: true,
-    &quot;Port&quot;: &quot;3389&quot;,
-    &quot;IP&quot;: &quot;192.168.0.101&quot;
-  }
-]
-</code></pre><p>最初のルール「allow HTTP」では、192.168.0.101 からの TCP 80 ポートアクセスを許可しています。</p>
-<p>2番目のルール「ban all 192.168」では、192.168.0.1～255 からのすべての TCP アクセスをブロックしています。
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=p>[</span>
+  <span class=p>{</span>
+    <span class=nt>&#34;Name&#34;</span><span class=p>:</span> <span class=s2>&#34;allow HTTPS&#34;</span><span class=p>,</span>
+    <span class=nt>&#34;Desc&#34;</span><span class=p>:</span> <span class=s2>&#34;1st priority&#34;</span><span class=p>,</span>
+    <span class=nt>&#34;Protocol&#34;</span><span class=p>:</span> <span class=s2>&#34;TCP&#34;</span><span class=p>,</span>
+    <span class=nt>&#34;Allow&#34;</span><span class=p>:</span> <span class=kc>true</span><span class=p>,</span>
+    <span class=nt>&#34;Port&#34;</span><span class=p>:</span> <span class=s2>&#34;445&#34;</span><span class=p>,</span>
+    <span class=nt>&#34;IP&#34;</span><span class=p>:</span> <span class=s2>&#34;192.168.0.1-192.168.255.255&#34;</span>
+  <span class=p>},</span>
+  <span class=p>{</span>
+    <span class=nt>&#34;Name&#34;</span><span class=p>:</span> <span class=s2>&#34;allow HTTP from .0.101&#34;</span><span class=p>,</span>
+    <span class=nt>&#34;Desc&#34;</span><span class=p>:</span> <span class=s2>&#34;2nd priority&#34;</span><span class=p>,</span>
+    <span class=nt>&#34;Protocol&#34;</span><span class=p>:</span> <span class=s2>&#34;TCP&#34;</span><span class=p>,</span>
+    <span class=nt>&#34;Allow&#34;</span><span class=p>:</span> <span class=kc>true</span><span class=p>,</span>
+    <span class=nt>&#34;Port&#34;</span><span class=p>:</span> <span class=s2>&#34;80,445,8080&#34;</span><span class=p>,</span>
+    <span class=nt>&#34;IP&#34;</span><span class=p>:</span> <span class=s2>&#34;192.168.0.101&#34;</span>
+  <span class=p>},</span>
+  <span class=p>{</span>
+    <span class=nt>&#34;Name&#34;</span><span class=p>:</span> <span class=s2>&#34;deny TCP from 192.168.&#34;</span><span class=p>,</span>
+    <span class=nt>&#34;Desc&#34;</span><span class=p>:</span> <span class=s2>&#34;3rd priority&#34;</span><span class=p>,</span>
+    <span class=nt>&#34;Protocol&#34;</span><span class=p>:</span> <span class=s2>&#34;TCP&#34;</span><span class=p>,</span>
+    <span class=nt>&#34;Allow&#34;</span><span class=p>:</span> <span class=kc>false</span><span class=p>,</span>
+    <span class=nt>&#34;Port&#34;</span><span class=p>:</span> <span class=s2>&#34;0-65535&#34;</span><span class=p>,</span>
+    <span class=nt>&#34;IP&#34;</span><span class=p>:</span> <span class=s2>&#34;192.168.0.1-192.168.255.255&#34;</span>
+  <span class=p>},</span>
+  <span class=p>{</span>
+    <span class=nt>&#34;Name&#34;</span><span class=p>:</span> <span class=s2>&#34;deny UDP from 192.168.&#34;</span><span class=p>,</span>
+    <span class=nt>&#34;Desc&#34;</span><span class=p>:</span> <span class=s2>&#34;3rd priority&#34;</span><span class=p>,</span>
+    <span class=nt>&#34;Protocol&#34;</span><span class=p>:</span> <span class=s2>&#34;UDP&#34;</span><span class=p>,</span>
+    <span class=nt>&#34;Allow&#34;</span><span class=p>:</span> <span class=kc>false</span><span class=p>,</span>
+    <span class=nt>&#34;Port&#34;</span><span class=p>:</span> <span class=s2>&#34;0-65535&#34;</span><span class=p>,</span>
+    <span class=nt>&#34;IP&#34;</span><span class=p>:</span> <span class=s2>&#34;192.168.0.1-192.168.255.255&#34;</span>
+  <span class=p>},</span>
+  <span class=p>{</span>
+    <span class=nt>&#34;Name&#34;</span><span class=p>:</span> <span class=s2>&#34;allow RDP from .0.101&#34;</span><span class=p>,</span>
+    <span class=nt>&#34;Desc&#34;</span><span class=p>:</span> <span class=s2>&#34;4th priority, this rule will be disappeared&#34;</span><span class=p>,</span>
+    <span class=nt>&#34;Protocol&#34;</span><span class=p>:</span> <span class=s2>&#34;TCP&#34;</span><span class=p>,</span>
+    <span class=nt>&#34;Allow&#34;</span><span class=p>:</span> <span class=kc>true</span><span class=p>,</span>
+    <span class=nt>&#34;Port&#34;</span><span class=p>:</span> <span class=s2>&#34;3389&#34;</span><span class=p>,</span>
+    <span class=nt>&#34;IP&#34;</span><span class=p>:</span> <span class=s2>&#34;192.168.0.101&#34;</span>
+  <span class=p>}</span>
+<span class=p>]</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>最初のルール「allow HTTPS」では、広範囲の IP アドレスからの TCP 445 ポートアクセスを許可しています。</p>
+<p>また、2番目のルール「allow HTTP from .0.101」では、192.168.0.101 からの TCP 80,445,8080 ポートアクセスを許可しています。</p>
+<p>3番目のルール「deny TCP from 192.168.」では、192.168.0.1～.255.255 からのすべての TCP アクセスをブロックしています。
 ただし、最初のルールが優先されます。これは後ほどの<a href=#%E7%B5%90%E6%9E%9C%E7%A2%BA%E8%AA%8D>結果確認</a>で消えていることが確認できます。</p>
-<p>最後のルールは、2番目のルールが優先されるため、結果的に消えてしまいます。</p>
+<p>最後のルールは、3番目のルールが優先されるため、結果的に消えてしまいます。</p>
+<p>最後から2番目は、これまでと異なり、UDP についてのルールです。</p>
 <hr>
 <p><code>Name</code> と <code>Desc</code> は、分かりやすいように記入します。
 特に <code>Name</code> は Windows ファイアウォールの一覧に表示されます。</p>
@@ -122,31 +222,48 @@ wfw - 作ったものとか
 <pre tabindex=0><code>wfw example.json
 </code></pre><p>↓結果↓</p>
 <pre tabindex=0><code>----------------------------------------
-Name: allow HTTP
+Name: allow HTTPS
 Desc: 1st priority
 Action: allow
 Protocol: TCP
-Port: 80
+Port: 445
+IP: 192.168.0.1-192.168.255.255
+----------------------------------------
+Name: allow HTTP from .0.101
+Desc: 2nd priority
+Action: allow
+Protocol: TCP
+Port: 80,8080
 IP: 192.168.0.101
 ----------------------------------------
-Name: ban all 192.168
-Desc: 2nd priority
+Name: deny TCP from 192.168.(Except: Port of allow HTTP from .0.101)
+Desc: 3rd priority
 Action: BLOCK
 Protocol: TCP
-Port: 0-65535
+Port: 0-79,81-444,446-8079,8081-65535
+IP: 192.168.0.1-192.168.255.255
+----------------------------------------
+Name: deny TCP from 192.168.(Except: IP of allow HTTP from .0.101)
+Desc: 3rd priority
+Action: BLOCK
+Protocol: TCP
+Port: 80,8080
 IP: 192.168.0.1-192.168.0.100,192.168.0.102-192.168.255.255
 ----------------------------------------
-Name: ban all 192.168
-Desc: 2nd priority
+Name: deny UDP from 192.168.
+Desc: 3rd priority
 Action: BLOCK
-Protocol: TCP
-Port: 0-79,81-65535
-IP: 192.168.0.101
-</code></pre><p>結果として、3つのルールに分かれることがわかります。</p>
-<p><code>example.json</code> の最初のルールが最初に、2番目のルールが2つに分かれています。</p>
+Protocol: UDP
+Port: 0-65535
+IP: 192.168.0.1-192.168.255.255
+</code></pre><p>結果として、5つのルールに分かれることがわかります。</p>
+<p><code>example.json</code> の3番目のルールが2つに分かれています。</p>
 <p>最初の結果は言わずもがな。</p>
-<p>2番目は最初のルールにあった IP である 192.168.0.101 を避けてた IP になっていることがわかると思います。</p>
-<p>最後は元々の2番目のルールが分かれたもので、192.168.0.101 からの TCP 80 ポート以外のアクセスをブロックしています。</p>
+<p>2番目は最初のルールで TCP 445 がカバーされていますので、ポートから 445 がなくなっています。</p>
+<p>3番目は、もともとは TCP すべてをブロックするというものでした。
+それが、最初のルールにあったポートを避けて、極力広範囲の IP アドレスをカバーするようなルールに変更されています。</p>
+<p>4番目は、やはりもともとは TCP すべてをブロックするというものでした。
+こちらは、許可されている 192.168.0.101 以外の IP アドレスからは 80,8080 をブロックするルールになっています。</p>
 <h2 id=ルールのまとめ>ルールのまとめ</h2>
 <ul>
 <li>IP, Port は、, と - を使った複数指定が可能</li>
@@ -159,7 +276,7 @@ IP: 192.168.0.101
 </ul>
 <h2 id=コマンドの生成>コマンドの生成</h2>
 <p>先程までは結果の確認のためにリスト表示をしていました。</p>
-<p>今度は netsh advfirewall 向けのコマンドを生成してみます。</p>
+<p>今度は netsh advfirewall firewall 向けのコマンドを生成してみます。</p>
 <p>※<code>wfw</code> では直接 Windows ファイアウォールのルールを書き換える機能はありません。</p>
 <pre tabindex=0><code>wfw --format cmd example.json
 </code></pre><p>↓結果↓</p>
@@ -189,6 +306,26 @@ netsh advfirewall firewall add rule  name=&quot;ban all 192.168&quot;  enable=no
 <p>以下のようにすることで、最初から有効なルールを生成させることもできます。</p>
 <pre tabindex=0><code>wfw -f cmd  --enabled  example.json
 </code></pre><p>個人的にはこのオプションは使わず、無効化されたルールをよく確認した上で有効化することをおすすめします。</p>
+<h2 id=svg-ファイルの生成>SVG ファイルの生成</h2>
+<p>v0.4.0 からは、<code>--svg {ファイル名}</code> を引数に渡すことで、SVG ファイルを生成することができるようになりました。</p>
+<p><code>example.json</code> から生成した SVG を下に2つ(TCP と UDP)掲載します。</p>
+<pre tabindex=0><code>wfw --svg example example.json
+</code></pre><h3 id=tcp-example_tcpsvg>TCP (example_TCP.svg)</h3>
+<object type=image/svg+xml data=example_TCP.svg></object>
+<p><a href=#%E7%B5%90%E6%9E%9C%E7%A2%BA%E8%AA%8D>結果確認</a>で表示された内容が図示されています。</p>
+<p>縦軸が IP アドレス、横軸がポートです。</p>
+<p>マウスカーソルを当てると、まとまったルールがハイライトされ、下にその内容が表示されます。</p>
+<h3 id=udp-example_udpsvg>UDP (example_UDP.svg)</h3>
+<object type=image/svg+xml data=example_UDP.svg></object>
+<h2 id=結合の傾向の切り替え>結合の傾向の切り替え</h2>
+<p>これまでに掲載してきた結果表示は、極力 IP アドレスを広範囲にしてポートの方はぶつ切りにする傾向がありました。</p>
+<p>これは、オプション <code>--join</code> を指定することで、方針を切り替えることができます。</p>
+<p>SVG で結果を比較してみます</p>
+<h3 id=変更-ポートを広範囲にip-アドレスはぶつ切りでok>変更: ポートを広範囲に、IP アドレスはぶつ切りでOK</h3>
+<pre tabindex=0><code>wfw --join port --svg example_joinport example.json
+</code></pre><object type=image/svg+xml data=example_TCP_joinport.svg></object>
+<h3 id=比較用に再掲-ip-アドレスを広範囲にポートはぶつ切りでok>比較用に再掲: IP アドレスを広範囲に、ポートはぶつ切りでOK</h3>
+<object type=image/svg+xml data=example_TCP.svg></object>
 <div class=single_pagenav>
 <div class=single_pagenav_prev>
 <a href=/soft/pomi/>&#171; pomi &#171;</a>
@@ -204,14 +341,14 @@ netsh advfirewall firewall add rule  name=&quot;ban all 192.168&quot;  enable=no
 </div>
 <div class=latest_list_container>
 <ul>
+<li><a href=/soft/wfw/ title="Windows ファイアウォール向けのコマンドや可視化された SVG ファイルを生成するツール">
+<span style=display:inline-block;text-decoration:none>📄 </span>wfw<div class=latest_summary>Windows ファイアウォール向けのコマンドや可視化された SVG ファイルを生成するツール</div></a></li>
 <li><a href=/hugo_theme/04/ title="現在作成途中のテーマ cheep をもとに、ダークモードへの取り組みを解説します。
 今回は、比較的 Hugo 成分は少なめです。">
 <span style=display:inline-block;text-decoration:none>📄 </span>Hugo テーマ 4. ダークモード<div class=latest_summary>現在作成途中のテーマ cheep をもとに、ダークモードへの取り組みを解説します。
 今回は、比較的 </div></a></li>
 <li><a href=/hugo_theme/03/ title="現在作成途中のテーマ cheep をもとに、最近の更新リストを実装する方法を解説します。">
 <span style=display:inline-block;text-decoration:none>📄 </span>Hugo テーマ 3. 最近の更新リスト<div class=latest_summary>現在作成途中のテーマ cheep をもとに、最近の更新リストを実装する方法を解説します。</div></a></li>
-<li><a href=/soft/wfw/ title="Windows ファイアウォール向けのコマンドを生成するツール">
-<span style=display:inline-block;text-decoration:none>📄 </span>wfw<div class=latest_summary>Windows ファイアウォール向けのコマンドを生成するツール</div></a></li>
 <li><a href=/soft/git-konfig/ title=gitconfigをエクスポート/インポートするツール>
 <span style=display:inline-block;text-decoration:none>📄 </span>git-konfig<div class=latest_summary>gitconfigをエクスポート/インポートするツール</div></a></li>
 <li><a href=/soft/vvin/ title="Windows のウィンドウサイズを操作する CLI アプリ">
