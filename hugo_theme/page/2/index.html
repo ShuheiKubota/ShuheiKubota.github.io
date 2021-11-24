@@ -2,7 +2,7 @@
 <head>
 <meta charset=utf-8>
 <title>
-obit - 作ったものとか
+Hugo テーマ - 作ったものとか
 </title>
 <meta name=generator content="Hugo 0.89.4">
 <meta name=copyright content="(C) 2017 Shuhei Kubota"><meta name=description content="software application article hugo"><link rel=alternate type=application/atom+xml href=/index.xml>
@@ -14,88 +14,37 @@ obit - 作ったものとか
 <script type=application/javascript>var doNotTrack=!1;doNotTrack||(window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga('create','UA-105605213-1','auto'),ga('send','pageview'))</script>
 <script async src=https://www.google-analytics.com/analytics.js></script>
 <div class=header>
-<a href=/>作ったものとか</a>&nbsp;&#187; <a href=/soft/>Softs</a>
+<a href=/>作ったものとか</a>
 </div>
 <div class=main>
 <div class=toc-area>
-<nav id=TableOfContents>
-<ul>
-<li><a href=#ダウンロード>ダウンロード</a>
-<ul>
-<li><a href=#更新履歴>更新履歴</a></li>
-</ul>
-</li>
-<li><a href=#紹介>紹介</a>
-<ul>
-<li><a href=#ウィンドウやプロセスの終了を待つ>ウィンドウやプロセスの終了を待つ</a></li>
-<li><a href=#終了時に標準出力にウィンドウやプロセスの情報を出力する>終了時に標準出力にウィンドウやプロセスの情報を出力する</a></li>
-<li><a href=#対象にポップアップウィンドウが出た際に情報を出力する>対象にポップアップウィンドウが出た際に情報を出力する</a></li>
-</ul>
-</li>
-<li><a href=#使い方>使い方</a></li>
-</ul>
-</nav>
+<nav id=TableOfContents></nav>
 </div>
 <div class=main-area>
-<h1>obit</h1>
-<p>プロセスが終わったことを標準出力に出力するツール。</p>
-<h1 id=ダウンロード>ダウンロード</h1>
-<p>Windows のみの配布です。</p>
-<p><a href=https://github.com/shu-go/obit/releases>ダウンロード</a></p>
-<h2 id=更新履歴>更新履歴</h2>
+<h1>Hugo テーマ</h1>
+<p>Hugo のテーマを作ってみます。</p>
+<div class=list_container>
 <ul>
 <li>
-<p>0.3.2 (2020-02-02)</p>
-<ul>
-<li>内部的な変更。複数の対象を並列で監視する仕組みを若干変更。</li>
+<a href=/hugo_theme/00/>Hugo テーマ 0. 作成について</a> | <span class=lastmod>2021-10-24 15:59:05</span>
+<span class=tag><a href=/tags/hugo>hugo</a></span>
+<p>Hugoのサイトにあるテーマ作成についての文書(<a href=https://gohugo.io/themes/creating/>Create a Theme</a>, <a href=https://gohugo.io/templates/>Templates</a>の中)から、ポイントとなるであろう箇所を拾い出していきます。</p>
+<p class=readmore><a href=/hugo_theme/00/>&#171; more &#187;</a></p>
+<hr class=listsep>
+</li>
 </ul>
+<nav class=pagination>
+<ul class=pagination>
+<li>
+<a href=/hugo_theme/ aria-label=First><span aria-hidden=true>&#171;</span></a>
 </li>
 <li>
-<p>0.3.1 (2018-03-21)</p>
-<ul>
-<li>内部的な変更。複数の対象を並列で監視する仕組みを若干変更。</li>
-<li>現時点では、念の為に過去のバージョンも残しています。</li>
-</ul>
+<a href=/hugo_theme/ aria-label=Previous><span aria-hidden=true>&lt;</span></a>
 </li>
-<li>
-<p>0.3.0 (2018-03-18)</p>
-<ul>
-<li>公開～諸々</li>
+<li><a href=/hugo_theme/>1</a></li>
+<li class=active><a href=/hugo_theme/page/2/>2</a></li>
 </ul>
-</li>
-</ul>
-<h1 id=紹介>紹介</h1>
-<h2 id=ウィンドウやプロセスの終了を待つ>ウィンドウやプロセスの終了を待つ</h2>
-<p>コマンドライン引数にウィンドウタイトルやプロセス名を指定することで、対象のプロセスが終了したことを標準出力に出力します。</p>
-<p>既に立ち上がっているウィンドウ名を指定して、そのウィンドウを出しているアプリケーションの終了を待つ…ということができます。</p>
-<h2 id=終了時に標準出力にウィンドウやプロセスの情報を出力する>終了時に標準出力にウィンドウやプロセスの情報を出力する</h2>
-<p>例えば、メモ帳が起動している状態で、以下のコマンドを実行します。</p>
-<pre tabindex=0><code>&gt; obit メモ
-(待機状態になる)
-</code></pre><p>この状態で obit はメモ帳の終了を待機します。</p>
-<p>メモ帳を終了すると、obit は標準出力に終了したウィンドウやプロセスの情報を出力します。</p>
-<pre tabindex=0><code>&gt; obit
-無題 - メモ帳(notepad.exe)
-</code></pre><p>出力したものを通知アプリ等に渡せば、手元で終了がわかったり、ログに残したりすることができます。</p>
-<p>監視対象がなくなれば obit も終了します。
-ですので、obit の実行後になにか処理を書いておけば（バッチファイル等）、監視対象の終了直後の処理を後付けできることになります。</p>
-<h2 id=対象にポップアップウィンドウが出た際に情報を出力する>対象にポップアップウィンドウが出た際に情報を出力する</h2>
-<p>コマンドラインオプション <code>--popup</code> を指定すれば、そのウィンドウがなにか画面をポップアップさせた場合に通知を受け取れます。</p>
-<p>例えば、処理の終了をメッセージボックスに表示するようなアプリケーションに対しては、この機能が使えます。
-この場合、そのアプリケーションが終了しなくても obit は標準出力に出力します。</p>
-<pre tabindex=0><code>&gt; obit --popup あるアプリタイトル
-</code></pre><h1 id=使い方>使い方</h1>
-<p>上でほとんど使い方は紹介してしまいました。</p>
-<p><code>--popup</code> を指定する場合はウィンドウのタイトルを指定します。
-それ以外の場合（プロセスの終了を待つ）は、ウィンドウのタイトルもしくはプロセス名を指定します。</p>
-<p>詳細な使い方については、<code>obit help</code> を参照してください。</p>
-<div class=single_pagenav>
-<div class=single_pagenav_prev>
-<a href=/soft/glass/>&#171; glass &#171;</a>
-</div>
-<div class=single_pagenav_next>
-<a href=/soft/vim-deline/>&#187; vim:deline &#187;</a>
-</div>
+</nav>
 </div>
 </div>
 <div class=side-area>
