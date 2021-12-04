@@ -21,7 +21,11 @@ f - 作ったものとか
 <nav id=TableOfContents>
 <ul>
 <li><a href=#紹介>紹介</a></li>
-<li><a href=#ダウンロード>ダウンロード</a></li>
+<li><a href=#ダウンロード>ダウンロード</a>
+<ul>
+<li><a href=#更新履歴>更新履歴</a></li>
+</ul>
+</li>
 <li><a href=#使い方>使い方</a>
 <ul>
 <li><a href=#登録>登録</a></li>
@@ -29,6 +33,7 @@ f - 作ったものとか
 <li><a href=#削除>削除</a></li>
 <li><a href=#登録されたコマンドの一覧>登録されたコマンドの一覧</a></li>
 <li><a href=#登録が記録されているファイルの在処>登録が記録されているファイルの在処</a></li>
+<li><a href=#パイプ>パイプ</a></li>
 </ul>
 </li>
 <li><a href=#例>例</a></li>
@@ -50,6 +55,14 @@ f vl
 g --add vl veryverylonglongcommand -do anything
 </code></pre><h1 id=ダウンロード>ダウンロード</h1>
 <p><a href=https://github.com/shu-go/f/releases>ダウンロード</a></p>
+<h2 id=更新履歴>更新履歴</h2>
+<ul>
+<li>0.3.0 (2021-12-04)
+<ul>
+<li>パイプでつないだ複数プロセスの実行に対応</li>
+</ul>
+</li>
+</ul>
 <h1 id=使い方>使い方</h1>
 <h2 id=登録>登録</h2>
 <pre tabindex=0><code>f --add gitinit git init
@@ -78,6 +91,11 @@ f --add goinit go mod init
 </li>
 </ol>
 <p>1, 2 どちらにもファイルがない場合は、1 の方に登録内容を記録します。</p>
+<h2 id=パイプ>パイプ</h2>
+<pre tabindex=0><code>f --add clip cmd /c echo &quot;|&quot; clip
+
+f clip abc
+</code></pre><p>f に渡した引数は最初のコマンド(上の例では <code>cmd /c echo</code>)に渡されます。</p>
 <h1 id=例>例</h1>
 <pre tabindex=0><code>vim     gvim.exe [--remote-tab-silent]
 ginit   git [init]
@@ -102,12 +120,12 @@ l       lazygit []
 </div>
 <div class=latest_list_container>
 <ul>
+<li><a href=/soft/f/ title=自分なりのコマンドを作成できるコマンドラインツール>
+<span style=display:inline-block;text-decoration:none>📄 </span>f<div class=latest_summary>自分なりのコマンドを作成できるコマンドラインツール</div></a></li>
 <li><a href=/hugo_theme/05/ title='サイト内リンクとサイト外リンクを判別して target="_blank" を差し込むショートコードを題材に、Shortcode を解説します。'>
 <span style=display:inline-block;text-decoration:none>📄 </span>Hugo テーマ 5. Shortcode<div class=latest_summary>サイト内リンクとサイト外リンクを判別して target=&amp;quot;_blank&amp;quot; を差し</div></a></li>
 <li><a href=/article/20211121-ergodoxez/ title="JISレイアウトを参考にした、Ergodox EZ のキーボードレイアウト">
 <span style=display:inline-block;text-decoration:none>📄 </span>Ergodox EZ キーボードレイアウト<div class=latest_summary>JISレイアウトを参考にした、Ergodox EZ のキーボードレイアウト</div></a></li>
-<li><a href=/soft/f/ title=自分なりのコマンドを作成できるコマンドラインツール>
-<span style=display:inline-block;text-decoration:none>📄 </span>f<div class=latest_summary>自分なりのコマンドを作成できるコマンドラインツール</div></a></li>
 <li><a href=/soft/wfw/ title="Windows ファイアウォール向けのコマンドや可視化された SVG ファイルを生成するツール">
 <span style=display:inline-block;text-decoration:none>📄 </span>wfw<div class=latest_summary>Windows ファイアウォール向けのコマンドや可視化された SVG ファイルを生成するツール</div></a></li>
 <li><a href=/hugo_theme/04/ title="現在作成途中のテーマ cheep をもとに、ダークモードへの取り組みを解説します。
