@@ -4,7 +4,7 @@
 <title>
 wfw - 作ったものとか
 </title>
-<meta name=generator content="Hugo 0.89.4">
+<meta name=generator content="Hugo 0.91.2">
 <meta name=copyright content="(C) 2017 Shuhei Kubota"><meta name=description content="software application article hugo"><link rel=alternate type=application/atom+xml href=/index.xml>
 <meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1">
 <link href=/sass/cheep.min.423f4ebfde32451da7c713629b519ba65ee8fa567fbefeb577fa2153429b85bf.css rel=stylesheet>
@@ -75,6 +75,15 @@ wfw - 作ったものとか
 <p><a href=https://github.com/shu-go/wfw/releases>ダウンロード</a></p>
 <h2 id=更新履歴>更新履歴</h2>
 <ul>
+<li>0.7.1 (2021-12-23)
+<ul>
+<li><code>_misc</code> ディレクトリーにコマンドと SVG を生成するための補助ツールを同梱。
+同ディレクトリーに <code>wfw.exe</code> と入力 JSON をいれて、<code>compile_rules.bat</code> を実行してみてください。</li>
+<li>入力 JSON の <code>Name</code> が <code>#</code> から始まる場合は、そのルールを無視するようにした。</li>
+<li>IPの各オクテットの範囲を [0, 255] とし、きちんと連続するようにした。</li>
+<li>コマンドを生成する場合は改行を削除する。</li>
+</ul>
+</li>
 <li>0.4.0 (2021-11-06)
 <ul>
 <li><code>--svg {ファイル名}</code> オプションを渡すことで、<code>ファイル名_TCP.svg</code> といった命名規則で SVG ファイルを生成できるようになりました。</li>
@@ -341,14 +350,14 @@ netsh advfirewall firewall add rule  name=&quot;ban all 192.168&quot;  enable=no
 </div>
 <div class=latest_list_container>
 <ul>
+<li><a href=/soft/wfw/ title="Windows ファイアウォール向けのコマンドや可視化された SVG ファイルを生成するツール">
+<span style=display:inline-block;text-decoration:none>📄 </span>wfw<div class=latest_summary>Windows ファイアウォール向けのコマンドや可視化された SVG ファイルを生成するツール</div></a></li>
 <li><a href=/soft/f/ title=自分なりのコマンドを作成できるコマンドラインツール>
 <span style=display:inline-block;text-decoration:none>📄 </span>f<div class=latest_summary>自分なりのコマンドを作成できるコマンドラインツール</div></a></li>
 <li><a href=/hugo_theme/05/ title='サイト内リンクとサイト外リンクを判別して target="_blank" を差し込むショートコードを題材に、Shortcode を解説します。'>
 <span style=display:inline-block;text-decoration:none>📄 </span>Hugo テーマ 5. Shortcode<div class=latest_summary>サイト内リンクとサイト外リンクを判別して target=&amp;quot;_blank&amp;quot; を差し</div></a></li>
 <li><a href=/article/20211121-ergodoxez/ title="JISレイアウトを参考にした、Ergodox EZ のキーボードレイアウト">
 <span style=display:inline-block;text-decoration:none>📄 </span>Ergodox EZ キーボードレイアウト<div class=latest_summary>JISレイアウトを参考にした、Ergodox EZ のキーボードレイアウト</div></a></li>
-<li><a href=/soft/wfw/ title="Windows ファイアウォール向けのコマンドや可視化された SVG ファイルを生成するツール">
-<span style=display:inline-block;text-decoration:none>📄 </span>wfw<div class=latest_summary>Windows ファイアウォール向けのコマンドや可視化された SVG ファイルを生成するツール</div></a></li>
 <li><a href=/hugo_theme/04/ title="現在作成途中のテーマ cheep をもとに、ダークモードへの取り組みを解説します。
 今回は、比較的 Hugo 成分は少なめです。">
 <span style=display:inline-block;text-decoration:none>📄 </span>Hugo テーマ 4. ダークモード<div class=latest_summary>現在作成途中のテーマ cheep をもとに、ダークモードへの取り組みを解説します。
