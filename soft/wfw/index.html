@@ -171,7 +171,7 @@ wfw - 作ったものとか
     <span class=nt>&#34;Desc&#34;</span><span class=p>:</span> <span class=s2>&#34;1st priority&#34;</span><span class=p>,</span>
     <span class=nt>&#34;Protocol&#34;</span><span class=p>:</span> <span class=s2>&#34;TCP&#34;</span><span class=p>,</span>
     <span class=nt>&#34;Allow&#34;</span><span class=p>:</span> <span class=kc>true</span><span class=p>,</span>
-    <span class=nt>&#34;Port&#34;</span><span class=p>:</span> <span class=s2>&#34;445&#34;</span><span class=p>,</span>
+    <span class=nt>&#34;Port&#34;</span><span class=p>:</span> <span class=s2>&#34;443&#34;</span><span class=p>,</span>
     <span class=nt>&#34;IP&#34;</span><span class=p>:</span> <span class=s2>&#34;192.168.0.1-192.168.255.255&#34;</span>
   <span class=p>},</span>
   <span class=p>{</span>
@@ -179,7 +179,7 @@ wfw - 作ったものとか
     <span class=nt>&#34;Desc&#34;</span><span class=p>:</span> <span class=s2>&#34;2nd priority&#34;</span><span class=p>,</span>
     <span class=nt>&#34;Protocol&#34;</span><span class=p>:</span> <span class=s2>&#34;TCP&#34;</span><span class=p>,</span>
     <span class=nt>&#34;Allow&#34;</span><span class=p>:</span> <span class=kc>true</span><span class=p>,</span>
-    <span class=nt>&#34;Port&#34;</span><span class=p>:</span> <span class=s2>&#34;80,445,8080&#34;</span><span class=p>,</span>
+    <span class=nt>&#34;Port&#34;</span><span class=p>:</span> <span class=s2>&#34;80,443,8080&#34;</span><span class=p>,</span>
     <span class=nt>&#34;IP&#34;</span><span class=p>:</span> <span class=s2>&#34;192.168.0.101&#34;</span>
   <span class=p>},</span>
   <span class=p>{</span>
@@ -209,8 +209,8 @@ wfw - 作ったものとか
 <span class=p>]</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>最初のルール「allow HTTPS」では、広範囲の IP アドレスからの TCP 445 ポートアクセスを許可しています。</p>
-<p>また、2番目のルール「allow HTTP from .0.101」では、192.168.0.101 からの TCP 80,445,8080 ポートアクセスを許可しています。</p>
+</div><p>最初のルール「allow HTTPS」では、広範囲の IP アドレスからの TCP 443 ポートアクセスを許可しています。</p>
+<p>また、2番目のルール「allow HTTP from .0.101」では、192.168.0.101 からの TCP 80,443,8080 ポートアクセスを許可しています。</p>
 <p>3番目のルール「deny TCP from 192.168.」では、192.168.0.1～.255.255 からのすべての TCP アクセスをブロックしています。
 ただし、最初のルールが優先されます。これは後ほどの<a href=#%E7%B5%90%E6%9E%9C%E7%A2%BA%E8%AA%8D>結果確認</a>で消えていることが確認できます。</p>
 <p>最後のルールは、3番目のルールが優先されるため、結果的に消えてしまいます。</p>
@@ -235,7 +235,7 @@ Name: allow HTTPS
 Desc: 1st priority
 Action: allow
 Protocol: TCP
-Port: 445
+Port: 443
 IP: 192.168.0.1-192.168.255.255
 ----------------------------------------
 Name: allow HTTP from .0.101
@@ -249,7 +249,7 @@ Name: deny TCP from 192.168.(Except: Port of allow HTTP from .0.101)
 Desc: 3rd priority
 Action: BLOCK
 Protocol: TCP
-Port: 0-79,81-444,446-8079,8081-65535
+Port: 0-79,81-442,444-8079,8081-65535
 IP: 192.168.0.1-192.168.255.255
 ----------------------------------------
 Name: deny TCP from 192.168.(Except: IP of allow HTTP from .0.101)
@@ -268,7 +268,7 @@ IP: 192.168.0.1-192.168.255.255
 </code></pre><p>結果として、5つのルールに分かれることがわかります。</p>
 <p><code>example.json</code> の3番目のルールが2つに分かれています。</p>
 <p>最初の結果は言わずもがな。</p>
-<p>2番目は最初のルールで TCP 445 がカバーされていますので、ポートから 445 がなくなっています。</p>
+<p>2番目は最初のルールで TCP 443 がカバーされていますので、ポートから 443 がなくなっています。</p>
 <p>3番目は、もともとは TCP すべてをブロックするというものでした。
 それが、最初のルールにあったポートを避けて、極力広範囲の IP アドレスをカバーするようなルールに変更されています。</p>
 <p>4番目は、やはりもともとは TCP すべてをブロックするというものでした。
@@ -289,24 +289,31 @@ IP: 192.168.0.1-192.168.255.255
 <p>※<code>wfw</code> では直接 Windows ファイアウォールのルールを書き換える機能はありません。</p>
 <pre tabindex=0><code>wfw --format cmd example.json
 </code></pre><p>↓結果↓</p>
-<pre tabindex=0><code>netsh advfirewall firewall add rule  name=&quot;allow HTTP&quot;  enable=no
-  description=&quot;1st priority&quot;
-  dir=in  profile=any
-  action=allow
-  protocol=&quot;tcp&quot;  localport=&quot;80&quot;
-  remoteip=&quot;192.168.0.101&quot;
-netsh advfirewall firewall add rule  name=&quot;ban all 192.168&quot;  enable=no
-  description=&quot;2nd priority&quot;
-  dir=in  profile=any
-  action=block
-  protocol=&quot;tcp&quot;  localport=&quot;0-65535&quot;
-  remoteip=&quot;192.168.0.1-192.168.0.100,192.168.0.102-192.168.255.255&quot;
-netsh advfirewall firewall add rule  name=&quot;ban all 192.168&quot;  enable=no
-  description=&quot;2nd priority&quot;
-  dir=in  profile=any
-  action=block
-  protocol=&quot;tcp&quot;  localport=&quot;0-79,81-65535&quot;
-  remoteip=&quot;192.168.0.101&quot;
+<pre tabindex=0><code>netsh advfirewall firewall add rule  name=&quot;allow HTTPS&quot;  enable=no  
+    description=&quot;1st priority&quot;  dir=in  profile=any  
+    action=allow  
+    protocol=&quot;tcp&quot;  localport=&quot;443&quot;  
+    remoteip=&quot;192.168.0.1-192.168.255.255&quot;
+netsh advfirewall firewall add rule  name=&quot;allow HTTP from .0.101&quot;  enable=no  
+    description=&quot;2nd priority&quot;  dir=in  profile=any  
+    action=allow  
+    protocol=&quot;tcp&quot;  localport=&quot;80,8080&quot;  
+    remoteip=&quot;192.168.0.101&quot;
+netsh advfirewall firewall add rule  name=&quot;deny TCP from 192.168.(Except: Port of allow HTTP from .0.101)&quot;  enable=no  
+    description=&quot;3rd priority&quot;  dir=in  profile=any  
+    action=block  
+    protocol=&quot;tcp&quot;  localport=&quot;0-79,81-442,444-8079,8081-65535&quot;  
+    remoteip=&quot;192.168.0.1-192.168.255.255&quot;
+netsh advfirewall firewall add rule  name=&quot;deny TCP from 192.168.(Except: IP of allow HTTP from .0.101)&quot;  enable=no  
+    description=&quot;3rd priority&quot;  dir=in  profile=any  
+    action=block  
+    protocol=&quot;tcp&quot;  localport=&quot;80,8080&quot;  
+    remoteip=&quot;192.168.0.1-192.168.0.100,192.168.0.102-192.168.255.255&quot;
+netsh advfirewall firewall add rule  name=&quot;deny UDP from 192.168.&quot;  enable=no  
+    description=&quot;3rd priority&quot;  dir=in  profile=any  
+    action=block  
+    protocol=&quot;udp&quot;  localport=&quot;0-65535&quot;  
+    remoteip=&quot;192.168.0.1-192.168.255.255&quot;
 </code></pre><p>※ページの見た目のため、本来は入っていない改行を入れています。</p>
 <p>この結果を<strong>管理者権限で起動した</strong>コマンドプロンプトに貼り付ければ、Windows ファイアウォールのルールが追加されます。</p>
 <hr>
