@@ -34,8 +34,8 @@ wfw - 作ったものとか
 <li><a href=#コマンドの生成>コマンドの生成</a></li>
 <li><a href=#svg-ファイルの生成>SVG ファイルの生成</a>
 <ul>
-<li><a href=#tcp-example_tcpsvg>TCP (example_TCP.svg)</a></li>
-<li><a href=#udp-example_udpsvg>UDP (example_UDP.svg)</a></li>
+<li><a href=#tcp-example_ip_tcpsvg>TCP (example_ip_TCP.svg)</a></li>
+<li><a href=#udp-example_ip_udpsvg>UDP (example_ip_UDP.svg)</a></li>
 </ul>
 </li>
 <li><a href=#結合の傾向の切り替え>結合の傾向の切り替え</a>
@@ -75,6 +75,14 @@ wfw - 作ったものとか
 <p><a href=https://github.com/shu-go/wfw/releases>ダウンロード</a></p>
 <h2 id=更新履歴>更新履歴</h2>
 <ul>
+<li>0.9.0 (2022-01-08)
+<ul>
+<li><code>--svg</code> を廃止して <code>--format svg</code> に統合。</li>
+<li><code>--join</code> を廃止して <code>--aggregation</code> (諸略形は <code>-a</code>) に変更。意味合いは逆転しています。初期値は <code>ip</code></li>
+<li><code>--svg-name-format</code> の初期値を <code>%_{aggregation}_{protocol}.svg</code> に変更。</li>
+<li>SVGの出力先ディレクトリーを <code>--svg-dir</code> で指定できるようにした。</li>
+</ul>
+</li>
 <li>0.7.1 (2021-12-23)
 <ul>
 <li><code>_misc</code> ディレクトリーにコマンドと SVG を生成するための補助ツールを同梱。
@@ -169,40 +177,40 @@ wfw - 作ったものとか
   <span class=p>{</span>
     <span class=nt>&#34;Name&#34;</span><span class=p>:</span> <span class=s2>&#34;allow HTTPS&#34;</span><span class=p>,</span>
     <span class=nt>&#34;Desc&#34;</span><span class=p>:</span> <span class=s2>&#34;1st priority&#34;</span><span class=p>,</span>
-    <span class=nt>&#34;Protocol&#34;</span><span class=p>:</span> <span class=s2>&#34;TCP&#34;</span><span class=p>,</span>
     <span class=nt>&#34;Allow&#34;</span><span class=p>:</span> <span class=kc>true</span><span class=p>,</span>
+    <span class=nt>&#34;Protocol&#34;</span><span class=p>:</span> <span class=s2>&#34;TCP&#34;</span><span class=p>,</span>
     <span class=nt>&#34;Port&#34;</span><span class=p>:</span> <span class=s2>&#34;443&#34;</span><span class=p>,</span>
     <span class=nt>&#34;IP&#34;</span><span class=p>:</span> <span class=s2>&#34;192.168.0.1-192.168.255.255&#34;</span>
   <span class=p>},</span>
   <span class=p>{</span>
     <span class=nt>&#34;Name&#34;</span><span class=p>:</span> <span class=s2>&#34;allow HTTP from .0.101&#34;</span><span class=p>,</span>
     <span class=nt>&#34;Desc&#34;</span><span class=p>:</span> <span class=s2>&#34;2nd priority&#34;</span><span class=p>,</span>
-    <span class=nt>&#34;Protocol&#34;</span><span class=p>:</span> <span class=s2>&#34;TCP&#34;</span><span class=p>,</span>
     <span class=nt>&#34;Allow&#34;</span><span class=p>:</span> <span class=kc>true</span><span class=p>,</span>
+    <span class=nt>&#34;Protocol&#34;</span><span class=p>:</span> <span class=s2>&#34;TCP&#34;</span><span class=p>,</span>
     <span class=nt>&#34;Port&#34;</span><span class=p>:</span> <span class=s2>&#34;80,443,8080&#34;</span><span class=p>,</span>
     <span class=nt>&#34;IP&#34;</span><span class=p>:</span> <span class=s2>&#34;192.168.0.101&#34;</span>
   <span class=p>},</span>
   <span class=p>{</span>
     <span class=nt>&#34;Name&#34;</span><span class=p>:</span> <span class=s2>&#34;deny TCP from 192.168.&#34;</span><span class=p>,</span>
     <span class=nt>&#34;Desc&#34;</span><span class=p>:</span> <span class=s2>&#34;3rd priority&#34;</span><span class=p>,</span>
-    <span class=nt>&#34;Protocol&#34;</span><span class=p>:</span> <span class=s2>&#34;TCP&#34;</span><span class=p>,</span>
     <span class=nt>&#34;Allow&#34;</span><span class=p>:</span> <span class=kc>false</span><span class=p>,</span>
+    <span class=nt>&#34;Protocol&#34;</span><span class=p>:</span> <span class=s2>&#34;TCP&#34;</span><span class=p>,</span>
     <span class=nt>&#34;Port&#34;</span><span class=p>:</span> <span class=s2>&#34;0-65535&#34;</span><span class=p>,</span>
     <span class=nt>&#34;IP&#34;</span><span class=p>:</span> <span class=s2>&#34;192.168.0.1-192.168.255.255&#34;</span>
   <span class=p>},</span>
   <span class=p>{</span>
     <span class=nt>&#34;Name&#34;</span><span class=p>:</span> <span class=s2>&#34;deny UDP from 192.168.&#34;</span><span class=p>,</span>
     <span class=nt>&#34;Desc&#34;</span><span class=p>:</span> <span class=s2>&#34;3rd priority&#34;</span><span class=p>,</span>
-    <span class=nt>&#34;Protocol&#34;</span><span class=p>:</span> <span class=s2>&#34;UDP&#34;</span><span class=p>,</span>
     <span class=nt>&#34;Allow&#34;</span><span class=p>:</span> <span class=kc>false</span><span class=p>,</span>
+    <span class=nt>&#34;Protocol&#34;</span><span class=p>:</span> <span class=s2>&#34;UDP&#34;</span><span class=p>,</span>
     <span class=nt>&#34;Port&#34;</span><span class=p>:</span> <span class=s2>&#34;0-65535&#34;</span><span class=p>,</span>
     <span class=nt>&#34;IP&#34;</span><span class=p>:</span> <span class=s2>&#34;192.168.0.1-192.168.255.255&#34;</span>
   <span class=p>},</span>
   <span class=p>{</span>
     <span class=nt>&#34;Name&#34;</span><span class=p>:</span> <span class=s2>&#34;allow RDP from .0.101&#34;</span><span class=p>,</span>
     <span class=nt>&#34;Desc&#34;</span><span class=p>:</span> <span class=s2>&#34;4th priority, this rule will be disappeared&#34;</span><span class=p>,</span>
-    <span class=nt>&#34;Protocol&#34;</span><span class=p>:</span> <span class=s2>&#34;TCP&#34;</span><span class=p>,</span>
     <span class=nt>&#34;Allow&#34;</span><span class=p>:</span> <span class=kc>true</span><span class=p>,</span>
+    <span class=nt>&#34;Protocol&#34;</span><span class=p>:</span> <span class=s2>&#34;TCP&#34;</span><span class=p>,</span>
     <span class=nt>&#34;Port&#34;</span><span class=p>:</span> <span class=s2>&#34;3389&#34;</span><span class=p>,</span>
     <span class=nt>&#34;IP&#34;</span><span class=p>:</span> <span class=s2>&#34;192.168.0.101&#34;</span>
   <span class=p>}</span>
@@ -245,19 +253,19 @@ Protocol: TCP
 Port: 80,8080
 IP: 192.168.0.101
 ----------------------------------------
+Name: deny TCP from 192.168.(Except: Port of allow HTTPS)
+Desc: 3rd priority
+Action: BLOCK
+Protocol: TCP
+Port: 0-442,444-65535
+IP: 192.168.0.1-192.168.0.100,192.168.0.102-192.168.255.255
+----------------------------------------
 Name: deny TCP from 192.168.(Except: Port of allow HTTP from .0.101)
 Desc: 3rd priority
 Action: BLOCK
 Protocol: TCP
 Port: 0-79,81-442,444-8079,8081-65535
-IP: 192.168.0.1-192.168.255.255
-----------------------------------------
-Name: deny TCP from 192.168.(Except: IP of allow HTTP from .0.101)
-Desc: 3rd priority
-Action: BLOCK
-Protocol: TCP
-Port: 80,8080
-IP: 192.168.0.1-192.168.0.100,192.168.0.102-192.168.255.255
+IP: 192.168.0.101
 ----------------------------------------
 Name: deny UDP from 192.168.
 Desc: 3rd priority
@@ -265,14 +273,17 @@ Action: BLOCK
 Protocol: UDP
 Port: 0-65535
 IP: 192.168.0.1-192.168.255.255
-</code></pre><p>結果として、5つのルールに分かれることがわかります。</p>
-<p><code>example.json</code> の3番目のルールが2つに分かれています。</p>
+</code></pre><p>結果として、5つのルールに分かれることがわかります。
+(<code>example.json</code> の3番目のルールが2つに分かれています)</p>
 <p>最初の結果は言わずもがな。</p>
 <p>2番目は最初のルールで TCP 443 がカバーされていますので、ポートから 443 がなくなっています。</p>
-<p>3番目は、もともとは TCP すべてをブロックするというものでした。
-それが、最初のルールにあったポートを避けて、極力広範囲の IP アドレスをカバーするようなルールに変更されています。</p>
-<p>4番目は、やはりもともとは TCP すべてをブロックするというものでした。
-こちらは、許可されている 192.168.0.101 以外の IP アドレスからは 80,8080 をブロックするルールになっています。</p>
+<p>次は、先に4番目を見てみます。
+4番目は、もともとは TCP すべてをブロックするというものでした。
+それが 192.168.0.101 についてのブロックに変わっています。
+これらは、同IPアドレスで許可していたポートを避けるようになっています。</p>
+<p>3番目に戻りますと…
+3番目は、やはりもともとは TCP すべてをブロックするというものでした。
+それが、4番目で出てきた 192.168.0.101 以外のブロックルールに変わっています。</p>
 <h2 id=ルールのまとめ>ルールのまとめ</h2>
 <ul>
 <li>IP, Port は、, と - を使った複数指定が可能</li>
@@ -299,16 +310,16 @@ netsh advfirewall firewall add rule  name=&quot;allow HTTP from .0.101&quot;  en
     action=allow  
     protocol=&quot;tcp&quot;  localport=&quot;80,8080&quot;  
     remoteip=&quot;192.168.0.101&quot;
+netsh advfirewall firewall add rule  name=&quot;deny TCP from 192.168.(Except: Port of allow HTTPS)&quot;  enable=no  
+    description=&quot;3rd priority&quot;  dir=in  profile=any  
+    action=block  
+    protocol=&quot;tcp&quot;  localport=&quot;0-442,444-65535&quot;  
+    remoteip=&quot;192.168.0.1-192.168.0.100,192.168.0.102-192.168.255.255&quot;
 netsh advfirewall firewall add rule  name=&quot;deny TCP from 192.168.(Except: Port of allow HTTP from .0.101)&quot;  enable=no  
     description=&quot;3rd priority&quot;  dir=in  profile=any  
     action=block  
     protocol=&quot;tcp&quot;  localport=&quot;0-79,81-442,444-8079,8081-65535&quot;  
-    remoteip=&quot;192.168.0.1-192.168.255.255&quot;
-netsh advfirewall firewall add rule  name=&quot;deny TCP from 192.168.(Except: IP of allow HTTP from .0.101)&quot;  enable=no  
-    description=&quot;3rd priority&quot;  dir=in  profile=any  
-    action=block  
-    protocol=&quot;tcp&quot;  localport=&quot;80,8080&quot;  
-    remoteip=&quot;192.168.0.1-192.168.0.100,192.168.0.102-192.168.255.255&quot;
+    remoteip=&quot;192.168.0.101&quot;
 netsh advfirewall firewall add rule  name=&quot;deny UDP from 192.168.&quot;  enable=no  
     description=&quot;3rd priority&quot;  dir=in  profile=any  
     action=block  
@@ -323,25 +334,25 @@ netsh advfirewall firewall add rule  name=&quot;deny UDP from 192.168.&quot;  en
 <pre tabindex=0><code>wfw -f cmd  --enabled  example.json
 </code></pre><p>個人的にはこのオプションは使わず、無効化されたルールをよく確認した上で有効化することをおすすめします。</p>
 <h2 id=svg-ファイルの生成>SVG ファイルの生成</h2>
-<p>v0.4.0 からは、<code>--svg {ファイル名}</code> を引数に渡すことで、SVG ファイルを生成することができるようになりました。</p>
+<p><code>--format svg</code> を引数に渡すことで、SVG ファイルを生成することができます。</p>
 <p><code>example.json</code> から生成した SVG を下に2つ(TCP と UDP)掲載します。</p>
-<pre tabindex=0><code>wfw --svg example example.json
-</code></pre><h3 id=tcp-example_tcpsvg>TCP (example_TCP.svg)</h3>
-<object type=image/svg+xml data=example_TCP.svg></object>
+<pre tabindex=0><code>wfw --format svg example.json
+</code></pre><h3 id=tcp-example_ip_tcpsvg>TCP (example_ip_TCP.svg)</h3>
+<object type=image/svg+xml data=example_ip_TCP.svg></object>
 <p><a href=#%E7%B5%90%E6%9E%9C%E7%A2%BA%E8%AA%8D>結果確認</a>で表示された内容が図示されています。</p>
 <p>縦軸が IP アドレス、横軸がポートです。</p>
 <p>マウスカーソルを当てると、まとまったルールがハイライトされ、下にその内容が表示されます。</p>
-<h3 id=udp-example_udpsvg>UDP (example_UDP.svg)</h3>
-<object type=image/svg+xml data=example_UDP.svg></object>
+<h3 id=udp-example_ip_udpsvg>UDP (example_ip_UDP.svg)</h3>
+<object type=image/svg+xml data=example_ip_UDP.svg></object>
 <h2 id=結合の傾向の切り替え>結合の傾向の切り替え</h2>
-<p>これまでに掲載してきた結果表示は、極力 IP アドレスを広範囲にしてポートの方はぶつ切りにする傾向がありました。</p>
-<p>これは、オプション <code>--join</code> を指定することで、方針を切り替えることができます。</p>
+<p>これまでに掲載してきた結果表示は、極力 IP アドレスごとにまとめる傾向がありました。</p>
+<p>これは、オプション <code>--aggregation</code>(省略形は <code>-a</code>) を指定することで、方針を切り替えることができます。</p>
 <p>SVG で結果を比較してみます</p>
 <h3 id=変更-ポートを広範囲にip-アドレスはぶつ切りでok>変更: ポートを広範囲に、IP アドレスはぶつ切りでOK</h3>
-<pre tabindex=0><code>wfw --join port --svg example_joinport example.json
-</code></pre><object type=image/svg+xml data=example_TCP_joinport.svg></object>
+<pre tabindex=0><code>wfw -a port --format svg example.json
+</code></pre><object type=image/svg+xml data=example_port_TCP.svg></object>
 <h3 id=比較用に再掲-ip-アドレスを広範囲にポートはぶつ切りでok>比較用に再掲: IP アドレスを広範囲に、ポートはぶつ切りでOK</h3>
-<object type=image/svg+xml data=example_TCP.svg></object>
+<object type=image/svg+xml data=example_ip_TCP.svg></object>
 <div class=single_pagenav>
 <div class=single_pagenav_prev>
 <a href=/soft/pomi/>&#171; pomi &#171;</a>
