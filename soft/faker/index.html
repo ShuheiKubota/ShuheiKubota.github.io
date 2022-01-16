@@ -2,7 +2,7 @@
 <head>
 <meta charset=utf-8>
 <title>
-SESAME - 作ったものとか
+faker - 作ったものとか
 </title>
 <meta name=generator content="Hugo 0.92.0">
 <meta name=copyright content="(C) 2017 Shuhei Kubota"><meta name=description content="software application article hugo"><link rel=alternate type=application/atom+xml href=/index.xml>
@@ -14,103 +14,132 @@ SESAME - 作ったものとか
 <script type=application/javascript>var doNotTrack=!1;doNotTrack||(window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga('create','UA-105605213-1','auto'),ga('send','pageview'))</script>
 <script async src=https://www.google-analytics.com/analytics.js></script>
 <div class=header>
-<a href=/>作ったものとか</a>&nbsp;&#187; <a href=/article/>Articles</a>
+<a href=/>作ったものとか</a>&nbsp;&#187; <a href=/soft/>Softs</a>
 </div>
 <div class=main>
 <div class=toc-area>
 <nav id=TableOfContents>
 <ul>
-<li>
+<li><a href=#紹介>紹介</a></li>
+<li><a href=#ダウンロード>ダウンロード</a>
 <ul>
-<li><a href=#sesame-mini>SESAME mini</a>
-<ul>
-<li><a href=#小型ながら機能多し>小型ながら、機能多し</a></li>
-<li><a href=#公式が安かった>公式が安かった</a></li>
-<li><a href=#発送も早かった>発送も早かった</a></li>
-<li><a href=#bluetooth-での開閉はかなりスムーズ>Bluetooth での開閉はかなりスムーズ</a></li>
-<li><a href=#手ぶら解錠便利>手ぶら解錠便利</a></li>
-<li><a href=#オートロックは便利>オートロックは便利</a></li>
-<li><a href=#開閉の記録も残る>開閉の記録も残る</a></li>
+<li><a href=#更新履歴>更新履歴</a></li>
 </ul>
 </li>
-<li><a href=#wifiアクセスポイントでより便利に>WiFiアクセスポイントでより便利に</a>
+<li><a href=#使い方>使い方</a>
 <ul>
-<li><a href=#bluetooth-使わなくても制御可能>Bluetooth 使わなくても制御可能</a></li>
-<li><a href=#出先からも状況確認開閉が可能>出先からも状況確認、開閉が可能</a></li>
-<li><a href=#android-からワンタッチ開閉>Android からワンタッチ開閉</a></li>
+<li><a href=#登録>登録</a></li>
+<li><a href=#登録されたコマンドの実行>登録されたコマンドの実行</a></li>
+<li><a href=#サブコマンド>サブコマンド</a></li>
+<li><a href=#引数>引数</a></li>
+<li><a href=#削除>削除</a></li>
+<li><a href=#登録されたコマンドの一覧>登録されたコマンドの一覧</a></li>
+<li><a href=#登録が記録されているファイルの在処>登録が記録されているファイルの在処</a></li>
+<li><a href=#パイプ>パイプ</a></li>
 </ul>
 </li>
-</ul>
-</li>
+<li><a href=#例>例</a></li>
 </ul>
 </nav>
 </div>
 <div class=main-area>
-<h1>SESAME</h1>
-<span class=tag><a href=/tags/sesame>sesame</a></span>
-<p>スマートロック SESAME で自動化</p>
-<p>スマートロック SESAME で、お家の鍵を自動化して、Android からワンタッチで開閉できるようにしました。</p>
-<h2 id=sesame-mini>SESAME mini</h2>
-<p>装着については割愛。YouTube でも開封動画やレビューがあるので、そちらが参考になるかと思います。</p>
-<h3 id=小型ながら機能多し>小型ながら、機能多し</h3>
-<p>鍵のシェア（一時的なものを含む）ができるので、同居人がいる場合にも便利です。
-ゲストを迎える・貸し出す場合にも使えそうです。</p>
-<h3 id=公式が安かった>公式が安かった</h3>
-<p>私が検討してたタイミングでは、Makuake価格COME BACKセールということで、かなりの値引率で販売されていました。（記事執筆中もセール続行中。5000円値引き！）</p>
-<p>Amazonでも販売していますが、かなりお安く買えました。</p>
-<h3 id=発送も早かった>発送も早かった</h3>
-<p>発送はAmazon倉庫からのようで、翌々日には到着しました。</p>
-<h3 id=bluetooth-での開閉はかなりスムーズ>Bluetooth での開閉はかなりスムーズ</h3>
-<p>ただし、アプリを開いてから Bluetooth で接続するまでに数秒待たされることもあります。
-バックグラウンドで接続を維持しておいてくれると便利なんですが、そもそもそんな事ができるのか…？</p>
-<h3 id=手ぶら解錠便利>手ぶら解錠便利</h3>
-<p>WiFiアクセスポイントなしの場合はうまく機能しませんでした。</p>
-<p>wifiアクセスポイントを導入してからは安定して動作してくれています。
-感覚的には、家に帰ってきたら家族がそこにいて鍵を開けてくれたみたいです。</p>
-<h3 id=オートロックは便利>オートロックは便利</h3>
-<p>物理鍵のみの場合でも施錠を忘れたことはありませんが、放っておいても自動的に施錠してくれるのは安心感があります。</p>
-<p>ゴミ捨てとか、少しの外出で気にするのは嫌なので、2分にオートロックするように設定しています。5秒～4分の間で設定できます。</p>
-<h3 id=開閉の記録も残る>開閉の記録も残る</h3>
-<p>誰が開閉したか確認することもできるので、在宅状況もまあ分かるかな、といったところです。</p>
-<p>開閉時に通知を受け取ることもできます。</p>
-<h2 id=wifiアクセスポイントでより便利に>WiFiアクセスポイントでより便利に</h2>
-<p>アプリを立ち上げた後の認識までの時間が気になってしまったので、外から帰ってくる際に制御できるように WiFiアクセスポイントを追加で購入しました。</p>
-<p>これもセールで安くなっていました。</p>
-<h3 id=bluetooth-使わなくても制御可能>Bluetooth 使わなくても制御可能</h3>
-<p>アプリから手動で開閉する場合でも、Bluetooth 接続がいらなくなります。
-そうは言っても、アプリを立ち上げてからセサミを認識するまに時間がかかることには変わりませんが。</p>
-<h3 id=出先からも状況確認開閉が可能>出先からも状況確認、開閉が可能</h3>
-<p>アプリを見ればわかるは当然として、<a href=https://my.candyhouse.co/#/>公式サイトのダッシュボード</a>からも開閉状況や履歴が確認可能です。
-また、開閉の制御も可能です。</p>
-<h3 id=android-からワンタッチ開閉>Android からワンタッチ開閉</h3>
-<p>ホーム画面に開閉のみを行うショートカットを配置したいところですが、公式のアプリではできませんでした。</p>
-<p>代わりに <a href="https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts">HTTP Request Shortcuts</a> を入れて、そちらからAPIを叩いて開閉を行えるようにしました。</p>
-<h4 id=apiキー>APIキー</h4>
-<p>公式のダッシュボードから、APIキーを発行しておきます。
-ページを切り替えるとフル表示されなくなりますので、忘れずに控えておきます。</p>
-<h4 id=デバイスidを確認する>デバイスIDを確認する</h4>
-<p>ダッシュボードで持っているセサミを選択した場合のURLにデバイスIDが含まれています。</p>
-<p><code>https://my.candyhouse.co/#/distribution/{デバイスID}</code></p>
-<h4 id=http-request-shortcuts-を設定>HTTP Request Shortcuts を設定</h4>
-<p>開閉をする場合は、POST でAPIエンドポイント(URI)にアクセスする必要があります。</p>
-<p>ここらへんは<a href=https://docs.candyhouse.co/#control-sesame>APIドキュメント</a>に記載されています。</p>
-<p>設定内容はスクリーンショットで紹介しておきます。</p>
-<p><figure><img src=1.png>
-</figure>
-<figure><img src=2.png>
-</figure>
-<figure><img src=3.png>
-</figure>
-<figure><img src=4.png>
-</figure>
-<figure><img src=5.png>
-</figure>
-</p>
+<h1>faker</h1>
+<p>自分なりのコマンドを作成できるコマンドラインツール</p>
+<h1 id=紹介>紹介</h1>
+<p>長いコマンドラインを登録して、短いコマンドを作り出すことができます。</p>
+<pre tabindex=0><code>f --add {ショートカット名} コマンドライン...
+f --add vl verylongcommand -do something
+
+f vl
+</code></pre><p>この実行ファイルを別名でコピーすることで、また別のショートカットを登録することもできます。</p>
+<pre tabindex=0><code>copy f.exe g.exe
+
+g --add vl veryverylonglongcommand -do anything
+</code></pre><h1 id=ダウンロード>ダウンロード</h1>
+<p><a href=https://github.com/shu-go/faker/releases>ダウンロード</a></p>
+<p><a href=https://github.com/shu-go/f/releases>旧バージョン</a></p>
+<h2 id=更新履歴>更新履歴</h2>
+<ul>
+<li>0.1.1 (2022-01-16)
+<ul>
+<li>前身である f をもとに新規作成</li>
+<li>サブコマンドを定義できるようにした</li>
+</ul>
+</li>
+</ul>
+<h1 id=使い方>使い方</h1>
+<h2 id=登録>登録</h2>
+<pre tabindex=0><code>f --add gitinit git init
+f --add goinit go mod init
+</code></pre><p>※変更も <code>--add</code> で行います。</p>
+<h2 id=登録されたコマンドの実行>登録されたコマンドの実行</h2>
+<pre tabindex=0><code>f gitinit
+</code></pre><h2 id=サブコマンド>サブコマンド</h2>
+<p><code>--add</code> に <code>cmdA.cmdB</code> のようにピリオドで区切ったコマンド列を渡すことで、
+サブコマンドを定義することができます。</p>
+<pre tabindex=0><code># 登録
+
+f --add m.n notepad
+
+# 実行
+
+f m n
+</code></pre><p>サブコマンドのグループ自体も実行することも可能です。</p>
+<pre tabindex=0><code># 登録
+
+f --add m calc
+
+# 実行
+
+f m
+f m n
+</code></pre><h2 id=引数>引数</h2>
+<p>コマンドの実行時に引数を渡すこともできます。</p>
+<p>(上のサブコマンドの例からの続き)</p>
+<pre tabindex=0><code>f m n hoge.txt
+</code></pre><h2 id=削除>削除</h2>
+<pre tabindex=0><code>f --remove gitinit
+</code></pre><h2 id=登録されたコマンドの一覧>登録されたコマンドの一覧</h2>
+<pre tabindex=0><code>f
+</code></pre><h2 id=登録が記録されているファイルの在処>登録が記録されているファイルの在処</h2>
+<ol>
+<li>実行ファイルと同じ場所にある JSON ファイル
+<ul>
+<li>f.json</li>
+<li>実行ファイル名を変えた場合は、f の部分もそちらに読み替えてください。</li>
+</ul>
+</li>
+<li>OS標準(?)の設定ファイル置き場
+<ul>
+<li>{CONFIG_DIR}/faker/f.json</li>
+<li>Windows: %appdata%\faker\f.json</li>
+<li>他のOSの場合は、https://cs.opensource.google/go/go/+/go1.17.3:src/os/file.go;l=457 を参照してください。</li>
+</ul>
+</li>
+</ol>
+<p>1, 2 どちらにもファイルがない場合は、1 の方に登録内容を記録します。</p>
+<h2 id=パイプ>パイプ</h2>
+<pre tabindex=0><code>f --add clip cmd /c echo &quot;|&quot; clip
+
+f clip abc
+</code></pre><p>f に渡した引数は最初のコマンド(上の例では <code>cmd /c echo</code>)に渡されます。</p>
+<h1 id=例>例</h1>
+<pre tabindex=0><code>vim:    gvim.exe [--remote-tab-silent]
+ginit:  git [init]
+up:     go [get -u]
+bench:  go [test ./... -bench . -benchmem]
+minit:  go [mod init]
+test:   go [test ./...]
+tidy:   go [mod tidy]
+build:  go [build]
+  upx:  cmd [/c go build -trimpath -ldflags -s -ldflags -w &amp;&amp; upx --lzma *.exe]
+l:      lazygit []
+</code></pre>
 <div class=single_pagenav>
 <div class=single_pagenav_prev>
+<a href=/soft/git-konfig/>&#171; git-konfig &#171;</a>
 </div>
 <div class=single_pagenav_next>
-<a href=/article/20210210-raspi_dlna_omv/>&#187; Raspberry Pi 4 で DLNA/OMV セットアップ &#187;</a>
 </div>
 </div>
 </div>
