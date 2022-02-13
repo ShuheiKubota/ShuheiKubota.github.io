@@ -2,19 +2,17 @@
 <head>
 <meta charset=utf-8>
 <title>
-git-konfig - 作ったものとか
+Softs - 作ったものとか
 </title>
 <meta name=generator content="Hugo 0.92.2">
 <meta name=copyright content="(C) 2017 Shuhei Kubota"><meta name=description content="software application article hugo"><link rel=alternate type=application/atom+xml href=/index.xml>
-<meta property="og:title" content="git-konfig">
-<meta property="og:description" content="gitconfigをエクスポート/インポートするツール">
-<meta property="og:type" content="article">
-<meta property="og:url" content="/soft/git-konfig/"><meta property="article:section" content="soft">
-<meta property="article:published_time" content="2021-10-24T00:00:00+09:00">
-<meta property="article:modified_time" content="2022-01-28T22:57:31+09:00">
+<meta property="og:title" content="Softs">
+<meta property="og:description" content="software application article hugo">
+<meta property="og:type" content="website">
+<meta property="og:url" content="/soft/">
 <meta name=twitter:card content="summary">
-<meta name=twitter:title content="git-konfig">
-<meta name=twitter:description content="gitconfigをエクスポート/インポートするツール">
+<meta name=twitter:title content="Softs">
+<meta name=twitter:description content="software application article hugo">
 <meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1">
 <link href=/sass/cheep.min.6e89db585bd377e935dae248292e9a0ef1b93504fa354141b313ee0b9ce5041b.css rel=stylesheet>
 <link href=/css/style.css rel=stylesheet>
@@ -23,141 +21,36 @@ git-konfig - 作ったものとか
 <script type=application/javascript>var doNotTrack=!1;doNotTrack||(window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga('create','UA-105605213-1','auto'),ga('send','pageview'))</script>
 <script async src=https://www.google-analytics.com/analytics.js></script>
 <div class=header>
-<a href=/>作ったものとか</a>&nbsp;&#187; <a href=/soft/>Softs</a>
+<a href=/>作ったものとか</a>
 </div>
 <div class=main>
 <div class=toc-area>
-<nav id=TableOfContents>
-<ul>
-<li><a href=#ダウンロード>ダウンロード</a>
-<ul>
-<li><a href=#更新履歴>更新履歴</a></li>
-</ul>
-</li>
-<li><a href=#使い方>使い方</a>
-<ul>
-<li><a href=#一覧>一覧</a></li>
-<li><a href=#エクスポート>エクスポート</a>
-<ul>
-<li><a href=#alias-以外>alias 以外</a></li>
-</ul>
-</li>
-<li><a href=#インポート>インポート</a>
-<ul>
-<li><a href=#手入力>手入力</a></li>
-<li><a href=#alias-専用モード>alias 専用モード</a></li>
-<li><a href=#削除>削除</a></li>
-<li><a href=#設定ファイルの指定>設定ファイルの指定</a></li>
-<li><a href=#インポート内容のコメント>インポート内容のコメント</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</nav>
 </div>
 <div class=main-area>
-<h1>git-konfig</h1>
-<span class=tag><a href=/tags/git>git</a></span>
-<p>gitconfigをエクスポート/インポートするツール</p>
-<p>個人的には、主に alias を gist に上げたりするのに使っています。</p>
-<p>PATH の通っている場所に置くことで、<code>git konfig export</code> のように使うことができます。</p>
-<h1 id=ダウンロード>ダウンロード</h1>
-<p><a href=https://github.com/shu-go/git-konfig/releases>ダウンロード</a></p>
-<h2 id=更新履歴>更新履歴</h2>
+<h1>Softs</h1>
+<div class=list_container>
 <ul>
-<li>0.2.2 (2022-01-28)
-<ul>
-<li>list コマンドを追加</li>
-</ul>
-</li>
-<li>0.1.0 (2021-10-24)
-<ul>
-<li>新規</li>
-</ul>
+<li>
+<a href=/soft/minimize/>minimize</a> | <span class=lastmod>2021-10-24 15:59:05</span>
+<p>Windows のバッチファイル中から、コマンドプロンプトの最小化をするソフト。</p>
+<p class=readmore><a href=/soft/minimize/>&#171; more &#187;</a></p>
+<hr class=listsep>
 </li>
 </ul>
-<h1 id=使い方>使い方</h1>
-<h2 id=一覧>一覧</h2>
-<p><code>git konfig list</code> で system, global, local(, worktree)の内容を一覧表示します。</p>
-<p>例</p>
-<pre tabindex=0><code>core.autocrlf
-        input   worktree
-        input   local
-        false   global
-        false   system
-core.bare
-        false   worktree
-        false   local
-</code></pre><p>スコープによって値が違うものは赤文字で出力されます。</p>
-<p><code>--diff</code> オプションを指定すると、スコープごとに値が異なる項目のみを出力します。</p>
-<h2 id=エクスポート>エクスポート</h2>
-<pre tabindex=0><code>&gt; git konfig export
-alias.adp=add -p
-alias.adu=add -u
-alias.ci=commit
-alias.di=diff
-alias.logg=log --graph
-alias.st=status
-</code></pre><p><code>git config --list</code> 相当です。
-後述するように、<code>--global</code> などを指定することもできます。</p>
-<p>出力された内容をファイルや gist などに保存しておくのが良いでしょう。</p>
-<h3 id=alias-以外>alias 以外</h3>
-<p><code>--all</code> をつけることで、core.xxx や user.xxx も同時にエクスポートできます。</p>
-<p>他にも、<code>--section</code> (<code>-s</code>) でこれらのセクションを指定できます。</p>
-<pre tabindex=0><code>&gt; git konfig export --all
-(snip)
-
-&gt; git konfig export -s alias -s user -s core
-(snip)
-</code></pre><h2 id=インポート>インポート</h2>
-<p>※予め gitconfig を何らかの方法でバックアップしておくことをおすすめします。</p>
-<p><code>git konfig export</code> でエクスポートした内容をまとめてインポートできます。</p>
-<pre tabindex=0><code>&gt; git konfig export &gt; my.txt
-
-&gt; git konfig import &lt; my.txt
-</code></pre><h3 id=手入力>手入力</h3>
-<p>インポートする内容は標準入力から読み取っているため、1行ずつ手入力することもできます。</p>
-<pre tabindex=0><code>&gt; git konfig import
-alias.ci=commit
-
-
-</code></pre><p>※空行を2つおくと、内容の終端とみなされます。</p>
-<p>上の例では alias を設定していますが、別のセクションの設定をすることもできます。</p>
-<p><code>git config --add KEY VALUE</code> 相当です。</p>
-<h3 id=alias-専用モード>alias 専用モード</h3>
-<p><code>--alias</code> をつけると、行頭の <code>alias.</code> が不要になります。</p>
-<pre tabindex=0><code>&gt; git konfig import --alias
-ci=commit
-</code></pre><h3 id=削除>削除</h3>
-<p>= の右辺を空白にすることで、その設定を削除できます。</p>
-<pre tabindex=0><code>&gt; git konfig import
-alias.ci=commit
-
-alias.ci=
-</code></pre><h3 id=設定ファイルの指定>設定ファイルの指定</h3>
-<p><code>git config</code> でも指定できる、4つのオプションがあります。</p>
-<ul>
-<li><code>--system</code></li>
-<li><code>--global</code></li>
-<li><code>--local</code></li>
-<li><code>--worktree</code></li>
+<nav class=pagination>
+<ul class=pagination>
+<li>
+<a href=/soft/ aria-label=First><span aria-hidden=true>&#171;</span></a>
+</li>
+<li>
+<a href=/soft/page/3/ aria-label=Previous><span aria-hidden=true>&lt;</span></a>
+</li>
+<li><a href=/soft/>1</a></li>
+<li><a href=/soft/page/2/>2</a></li>
+<li><a href=/soft/page/3/>3</a></li>
+<li class=active><a href=/soft/page/4/>4</a></li>
 </ul>
-<p>なお、export においては、<code>--system --global --local</code> がデフォルトの読み込み元です。
-(git-konfig がなにかしているということではなく、単純に <code>git config</code> の挙動)</p>
-<p>また、import においては、<code>--local</code> がデフォルトの書き込み先です。</p>
-<p>そのため、特定の設定のみを操作したい場合は、明示的にオプションを指定してください。</p>
-<h3 id=インポート内容のコメント>インポート内容のコメント</h3>
-<p>インポート内容の中に含まれるコメントは無視されます。
-コメントは、行頭に <code>#</code> もしくは <code>//</code> を置いたものです。</p>
-<p>コメントはエクスポート時に書き込まれることはないのですが、ユーザーが自由にメモをしておける機能として付加機能として用意しています。</p>
-<div class=single_pagenav>
-<div class=single_pagenav_prev>
-<a href=/soft/wfw/>&#171; wfw &#171;</a>
-</div>
-<div class=single_pagenav_next>
-<a href=/soft/faker/>&#187; faker &#187;</a>
-</div>
+</nav>
 </div>
 </div>
 <div class=side-area>
