@@ -11,7 +11,7 @@ wfw - 作ったものとか
 <meta property="og:type" content="article">
 <meta property="og:url" content="/soft/wfw/"><meta property="article:section" content="soft">
 <meta property="article:published_time" content="2021-10-19T00:00:01+09:00">
-<meta property="article:modified_time" content="2022-01-12T21:38:16+09:00">
+<meta property="article:modified_time" content="2022-02-14T23:23:17+09:00">
 <meta name=twitter:card content="summary">
 <meta name=twitter:title content="wfw">
 <meta name=twitter:description content="Windows ファイアウォール向けのコマンドや可視化された SVG ファイルを生成するツール">
@@ -49,8 +49,8 @@ wfw - 作ったものとか
 </li>
 <li><a href=#結合の傾向の切り替え>結合の傾向の切り替え</a>
 <ul>
-<li><a href=#変更-ポートを広範囲にip-アドレスはぶつ切りでok>変更: ポートを広範囲に、IP アドレスはぶつ切りでOK</a></li>
-<li><a href=#比較用に再掲-ip-アドレスを広範囲にポートはぶつ切りでok>比較用に再掲: IP アドレスを広範囲に、ポートはぶつ切りでOK</a></li>
+<li><a href=#変更-極力ポート単位でまとめるipアドレスはぶつ切りで-ok>変更: 極力ポート単位でまとめる。IPアドレスはぶつ切りで OK</a></li>
+<li><a href=#比較用に再掲-極力-ip-アドレス単位でまとめるポートはぶつ切りで-ok>比較用に再掲: 極力 IP アドレス単位でまとめる。ポートはぶつ切りで OK</a></li>
 </ul>
 </li>
 </ul>
@@ -369,13 +369,13 @@ netsh advfirewall firewall add rule  name=&quot;deny UDP from 192.168.&quot;  en
 <h3 id=udp-example_ip_udpsvg>UDP (example_ip_UDP.svg)</h3>
 <object type=image/svg+xml data=example_ip_UDP.svg></object>
 <h2 id=結合の傾向の切り替え>結合の傾向の切り替え</h2>
-<p>これまでに掲載してきた結果表示は、極力 IP アドレスごとにまとめる傾向がありました。</p>
-<p>これは、オプション <code>--aggregation</code>(省略形は <code>-a</code>) を指定することで、方針を切り替えることができます。</p>
+<p>これまでに掲載してきた結果表示は、IP アドレス単位でまとめる傾向がありました。</p>
+<p>オプション <code>--aggregation</code>(省略形は <code>-a</code>) を指定することで、方針を切り替えることができます。</p>
 <p>SVG で結果を比較してみます</p>
-<h3 id=変更-ポートを広範囲にip-アドレスはぶつ切りでok>変更: ポートを広範囲に、IP アドレスはぶつ切りでOK</h3>
+<h3 id=変更-極力ポート単位でまとめるipアドレスはぶつ切りで-ok>変更: 極力ポート単位でまとめる。IPアドレスはぶつ切りで OK</h3>
 <pre tabindex=0><code>wfw -a port --format svg example.json
 </code></pre><object type=image/svg+xml data=example_port_TCP.svg></object>
-<h3 id=比較用に再掲-ip-アドレスを広範囲にポートはぶつ切りでok>比較用に再掲: IP アドレスを広範囲に、ポートはぶつ切りでOK</h3>
+<h3 id=比較用に再掲-極力-ip-アドレス単位でまとめるポートはぶつ切りで-ok>比較用に再掲: 極力 IP アドレス単位でまとめる。ポートはぶつ切りで OK</h3>
 <object type=image/svg+xml data=example_ip_TCP.svg></object>
 <div class=single_pagenav>
 <div class=single_pagenav_prev>
@@ -392,14 +392,14 @@ netsh advfirewall firewall add rule  name=&quot;deny UDP from 192.168.&quot;  en
 </div>
 <div class=latest_list_container>
 <ul>
+<li><a href=/soft/wfw/ title="Windows ファイアウォール向けのコマンドや可視化された SVG ファイルを生成するツール">
+<span style=display:inline-block;text-decoration:none>📄 </span>wfw<div class=latest_summary>Windows ファイアウォール向けのコマンドや可視化された SVG ファイルを生成するツール</div></a></li>
 <li><a href=/soft/gomodlocal/ title="go.mod の replace ディレクティブを操作するツール">
 <span style=display:inline-block;text-decoration:none>📄 </span>gomodlocal<div class=latest_summary>go.mod の replace ディレクティブを操作するツール</div></a></li>
 <li><a href=/soft/git-konfig/ title=gitconfigをエクスポート/インポートするツール>
 <span style=display:inline-block;text-decoration:none>📄 </span>git-konfig<div class=latest_summary>gitconfigをエクスポート/インポートするツール</div></a></li>
 <li><a href=/soft/faker/ title=自分なりのコマンドを作成できるコマンドラインツール>
 <span style=display:inline-block;text-decoration:none>📄 </span>faker<div class=latest_summary>自分なりのコマンドを作成できるコマンドラインツール</div></a></li>
-<li><a href=/soft/wfw/ title="Windows ファイアウォール向けのコマンドや可視化された SVG ファイルを生成するツール">
-<span style=display:inline-block;text-decoration:none>📄 </span>wfw<div class=latest_summary>Windows ファイアウォール向けのコマンドや可視化された SVG ファイルを生成するツール</div></a></li>
 <li><a href=/hugo_theme/05/ title='サイト内リンクとサイト外リンクを判別して target="_blank" を差し込むショートコードを題材に、Shortcode を解説します。'>
 <span style=display:inline-block;text-decoration:none>📄 </span>Hugo テーマ 5. Shortcode<div class=latest_summary>サイト内リンクとサイト外リンクを判別して target=&amp;quot;_blank&amp;quot; を差し</div></a></li>
 <li><a href=/article/20211121-ergodoxez/ title="JISレイアウトを参考にした、Ergodox EZ のキーボードレイアウト">
