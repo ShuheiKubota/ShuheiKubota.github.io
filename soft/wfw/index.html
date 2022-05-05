@@ -1,174 +1,12 @@
-<!doctype html><html lang>
-<head>
-<meta charset=utf-8>
-<title>
-wfw - 作ったものとか
-</title>
-<meta name=generator content="Hugo 0.92.2">
-<meta name=copyright content="(C) 2017 Shuhei Kubota"><meta name=description content="software application article hugo"><link rel=alternate type=application/atom+xml href=/index.xml>
-<meta property="og:title" content="wfw">
-<meta property="og:description" content="Windows ファイアウォール向けのコマンドや可視化された SVG ファイルを生成するツール">
-<meta property="og:type" content="article">
-<meta property="og:url" content="/soft/wfw/"><meta property="article:section" content="soft">
-<meta property="article:published_time" content="2021-10-19T00:00:01+09:00">
-<meta property="article:modified_time" content="2022-02-15T22:09:58+09:00">
-<meta name=twitter:card content="summary">
-<meta name=twitter:title content="wfw">
-<meta name=twitter:description content="Windows ファイアウォール向けのコマンドや可視化された SVG ファイルを生成するツール">
-<meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1">
-<link href=/sass/cheep.min.bbf6d3501c97cb50193996538549c1209d778a89852132c9276e1525561d1e4d.css rel=stylesheet>
-<link href=/css/style.css rel=stylesheet>
-</head>
-<body>
-<script type=application/javascript>var doNotTrack=!1;doNotTrack||(window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga('create','UA-105605213-1','auto'),ga('send','pageview'))</script>
-<script async src=https://www.google-analytics.com/analytics.js></script>
-<div class=header>
-<a href=/>作ったものとか</a>&nbsp;&#187; <a href=/soft/>Softs</a>
-</div>
-<div class=main>
-<div class=toc-area>
-<nav id=TableOfContents>
-<ul>
-<li><a href=#ダウンロード>ダウンロード</a>
-<ul>
-<li><a href=#更新履歴>更新履歴</a></li>
-</ul>
-</li>
-<li><a href=#使い方>使い方</a>
-<ul>
-<li><a href=#雛形の生成>雛形の生成</a></li>
-<li><a href=#雛形の解説>雛形の解説</a></li>
-<li><a href=#結果確認>結果確認</a></li>
-<li><a href=#ルールのまとめ>ルールのまとめ</a></li>
-<li><a href=#コマンドの生成>コマンドの生成</a></li>
-<li><a href=#svg-ファイルの生成>SVG ファイルの生成</a>
-<ul>
-<li><a href=#tcp-example_ip_tcpsvg>TCP (example_ip_TCP.svg)</a></li>
-<li><a href=#udp-example_ip_udpsvg>UDP (example_ip_UDP.svg)</a></li>
-</ul>
-</li>
-<li><a href=#まとまり傾向の切り替え>まとまり傾向の切り替え</a>
-<ul>
-<li><a href=#変更---aggregation-port>変更: <code>--aggregation port</code></a></li>
-<li><a href=#比較用に再掲---aggregation-ip>比較用に再掲: <code>--aggregation ip</code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</nav>
-</div>
-<div class=main-area>
-<h1>wfw</h1>
-<span class=lastmod>2022-02-15 22:09:58</span>
-<span class=tag><a href=/tags/system>system</a></span>
-<p>Windows ファイアウォール向けのコマンドや可視化された SVG ファイルを生成するツール</p>
-<p>ファイアウォールでよくある許可・拒否の流れとしては、列挙されたルール中で優先度順に最初にマッチしたルールに従うというものです。
-例えば、①最優先のルールで 80 ポートを許可しておき、②その次の優先度のルールとしてすべてのポートを拒否するというものです。</p>
-<p>こうしておくと、80 ポートは許可、それ以外のポートは拒否となるというものです。</p>
-<hr>
-<p>一方で、Windows のファイアウォールはルールの規則が特殊です。
-自分で優先度を指定できないため、必然的に拒否が優先されます。(例外はありますが)</p>
-<p>そのため、上の例のようなルールを作っておくと、②の「すべてのポートを拒否」が優先され、結果的に 80 ポートにアクセスできなくなります。</p>
-<p>Windows ファイアウォールでの正解は、①は変わらず 80 ポートを許可、②は 0-79および81-65535を拒否、となります。</p>
-<hr>
-<p>wfw では、優先度付きのルールで記述したファイアウォールルールを、Windows ファイアウォール仕様のルールに変換します。</p>
-<p>広範囲のブロックを基本として、そこに許可するIPアドレスやポートを追加していくスタイルのルールをJSONフォーマットを介して、以下の出力を行います。</p>
-<ul>
-<li>JSONファイル</li>
-<li>リスト形式</li>
-<li>netsh advfirewall firewall 向けのコマンド</li>
-<li>変換結果を可視化するための SVG ファイル</li>
-</ul>
-<p>なお、受信ルール(リモートIPアドレスとローカルポート)の指定のみサポートしています。</p>
-<h1 id=ダウンロード>ダウンロード</h1>
-<p><a href=https://github.com/shu-go/wfw/releases>ダウンロード</a></p>
-<h2 id=更新履歴>更新履歴</h2>
-<ul>
-<li>0.10.0 (2022-01-15)
-<ul>
-<li>生成されたルール内で IP アドレスやポートが格子状に分割されていたところを、<code>--aggregation</code> に則って結合するようにした。
-例えば、同一のルール内で port が 0-79,80,81-65535 のようになっていたのが、0-65535 になるようになります。</li>
-<li>優先度の高いルールによってくり抜かれたルールの名前から、IP 部分を抜いた、Port 部分を抜いた、といった表記を削除。
-最終的に複数のルールを結合した結果ルールを生成するにあたり、どの部分を抜いたというのを簡単には表現できないため。</li>
-<li>ヘルプ表示 (<code>wfw --help</code>) 内のオプションの説明を追記。</li>
-</ul>
-</li>
-<li>0.9.2 (2022-01-14)
-<ul>
-<li>依存関係の更新</li>
-</ul>
-</li>
-<li>0.9.1 (2022-01-13)
-<ul>
-<li>ルールの結合を、より <code>--aggregation</code> に沿ったものにした。</li>
-</ul>
-</li>
-<li>0.9.0 (2022-01-08)
-<ul>
-<li><code>--svg</code> を廃止して <code>--format svg</code> に統合。</li>
-<li><code>--join</code> を廃止して <code>--aggregation</code> (諸略形は <code>-a</code>) に変更。意味合いは逆転しています。初期値は <code>ip</code></li>
-<li><code>--svg-name-format</code> の初期値を <code>%_{aggregation}_{protocol}.svg</code> に変更。</li>
-<li>SVGの出力先ディレクトリーを <code>--svg-dir</code> で指定できるようにした。</li>
-</ul>
-</li>
-</ul>
-<div class=folding>
-<input type=checkbox id=history>
-<label for=history>
-過去の更新
-</label>
-<div class=content>
-<ul>
-<li>0.7.1 (2021-12-23)
-<ul>
-<li><code>_misc</code> ディレクトリーにコマンドと SVG を生成するための補助ツールを同梱。
-同ディレクトリーに <code>wfw.exe</code> と入力 JSON をいれて、<code>compile_rules.bat</code> を実行してみてください。</li>
-<li>入力 JSON の <code>Name</code> が <code>#</code> から始まる場合は、そのルールを無視するようにした。</li>
-<li>IPの各オクテットの範囲を [0, 255] とし、きちんと連続するようにした。</li>
-<li>コマンドを生成する場合は改行を削除する。</li>
-</ul>
-</li>
-<li>0.4.0 (2021-11-06)
-<ul>
-<li><code>--svg {ファイル名}</code> オプションを渡すことで、<code>ファイル名_TCP.svg</code> といった命名規則で SVG ファイルを生成できるようになりました。</li>
-<li><a href=#svg-%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%AE%E7%94%9F%E6%88%90>SVG ファイルの生成</a></li>
-</ul>
-</li>
-<li>0.3.1 (2021-10-30)
-<ul>
-<li>ルールが分割された場合に、分割後のルール名に分割の原因となったルール名を追記するようになりました。</li>
-<li>オプション &ndash;except でフォーマットを指定可能。(空白にすると追記なし)</li>
-</ul>
-</li>
-<li>0.2.0 (2021-10-28)
-<ul>
-<li>オプション &ndash;format=json を追加。入力ファイルと同じフォーマットで出力できるようなりました。</li>
-</ul>
-</li>
-<li>0.1.1 (2021-10-20)
-<ul>
-<li>TCP もしくは UDP 以外のプロトコルの場合、localport を出力しないようにしました。</li>
-</ul>
-</li>
-<li>0.1.0 (2021-10-19)
-<ul>
-<li>新規</li>
-</ul>
-</li>
-</ul>
-</div>
-</div>
-<h1 id=使い方>使い方</h1>
-<p>ルールを JSON 形式で作成し、<code>wfw</code> に読み込ませて、コマンドを生成させます。</p>
-<h2 id=雛形の生成>雛形の生成</h2>
-<pre tabindex=0><code>wfw gen
-</code></pre><p>ファイル <code>example.json</code> が作成されます。</p>
-<p>この内容を参考にして、ルールを作ります。</p>
-<h2 id=雛形の解説>雛形の解説</h2>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt> 1
+<!doctype html><html lang><head><meta charset=utf-8><title>wfw - 作ったものとか</title><meta name=generator content="Hugo 0.96.0"><meta name=copyright content="(C) 2017 Shuhei Kubota"><meta name=description content="software application article hugo"><link rel=alternate type=application/atom+xml href=/index.xml><meta property="og:title" content="wfw"><meta property="og:description" content="Windows ファイアウォール向けのコマンドや可視化された SVG ファイルを生成するツール"><meta property="og:type" content="article"><meta property="og:url" content="/soft/wfw/"><meta property="article:section" content="soft"><meta property="article:published_time" content="2021-10-19T00:00:01+09:00"><meta property="article:modified_time" content="2022-02-15T22:09:58+09:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="wfw"><meta name=twitter:description content="Windows ファイアウォール向けのコマンドや可視化された SVG ファイルを生成するツール"><meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1"><link href=/sass/cheep.min.bbf6d3501c97cb50193996538549c1209d778a89852132c9276e1525561d1e4d.css rel=stylesheet><link href=/css/style.css rel=stylesheet></head><body><script type=application/javascript>var doNotTrack=!1;doNotTrack||(window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-105605213-1","auto"),ga("send","pageview"))</script><script async src=https://www.google-analytics.com/analytics.js></script><div class=header><a href=/>作ったものとか</a>&nbsp;&#187; <a href=/soft/>Softs</a></div><div class=main><div class=toc-area><nav id=TableOfContents><ul><li><a href=#ダウンロード>ダウンロード</a><ul><li><a href=#更新履歴>更新履歴</a></li></ul></li><li><a href=#使い方>使い方</a><ul><li><a href=#雛形の生成>雛形の生成</a></li><li><a href=#雛形の解説>雛形の解説</a></li><li><a href=#結果確認>結果確認</a></li><li><a href=#ルールのまとめ>ルールのまとめ</a></li><li><a href=#コマンドの生成>コマンドの生成</a></li><li><a href=#svg-ファイルの生成>SVG ファイルの生成</a><ul><li><a href=#tcp-example_ip_tcpsvg>TCP (example_ip_TCP.svg)</a></li><li><a href=#udp-example_ip_udpsvg>UDP (example_ip_UDP.svg)</a></li></ul></li><li><a href=#まとまり傾向の切り替え>まとまり傾向の切り替え</a><ul><li><a href=#変更---aggregation-port>変更: <code>--aggregation port</code></a></li><li><a href=#比較用に再掲---aggregation-ip>比較用に再掲: <code>--aggregation ip</code></a></li></ul></li></ul></li></ul></nav></div><div class=main-area><h1>wfw</h1><span class=lastmod>2022-02-15 22:09:58</span>
+<span class=tag><a href=/tags/system>system</a></span><p>Windows ファイアウォール向けのコマンドや可視化された SVG ファイルを生成するツール</p><p>ファイアウォールでよくある許可・拒否の流れとしては、列挙されたルール中で優先度順に最初にマッチしたルールに従うというものです。
+例えば、①最優先のルールで 80 ポートを許可しておき、②その次の優先度のルールとしてすべてのポートを拒否するというものです。</p><p>こうしておくと、80 ポートは許可、それ以外のポートは拒否となるというものです。</p><hr><p>一方で、Windows のファイアウォールはルールの規則が特殊です。
+自分で優先度を指定できないため、必然的に拒否が優先されます。(例外はありますが)</p><p>そのため、上の例のようなルールを作っておくと、②の「すべてのポートを拒否」が優先され、結果的に 80 ポートにアクセスできなくなります。</p><p>Windows ファイアウォールでの正解は、①は変わらず 80 ポートを許可、②は 0-79および81-65535を拒否、となります。</p><hr><p>wfw では、優先度付きのルールで記述したファイアウォールルールを、Windows ファイアウォール仕様のルールに変換します。</p><p>広範囲のブロックを基本として、そこに許可するIPアドレスやポートを追加していくスタイルのルールをJSONフォーマットを介して、以下の出力を行います。</p><ul><li>JSONファイル</li><li>リスト形式</li><li>netsh advfirewall firewall 向けのコマンド</li><li>変換結果を可視化するための SVG ファイル</li></ul><p>なお、受信ルール(リモートIPアドレスとローカルポート)の指定のみサポートしています。</p><h1 id=ダウンロード>ダウンロード</h1><p><a href=https://github.com/shu-go/wfw/releases>ダウンロード</a></p><h2 id=更新履歴>更新履歴</h2><ul><li>0.10.0 (2022-01-15)<ul><li>生成されたルール内で IP アドレスやポートが格子状に分割されていたところを、<code>--aggregation</code> に則って結合するようにした。
+例えば、同一のルール内で port が 0-79,80,81-65535 のようになっていたのが、0-65535 になるようになります。</li><li>優先度の高いルールによってくり抜かれたルールの名前から、IP 部分を抜いた、Port 部分を抜いた、といった表記を削除。
+最終的に複数のルールを結合した結果ルールを生成するにあたり、どの部分を抜いたというのを簡単には表現できないため。</li><li>ヘルプ表示 (<code>wfw --help</code>) 内のオプションの説明を追記。</li></ul></li><li>0.9.2 (2022-01-14)<ul><li>依存関係の更新</li></ul></li><li>0.9.1 (2022-01-13)<ul><li>ルールの結合を、より <code>--aggregation</code> に沿ったものにした。</li></ul></li><li>0.9.0 (2022-01-08)<ul><li><code>--svg</code> を廃止して <code>--format svg</code> に統合。</li><li><code>--join</code> を廃止して <code>--aggregation</code> (諸略形は <code>-a</code>) に変更。意味合いは逆転しています。初期値は <code>ip</code></li><li><code>--svg-name-format</code> の初期値を <code>%_{aggregation}_{protocol}.svg</code> に変更。</li><li>SVGの出力先ディレクトリーを <code>--svg-dir</code> で指定できるようにした。</li></ul></li></ul><div class=folding><input type=checkbox id=history>
+<label for=history>過去の更新</label><div class=content><ul><li>0.7.1 (2021-12-23)<ul><li><code>_misc</code> ディレクトリーにコマンドと SVG を生成するための補助ツールを同梱。
+同ディレクトリーに <code>wfw.exe</code> と入力 JSON をいれて、<code>compile_rules.bat</code> を実行してみてください。</li><li>入力 JSON の <code>Name</code> が <code>#</code> から始まる場合は、そのルールを無視するようにした。</li><li>IPの各オクテットの範囲を [0, 255] とし、きちんと連続するようにした。</li><li>コマンドを生成する場合は改行を削除する。</li></ul></li><li>0.4.0 (2021-11-06)<ul><li><code>--svg {ファイル名}</code> オプションを渡すことで、<code>ファイル名_TCP.svg</code> といった命名規則で SVG ファイルを生成できるようになりました。</li><li><a href=#svg-%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%AE%E7%94%9F%E6%88%90>SVG ファイルの生成</a></li></ul></li><li>0.3.1 (2021-10-30)<ul><li>ルールが分割された場合に、分割後のルール名に分割の原因となったルール名を追記するようになりました。</li><li>オプション &ndash;except でフォーマットを指定可能。(空白にすると追記なし)</li></ul></li><li>0.2.0 (2021-10-28)<ul><li>オプション &ndash;format=json を追加。入力ファイルと同じフォーマットで出力できるようなりました。</li></ul></li><li>0.1.1 (2021-10-20)<ul><li>TCP もしくは UDP 以外のプロトコルの場合、localport を出力しないようにしました。</li></ul></li><li>0.1.0 (2021-10-19)<ul><li>新規</li></ul></li></ul></div></div><h1 id=使い方>使い方</h1><p>ルールを JSON 形式で作成し、<code>wfw</code> に読み込ませて、コマンドを生成させます。</p><h2 id=雛形の生成>雛形の生成</h2><pre tabindex=0><code>wfw gen
+</code></pre><p>ファイル <code>example.json</code> が作成されます。</p><p>この内容を参考にして、ルールを作ります。</p><h2 id=雛形の解説>雛形の解説</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -210,74 +48,56 @@ wfw - 作ったものとか
 </span><span class=lnt>40
 </span><span class=lnt>41
 </span><span class=lnt>42
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=p>[</span>
-  <span class=p>{</span>
-    <span class=nt>&#34;Name&#34;</span><span class=p>:</span> <span class=s2>&#34;allow HTTPS&#34;</span><span class=p>,</span>
-    <span class=nt>&#34;Desc&#34;</span><span class=p>:</span> <span class=s2>&#34;1st priority&#34;</span><span class=p>,</span>
-    <span class=nt>&#34;Allow&#34;</span><span class=p>:</span> <span class=kc>true</span><span class=p>,</span>
-    <span class=nt>&#34;Protocol&#34;</span><span class=p>:</span> <span class=s2>&#34;TCP&#34;</span><span class=p>,</span>
-    <span class=nt>&#34;Port&#34;</span><span class=p>:</span> <span class=s2>&#34;443&#34;</span><span class=p>,</span>
-    <span class=nt>&#34;IP&#34;</span><span class=p>:</span> <span class=s2>&#34;192.168.0.1-192.168.255.255&#34;</span>
-  <span class=p>},</span>
-  <span class=p>{</span>
-    <span class=nt>&#34;Name&#34;</span><span class=p>:</span> <span class=s2>&#34;allow HTTP from .0.101&#34;</span><span class=p>,</span>
-    <span class=nt>&#34;Desc&#34;</span><span class=p>:</span> <span class=s2>&#34;2nd priority&#34;</span><span class=p>,</span>
-    <span class=nt>&#34;Allow&#34;</span><span class=p>:</span> <span class=kc>true</span><span class=p>,</span>
-    <span class=nt>&#34;Protocol&#34;</span><span class=p>:</span> <span class=s2>&#34;TCP&#34;</span><span class=p>,</span>
-    <span class=nt>&#34;Port&#34;</span><span class=p>:</span> <span class=s2>&#34;80,443,8080&#34;</span><span class=p>,</span>
-    <span class=nt>&#34;IP&#34;</span><span class=p>:</span> <span class=s2>&#34;192.168.0.101&#34;</span>
-  <span class=p>},</span>
-  <span class=p>{</span>
-    <span class=nt>&#34;Name&#34;</span><span class=p>:</span> <span class=s2>&#34;deny TCP from 192.168.&#34;</span><span class=p>,</span>
-    <span class=nt>&#34;Desc&#34;</span><span class=p>:</span> <span class=s2>&#34;3rd priority&#34;</span><span class=p>,</span>
-    <span class=nt>&#34;Allow&#34;</span><span class=p>:</span> <span class=kc>false</span><span class=p>,</span>
-    <span class=nt>&#34;Protocol&#34;</span><span class=p>:</span> <span class=s2>&#34;TCP&#34;</span><span class=p>,</span>
-    <span class=nt>&#34;Port&#34;</span><span class=p>:</span> <span class=s2>&#34;0-65535&#34;</span><span class=p>,</span>
-    <span class=nt>&#34;IP&#34;</span><span class=p>:</span> <span class=s2>&#34;192.168.0.1-192.168.255.255&#34;</span>
-  <span class=p>},</span>
-  <span class=p>{</span>
-    <span class=nt>&#34;Name&#34;</span><span class=p>:</span> <span class=s2>&#34;deny UDP from 192.168.&#34;</span><span class=p>,</span>
-    <span class=nt>&#34;Desc&#34;</span><span class=p>:</span> <span class=s2>&#34;3rd priority&#34;</span><span class=p>,</span>
-    <span class=nt>&#34;Allow&#34;</span><span class=p>:</span> <span class=kc>false</span><span class=p>,</span>
-    <span class=nt>&#34;Protocol&#34;</span><span class=p>:</span> <span class=s2>&#34;UDP&#34;</span><span class=p>,</span>
-    <span class=nt>&#34;Port&#34;</span><span class=p>:</span> <span class=s2>&#34;0-65535&#34;</span><span class=p>,</span>
-    <span class=nt>&#34;IP&#34;</span><span class=p>:</span> <span class=s2>&#34;192.168.0.1-192.168.255.255&#34;</span>
-  <span class=p>},</span>
-  <span class=p>{</span>
-    <span class=nt>&#34;Name&#34;</span><span class=p>:</span> <span class=s2>&#34;allow RDP from .0.101&#34;</span><span class=p>,</span>
-    <span class=nt>&#34;Desc&#34;</span><span class=p>:</span> <span class=s2>&#34;4th priority, this rule will be disappeared&#34;</span><span class=p>,</span>
-    <span class=nt>&#34;Allow&#34;</span><span class=p>:</span> <span class=kc>true</span><span class=p>,</span>
-    <span class=nt>&#34;Protocol&#34;</span><span class=p>:</span> <span class=s2>&#34;TCP&#34;</span><span class=p>,</span>
-    <span class=nt>&#34;Port&#34;</span><span class=p>:</span> <span class=s2>&#34;3389&#34;</span><span class=p>,</span>
-    <span class=nt>&#34;IP&#34;</span><span class=p>:</span> <span class=s2>&#34;192.168.0.101&#34;</span>
-  <span class=p>}</span>
-<span class=p>]</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>最初のルール「allow HTTPS」では、広範囲の IP アドレスからの TCP 443 ポートアクセスを許可しています。</p>
-<p>また、2番目のルール「allow HTTP from .0.101」では、192.168.0.101 からの TCP 80,443,8080 ポートアクセスを許可しています。</p>
-<p>3番目のルール「deny TCP from 192.168.」では、192.168.0.1～.255.255 からのすべての TCP アクセスをブロックしています。
-ただし、最初のルールが優先されます。これは後ほどの<a href=#%E7%B5%90%E6%9E%9C%E7%A2%BA%E8%AA%8D>結果確認</a>で消えていることが確認できます。</p>
-<p>最後のルールは、3番目のルールが優先されるため、結果的に消えてしまいます。</p>
-<p>最後から2番目は、これまでと異なり、UDP についてのルールです。</p>
-<hr>
-<p><code>Name</code> と <code>Desc</code> は、分かりやすいように記入します。
-特に <code>Name</code> は Windows ファイアウォールの一覧に表示されます。</p>
-<p><code>Protocol</code> は、Windows ファイアウォールの「プロトコルの種類」にあるものを記入してください。
-<code>wfw</code> では特に内容のチェックまではしていません。</p>
-<p><code>Allow</code> は、<code>true</code> で接続を許可することを、<code>false</code> で接続をブロックすることを意味します。</p>
-<p><code>Port</code> で、許可・ブロックする(<code>Allow</code> の指定に依る)ポートを列挙します。
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=p>[</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;Name&#34;</span><span class=p>:</span> <span class=s2>&#34;allow HTTPS&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;Desc&#34;</span><span class=p>:</span> <span class=s2>&#34;1st priority&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;Allow&#34;</span><span class=p>:</span> <span class=kc>true</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;Protocol&#34;</span><span class=p>:</span> <span class=s2>&#34;TCP&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;Port&#34;</span><span class=p>:</span> <span class=s2>&#34;443&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;IP&#34;</span><span class=p>:</span> <span class=s2>&#34;192.168.0.1-192.168.255.255&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=p>},</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;Name&#34;</span><span class=p>:</span> <span class=s2>&#34;allow HTTP from .0.101&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;Desc&#34;</span><span class=p>:</span> <span class=s2>&#34;2nd priority&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;Allow&#34;</span><span class=p>:</span> <span class=kc>true</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;Protocol&#34;</span><span class=p>:</span> <span class=s2>&#34;TCP&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;Port&#34;</span><span class=p>:</span> <span class=s2>&#34;80,443,8080&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;IP&#34;</span><span class=p>:</span> <span class=s2>&#34;192.168.0.101&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=p>},</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;Name&#34;</span><span class=p>:</span> <span class=s2>&#34;deny TCP from 192.168.&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;Desc&#34;</span><span class=p>:</span> <span class=s2>&#34;3rd priority&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;Allow&#34;</span><span class=p>:</span> <span class=kc>false</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;Protocol&#34;</span><span class=p>:</span> <span class=s2>&#34;TCP&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;Port&#34;</span><span class=p>:</span> <span class=s2>&#34;0-65535&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;IP&#34;</span><span class=p>:</span> <span class=s2>&#34;192.168.0.1-192.168.255.255&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=p>},</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;Name&#34;</span><span class=p>:</span> <span class=s2>&#34;deny UDP from 192.168.&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;Desc&#34;</span><span class=p>:</span> <span class=s2>&#34;3rd priority&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;Allow&#34;</span><span class=p>:</span> <span class=kc>false</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;Protocol&#34;</span><span class=p>:</span> <span class=s2>&#34;UDP&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;Port&#34;</span><span class=p>:</span> <span class=s2>&#34;0-65535&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;IP&#34;</span><span class=p>:</span> <span class=s2>&#34;192.168.0.1-192.168.255.255&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=p>},</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;Name&#34;</span><span class=p>:</span> <span class=s2>&#34;allow RDP from .0.101&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;Desc&#34;</span><span class=p>:</span> <span class=s2>&#34;4th priority, this rule will be disappeared&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;Allow&#34;</span><span class=p>:</span> <span class=kc>true</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;Protocol&#34;</span><span class=p>:</span> <span class=s2>&#34;TCP&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;Port&#34;</span><span class=p>:</span> <span class=s2>&#34;3389&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;IP&#34;</span><span class=p>:</span> <span class=s2>&#34;192.168.0.101&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>]</span>
+</span></span></code></pre></td></tr></table></div></div><p>最初のルール「allow HTTPS」では、広範囲の IP アドレスからの TCP 443 ポートアクセスを許可しています。</p><p>また、2番目のルール「allow HTTP from .0.101」では、192.168.0.101 からの TCP 80,443,8080 ポートアクセスを許可しています。</p><p>3番目のルール「deny TCP from 192.168.」では、192.168.0.1～.255.255 からのすべての TCP アクセスをブロックしています。
+ただし、最初のルールが優先されます。これは後ほどの<a href=#%E7%B5%90%E6%9E%9C%E7%A2%BA%E8%AA%8D>結果確認</a>で消えていることが確認できます。</p><p>最後のルールは、3番目のルールが優先されるため、結果的に消えてしまいます。</p><p>最後から2番目は、これまでと異なり、UDP についてのルールです。</p><hr><p><code>Name</code> と <code>Desc</code> は、分かりやすいように記入します。
+特に <code>Name</code> は Windows ファイアウォールの一覧に表示されます。</p><p><code>Protocol</code> は、Windows ファイアウォールの「プロトコルの種類」にあるものを記入してください。
+<code>wfw</code> では特に内容のチェックまではしていません。</p><p><code>Allow</code> は、<code>true</code> で接続を許可することを、<code>false</code> で接続をブロックすることを意味します。</p><p><code>Port</code> で、許可・ブロックする(<code>Allow</code> の指定に依る)ポートを列挙します。
 &ldquo;80, 443&rdquo; のように単独のポートを , で区切って指定することも、0-65535 のように範囲を指定することもできます。
-(&ldquo;80, 443, 8080-8089&rdquo; のような指定も可能)</p>
-<p><code>IP</code> には、このルールが適用されるスコープ(その中の「リモート IP アドレス」)を指定します。
-<code>Port</code> 同様に、 , と - を使った複数指定ができます。</p>
-<h2 id=結果確認>結果確認</h2>
-<p>まずは、リスト表示で結果確認。</p>
-<pre tabindex=0><code>wfw example.json
-</code></pre><p>↓結果↓</p>
-<pre tabindex=0><code>----------------------------------------
+(&ldquo;80, 443, 8080-8089&rdquo; のような指定も可能)</p><p><code>IP</code> には、このルールが適用されるスコープ(その中の「リモート IP アドレス」)を指定します。
+<code>Port</code> 同様に、 , と - を使った複数指定ができます。</p><h2 id=結果確認>結果確認</h2><p>まずは、リスト表示で結果確認。</p><pre tabindex=0><code>wfw example.json
+</code></pre><p>↓結果↓</p><pre tabindex=0><code>----------------------------------------
 Name: allow HTTPS
 Desc: 1st priority
 Action: allow
@@ -313,148 +133,43 @@ Protocol: UDP
 Port: 0-65535
 IP: 192.168.0.1-192.168.255.255
 </code></pre><p>結果として、5つのルールに分かれることがわかります。
-(<code>example.json</code> の3番目のルールが2つに分かれています)</p>
-<p>最初の結果は言わずもがな。</p>
-<p>2番目は最初のルールで TCP 443 がカバーされていますので、ポートから 443 がなくなっています。</p>
-<p>次は、先に4番目を見てみます。
+(<code>example.json</code> の3番目のルールが2つに分かれています)</p><p>最初の結果は言わずもがな。</p><p>2番目は最初のルールで TCP 443 がカバーされていますので、ポートから 443 がなくなっています。</p><p>次は、先に4番目を見てみます。
 4番目は、もともとは TCP すべてをブロックするというものでした。
 それが 192.168.0.101 についてのブロックに変わっています。
-これらは、同IPアドレスで許可していたポートを避けるようになっています。</p>
-<p>3番目に戻りますと…
+これらは、同IPアドレスで許可していたポートを避けるようになっています。</p><p>3番目に戻りますと…
 3番目は、やはりもともとは TCP すべてをブロックするというものでした。
-それが、4番目で出てきた 192.168.0.101 以外のブロックルールに変わっています。</p>
-<h2 id=ルールのまとめ>ルールのまとめ</h2>
-<ul>
-<li>IP, Port は、, と - を使った複数指定が可能</li>
-<li>上にあるルールが優先される</li>
-<li>IP, Port は、優先されるルールの範囲を避けるように改変される
-<ul>
-<li>場合によっては、複数のルールに分割されることもある</li>
-</ul>
-</li>
-</ul>
-<h2 id=コマンドの生成>コマンドの生成</h2>
-<p>先程までは結果の確認のためにリスト表示をしていました。</p>
-<p>今度は netsh advfirewall firewall 向けのコマンドを生成してみます。</p>
-<p>※<code>wfw</code> では直接 Windows ファイアウォールのルールを書き換える機能はありません。</p>
-<pre tabindex=0><code>wfw --format cmd example.json
-</code></pre><p>↓結果↓</p>
-<pre tabindex=0><code>netsh advfirewall firewall add rule  name=&quot;allow HTTPS&quot;  enable=no  
-    description=&quot;1st priority&quot;  dir=in  profile=any  
+それが、4番目で出てきた 192.168.0.101 以外のブロックルールに変わっています。</p><h2 id=ルールのまとめ>ルールのまとめ</h2><ul><li>IP, Port は、, と - を使った複数指定が可能</li><li>上にあるルールが優先される</li><li>IP, Port は、優先されるルールの範囲を避けるように改変される<ul><li>場合によっては、複数のルールに分割されることもある</li></ul></li></ul><h2 id=コマンドの生成>コマンドの生成</h2><p>先程までは結果の確認のためにリスト表示をしていました。</p><p>今度は netsh advfirewall firewall 向けのコマンドを生成してみます。</p><p>※<code>wfw</code> では直接 Windows ファイアウォールのルールを書き換える機能はありません。</p><pre tabindex=0><code>wfw --format cmd example.json
+</code></pre><p>↓結果↓</p><pre tabindex=0><code>netsh advfirewall firewall add rule  name=&#34;allow HTTPS&#34;  enable=no  
+    description=&#34;1st priority&#34;  dir=in  profile=any  
     action=allow  
-    protocol=&quot;tcp&quot;  localport=&quot;443&quot;  
-    remoteip=&quot;192.168.0.1-192.168.255.255&quot;
-netsh advfirewall firewall add rule  name=&quot;allow HTTP from .0.101&quot;  enable=no  
-    description=&quot;2nd priority&quot;  dir=in  profile=any  
+    protocol=&#34;tcp&#34;  localport=&#34;443&#34;  
+    remoteip=&#34;192.168.0.1-192.168.255.255&#34;
+netsh advfirewall firewall add rule  name=&#34;allow HTTP from .0.101&#34;  enable=no  
+    description=&#34;2nd priority&#34;  dir=in  profile=any  
     action=allow  
-    protocol=&quot;tcp&quot;  localport=&quot;80,8080&quot;  
-    remoteip=&quot;192.168.0.101&quot;
-netsh advfirewall firewall add rule  name=&quot;deny TCP from 192.168.(Except: Port of allow HTTPS)&quot;  enable=no  
-    description=&quot;3rd priority&quot;  dir=in  profile=any  
+    protocol=&#34;tcp&#34;  localport=&#34;80,8080&#34;  
+    remoteip=&#34;192.168.0.101&#34;
+netsh advfirewall firewall add rule  name=&#34;deny TCP from 192.168.(Except: Port of allow HTTPS)&#34;  enable=no  
+    description=&#34;3rd priority&#34;  dir=in  profile=any  
     action=block  
-    protocol=&quot;tcp&quot;  localport=&quot;0-442,444-65535&quot;  
-    remoteip=&quot;192.168.0.1-192.168.0.100,192.168.0.102-192.168.255.255&quot;
-netsh advfirewall firewall add rule  name=&quot;deny TCP from 192.168.(Except: Port of allow HTTP from .0.101)&quot;  enable=no  
-    description=&quot;3rd priority&quot;  dir=in  profile=any  
+    protocol=&#34;tcp&#34;  localport=&#34;0-442,444-65535&#34;  
+    remoteip=&#34;192.168.0.1-192.168.0.100,192.168.0.102-192.168.255.255&#34;
+netsh advfirewall firewall add rule  name=&#34;deny TCP from 192.168.(Except: Port of allow HTTP from .0.101)&#34;  enable=no  
+    description=&#34;3rd priority&#34;  dir=in  profile=any  
     action=block  
-    protocol=&quot;tcp&quot;  localport=&quot;0-79,81-442,444-8079,8081-65535&quot;  
-    remoteip=&quot;192.168.0.101&quot;
-netsh advfirewall firewall add rule  name=&quot;deny UDP from 192.168.&quot;  enable=no  
-    description=&quot;3rd priority&quot;  dir=in  profile=any  
+    protocol=&#34;tcp&#34;  localport=&#34;0-79,81-442,444-8079,8081-65535&#34;  
+    remoteip=&#34;192.168.0.101&#34;
+netsh advfirewall firewall add rule  name=&#34;deny UDP from 192.168.&#34;  enable=no  
+    description=&#34;3rd priority&#34;  dir=in  profile=any  
     action=block  
-    protocol=&quot;udp&quot;  localport=&quot;0-65535&quot;  
-    remoteip=&quot;192.168.0.1-192.168.255.255&quot;
-</code></pre><p>※ページの見た目のため、本来は入っていない改行を入れています。</p>
-<p>この結果を<strong>管理者権限で起動した</strong>コマンドプロンプトに貼り付ければ、Windows ファイアウォールのルールが追加されます。</p>
-<hr>
-<p>デフォルトでは無効化されたルールを作成するコマンドを生成します。
-(上で生成されたコマンドでは <code>enable=no</code> となっていますね)</p>
-<p>以下のようにすることで、最初から有効なルールを生成させることもできます。</p>
-<pre tabindex=0><code>wfw -f cmd  --enabled  example.json
-</code></pre><p>個人的にはこのオプションは使わず、無効化されたルールをよく確認した上で有効化することをおすすめします。</p>
-<h2 id=svg-ファイルの生成>SVG ファイルの生成</h2>
-<p><code>--format svg</code> を引数に渡すことで、SVG ファイルを生成することができます。</p>
-<p><code>example.json</code> から生成した SVG を下に2つ(TCP と UDP)掲載します。</p>
-<pre tabindex=0><code>wfw --format svg example.json
-</code></pre><h3 id=tcp-example_ip_tcpsvg>TCP (example_ip_TCP.svg)</h3>
-<object type=image/svg+xml data=example_ip_TCP.svg></object>
-<p><a href=#%E7%B5%90%E6%9E%9C%E7%A2%BA%E8%AA%8D>結果確認</a>で表示された内容が図示されています。</p>
-<p>縦軸が IP アドレス、横軸がポートです。</p>
-<p>マウスカーソルを当てると、まとまったルールがハイライトされ、下にその内容が表示されます。</p>
-<h3 id=udp-example_ip_udpsvg>UDP (example_ip_UDP.svg)</h3>
-<object type=image/svg+xml data=example_ip_UDP.svg></object>
-<h2 id=まとまり傾向の切り替え>まとまり傾向の切り替え</h2>
-<p>これまでに掲載してきた結果表示は、1つの IP アドレス内で極力ポートをまとめる傾向がありました。</p>
-<p>オプション <code>--aggregation</code>(省略形は <code>-a</code>) を指定することで、方針を切り替えることができます。</p>
-<p>例えば <code>--aggregation ip</code> (デフォルト値) とした場合、接続元 IP アドレスごとで許可・拒否するポートをまとめ上げます。</p>
-<p>他の選択肢としては <code>--aggregation port</code> があり、こちらはローカルポートに着目して、対象となる IP アドレスをまとめ上げます。</p>
-<p>SVG で結果を比較してみます</p>
-<h3 id=変更---aggregation-port>変更: <code>--aggregation port</code></h3>
-<pre tabindex=0><code>wfw --aggregation port --format svg example.json
-</code></pre><object type=image/svg+xml data=example_port_TCP.svg></object>
-<h3 id=比較用に再掲---aggregation-ip>比較用に再掲: <code>--aggregation ip</code></h3>
-<pre tabindex=0><code>wfw --aggregation ip --format svg example.json
-</code></pre><object type=image/svg+xml data=example_ip_TCP.svg></object>
-<div class=single_pagenav>
-<div class=single_pagenav_prev>
-<a href=/soft/pomi/>&#171; pomi &#171;</a>
-</div>
-<div class=single_pagenav_next>
-<a href=/soft/git-konfig/>&#187; git-konfig &#187;</a>
-</div>
-</div>
-</div>
-<div class=side-area>
-<div class=profile><object type=image/svg+xml alt="follow chimatter at twitter" data="https://img.shields.io/badge/@chimatter-Follow-blue?style=for-the-badge&logo=twitter&logoColor=white&link=https://twitter.com/intent/user?screen_name=chimatter&link=https://twitter.com/intent/follow?screen_name=chimatter" style=margin-top:2em;margin-left:1em></object><p class=description>
-</p>
-</div>
-<div class=latest_list_container>
-<ul>
-<li><a href=/soft/wfw/ title="Windows ファイアウォール向けのコマンドや可視化された SVG ファイルを生成するツール">
-<span style=display:inline-block;text-decoration:none>📄 </span>wfw<span class=lastmod>2022-02-15 22:09:58</span><div class=latest_summary>Windows ファイアウォール向けのコマンドや可視化された SVG ファイルを生成するツール</div></a></li>
-<li><a href=/soft/gomodlocal/ title="go.mod の replace ディレクティブを操作するツール">
-<span style=display:inline-block;text-decoration:none>📄 </span>gomodlocal<span class=lastmod>2022-02-13 20:00:05</span><div class=latest_summary>go.mod の replace ディレクティブを操作するツール</div></a></li>
-<li><a href=/soft/git-konfig/ title=gitconfigをエクスポート/インポートするツール>
-<span style=display:inline-block;text-decoration:none>📄 </span>git-konfig<span class=lastmod>2022-01-28 22:57:31</span><div class=latest_summary>gitconfigをエクスポート/インポートするツール</div></a></li>
-<li><a href=/soft/faker/ title=自分なりのコマンドを作成できるコマンドラインツール>
-<span style=display:inline-block;text-decoration:none>📄 </span>faker<span class=lastmod>2022-01-16 22:10:26</span><div class=latest_summary>自分なりのコマンドを作成できるコマンドラインツール</div></a></li>
-<li><a href=/hugo_theme/05/ title='サイト内リンクとサイト外リンクを判別して target="_blank" を差し込むショートコードを題材に、Shortcode を解説します。'>
-<span style=display:inline-block;text-decoration:none>📄 </span>Hugo テーマ 5. Shortcode<span class=lastmod>2021-11-24 22:07:00</span><div class=latest_summary>サイト内リンクとサイト外リンクを判別して target=&amp;quot;_blank&amp;quot; を差し</div></a></li>
-<li><a href=/article/20211121-ergodoxez/ title="JISレイアウトを参考にした、Ergodox EZ のキーボードレイアウト">
-<span style=display:inline-block;text-decoration:none>📄 </span>Ergodox EZ キーボードレイアウト<span class=lastmod>2021-11-23 10:09:29</span><div class=latest_summary>JISレイアウトを参考にした、Ergodox EZ のキーボードレイアウト</div></a></li>
-<li><a href=/hugo_theme/04/ title="現在作成途中のテーマ cheep をもとに、ダークモードへの取り組みを解説します。
-今回は、比較的 Hugo 成分は少なめです。">
-<span style=display:inline-block;text-decoration:none>📄 </span>Hugo テーマ 4. ダークモード<span class=lastmod>2021-11-01 22:39:58</span><div class=latest_summary>現在作成途中のテーマ cheep をもとに、ダークモードへの取り組みを解説します。
-今回は、比較的 </div></a></li>
-<li><a href=/hugo_theme/03/ title="現在作成途中のテーマ cheep をもとに、最近の更新リストを実装する方法を解説します。">
-<span style=display:inline-block;text-decoration:none>📄 </span>Hugo テーマ 3. 最近の更新リスト<span class=lastmod>2021-10-31 20:25:42</span><div class=latest_summary>現在作成途中のテーマ cheep をもとに、最近の更新リストを実装する方法を解説します。</div></a></li>
-<li><a href=/soft/ts/ title=標準入力にタイムスタンプを付加するコマンドラインツール>
-<span style=display:inline-block;text-decoration:none>📄 </span>ts<span class=lastmod>2021-10-24 15:59:05</span><div class=latest_summary>標準入力にタイムスタンプを付加するコマンドラインツール</div></a></li>
-<li><a href=/soft/pmsync/ title="ポメラSyncされたメモを操作するツール 刷新版">
-<span style=display:inline-block;text-decoration:none>📄 </span>pmsync<span class=lastmod>2021-10-24 15:59:05</span><div class=latest_summary>ポメラSyncされたメモを操作するツール 刷新版</div></a></li>
-</ul>
-</div>
-<div class=tags_container>
-<ul>
-<li class=tag><a href=/tags/hugo>hugo<span class=tag_count>7</span></a></li>
-<li class=tag><a href=/tags/pomera>pomera<span class=tag_count>2</span></a></li>
-<li class=tag><a href=/tags/system>system<span class=tag_count>2</span></a></li>
-<li class=tag><a href=/tags/ergodox>ergodox<span class=tag_count>1</span></a></li>
-<li class=tag><a href=/tags/git>git<span class=tag_count>1</span></a></li>
-<li class=tag><a href=/tags/go>go<span class=tag_count>1</span></a></li>
-<li class=tag><a href=/tags/raspberrypi>raspberrypi<span class=tag_count>1</span></a></li>
-<li class=tag><a href=/tags/sesame>sesame<span class=tag_count>1</span></a></li>
-<li class=tag><a href=/tags/vim>vim<span class=tag_count>1</span></a></li>
-</ul>
-</div>
-</div>
-</div>
-<div class=footer>
-Top: <a href=/>作ったものとか</a> | <a rel=alternate type=application/atom+xml href=/index.xml>Feed</a><br>
-(C) 2017 Shuhei Kubota<br>
-Powered by <a href=https://gohugo.io/>Hugo</a><br>
-</div>
-<script src=/js/cheep.min.c8aa4e25f24c3c7a87b52a8af333f9d6da1d9ea92dbb4763e9dfcf6e870c4f5f.js></script>
-<script>document.addEventListener("DOMContentLoaded",function(){for(var c=document.querySelectorAll(".lastmod"),b=0,d,a;b<c.length;b++)d=c[b],replaceSince(d);a=document.createElement("link"),a.setAttribute("rel","stylesheet"),a.setAttribute("type","text/css"),window.matchMedia('(prefers-color-scheme: dark)').matches?a.setAttribute("href","/css/syntax_dark.min.469143767ea04187178554098706261a93240935d358191abf6c9bb907314466.css"):a.setAttribute("href","/css/syntax.min.fcf7b5800a9ffc8869d8e5e99d09d97efa5b3e788c2eecc588e0ad09f499afde.css"),document.getElementsByTagName("head")[0].appendChild(a)})</script>
-</body>
-</html>
+    protocol=&#34;udp&#34;  localport=&#34;0-65535&#34;  
+    remoteip=&#34;192.168.0.1-192.168.255.255&#34;
+</code></pre><p>※ページの見た目のため、本来は入っていない改行を入れています。</p><p>この結果を<strong>管理者権限で起動した</strong>コマンドプロンプトに貼り付ければ、Windows ファイアウォールのルールが追加されます。</p><hr><p>デフォルトでは無効化されたルールを作成するコマンドを生成します。
+(上で生成されたコマンドでは <code>enable=no</code> となっていますね)</p><p>以下のようにすることで、最初から有効なルールを生成させることもできます。</p><pre tabindex=0><code>wfw -f cmd  --enabled  example.json
+</code></pre><p>個人的にはこのオプションは使わず、無効化されたルールをよく確認した上で有効化することをおすすめします。</p><h2 id=svg-ファイルの生成>SVG ファイルの生成</h2><p><code>--format svg</code> を引数に渡すことで、SVG ファイルを生成することができます。</p><p><code>example.json</code> から生成した SVG を下に2つ(TCP と UDP)掲載します。</p><pre tabindex=0><code>wfw --format svg example.json
+</code></pre><h3 id=tcp-example_ip_tcpsvg>TCP (example_ip_TCP.svg)</h3><object type=image/svg+xml data=example_ip_TCP.svg></object><p><a href=#%E7%B5%90%E6%9E%9C%E7%A2%BA%E8%AA%8D>結果確認</a>で表示された内容が図示されています。</p><p>縦軸が IP アドレス、横軸がポートです。</p><p>マウスカーソルを当てると、まとまったルールがハイライトされ、下にその内容が表示されます。</p><h3 id=udp-example_ip_udpsvg>UDP (example_ip_UDP.svg)</h3><object type=image/svg+xml data=example_ip_UDP.svg></object><h2 id=まとまり傾向の切り替え>まとまり傾向の切り替え</h2><p>これまでに掲載してきた結果表示は、1つの IP アドレス内で極力ポートをまとめる傾向がありました。</p><p>オプション <code>--aggregation</code>(省略形は <code>-a</code>) を指定することで、方針を切り替えることができます。</p><p>例えば <code>--aggregation ip</code> (デフォルト値) とした場合、接続元 IP アドレスごとで許可・拒否するポートをまとめ上げます。</p><p>他の選択肢としては <code>--aggregation port</code> があり、こちらはローカルポートに着目して、対象となる IP アドレスをまとめ上げます。</p><p>SVG で結果を比較してみます</p><h3 id=変更---aggregation-port>変更: <code>--aggregation port</code></h3><pre tabindex=0><code>wfw --aggregation port --format svg example.json
+</code></pre><object type=image/svg+xml data=example_port_TCP.svg></object><h3 id=比較用に再掲---aggregation-ip>比較用に再掲: <code>--aggregation ip</code></h3><pre tabindex=0><code>wfw --aggregation ip --format svg example.json
+</code></pre><object type=image/svg+xml data=example_ip_TCP.svg></object><div class=single_pagenav><div class=single_pagenav_prev><a href=/soft/pomi/>&#171; pomi &#171;</a></div><div class=single_pagenav_next><a href=/soft/git-konfig/>&#187; git-konfig &#187;</a></div></div></div><div class=side-area><div class=profile><object type=image/svg+xml alt="follow chimatter at twitter" data="https://img.shields.io/badge/@chimatter-Follow-blue?style=for-the-badge&logo=twitter&logoColor=white&link=https://twitter.com/intent/user?screen_name=chimatter&link=https://twitter.com/intent/follow?screen_name=chimatter" style=margin-top:2em;margin-left:1em></object><p class=description></p></div><div class=latest_list_container><ul><li><a href=/golang/stacktrace/ title="Go言語のパッケージ: 冗長なスタックトレースを簡素化して出力します。"><span style=display:inline-block;text-decoration:none>📄 </span>Go言語でのスタックトレースを簡素化する<span class=lastmod>2022-05-05 23:24:00</span><div class=latest_summary>Go言語のパッケージ: 冗長なスタックトレースを簡素化して出力します。</div></a></li><li><a href=/soft/wfw/ title="Windows ファイアウォール向けのコマンドや可視化された SVG ファイルを生成するツール"><span style=display:inline-block;text-decoration:none>📄 </span>wfw<span class=lastmod>2022-02-15 22:09:58</span><div class=latest_summary>Windows ファイアウォール向けのコマンドや可視化された SVG ファイルを生成するツール</div></a></li><li><a href=/soft/gomodlocal/ title="go.mod の replace ディレクティブを操作するツール"><span style=display:inline-block;text-decoration:none>📄 </span>gomodlocal<span class=lastmod>2022-02-13 20:00:05</span><div class=latest_summary>go.mod の replace ディレクティブを操作するツール</div></a></li><li><a href=/soft/git-konfig/ title=gitconfigをエクスポート/インポートするツール><span style=display:inline-block;text-decoration:none>📄 </span>git-konfig<span class=lastmod>2022-01-28 22:57:31</span><div class=latest_summary>gitconfigをエクスポート/インポートするツール</div></a></li><li><a href=/soft/faker/ title=自分なりのコマンドを作成できるコマンドラインツール><span style=display:inline-block;text-decoration:none>📄 </span>faker<span class=lastmod>2022-01-16 22:10:26</span><div class=latest_summary>自分なりのコマンドを作成できるコマンドラインツール</div></a></li><li><a href=/hugo_theme/05/ title='サイト内リンクとサイト外リンクを判別して target="_blank" を差し込むショートコードを題材に、Shortcode を解説します。'><span style=display:inline-block;text-decoration:none>📄 </span>Hugo テーマ 5. Shortcode<span class=lastmod>2021-11-24 22:07:00</span><div class=latest_summary>サイト内リンクとサイト外リンクを判別して target=&amp;quot;_blank&amp;quot; を差し</div></a></li><li><a href=/article/20211121-ergodoxez/ title="JISレイアウトを参考にした、Ergodox EZ のキーボードレイアウト"><span style=display:inline-block;text-decoration:none>📄 </span>Ergodox EZ キーボードレイアウト<span class=lastmod>2021-11-23 10:09:29</span><div class=latest_summary>JISレイアウトを参考にした、Ergodox EZ のキーボードレイアウト</div></a></li><li><a href=/hugo_theme/04/ title="現在作成途中のテーマ cheep をもとに、ダークモードへの取り組みを解説します。
+今回は、比較的 Hugo 成分は少なめです。"><span style=display:inline-block;text-decoration:none>📄 </span>Hugo テーマ 4. ダークモード<span class=lastmod>2021-11-01 22:39:58</span><div class=latest_summary>現在作成途中のテーマ cheep をもとに、ダークモードへの取り組みを解説します。
+今回は、比較的</div></a></li><li><a href=/hugo_theme/03/ title="現在作成途中のテーマ cheep をもとに、最近の更新リストを実装する方法を解説します。"><span style=display:inline-block;text-decoration:none>📄 </span>Hugo テーマ 3. 最近の更新リスト<span class=lastmod>2021-10-31 20:25:42</span><div class=latest_summary>現在作成途中のテーマ cheep をもとに、最近の更新リストを実装する方法を解説します。</div></a></li><li><a href=/article/20200603-sesame/ title="スマートロック SESAME で自動化"><span style=display:inline-block;text-decoration:none>📄 </span>SESAME<span class=lastmod>2021-10-24 15:59:05</span><div class=latest_summary>スマートロック SESAME で自動化</div></a></li></ul></div><div class=tags_container><ul><li class=tag><a href=/tags/hugo>hugo<span class=tag_count>7</span></a></li><li class=tag><a href=/tags/pomera>pomera<span class=tag_count>2</span></a></li><li class=tag><a href=/tags/system>system<span class=tag_count>2</span></a></li><li class=tag><a href=/tags/ergodox>ergodox<span class=tag_count>1</span></a></li><li class=tag><a href=/tags/git>git<span class=tag_count>1</span></a></li><li class=tag><a href=/tags/go>go<span class=tag_count>1</span></a></li><li class=tag><a href=/tags/golang>golang<span class=tag_count>1</span></a></li><li class=tag><a href=/tags/raspberrypi>raspberrypi<span class=tag_count>1</span></a></li><li class=tag><a href=/tags/sesame>sesame<span class=tag_count>1</span></a></li><li class=tag><a href=/tags/vim>vim<span class=tag_count>1</span></a></li></ul></div></div></div><div class=footer>Top: <a href=/>作ったものとか</a> | <a rel=alternate type=application/atom+xml href=/index.xml>Feed</a><br>(C) 2017 Shuhei Kubota<br>Powered by <a href=https://gohugo.io/>Hugo</a><br></div><script src=/js/cheep.min.50bf33f389ee59550d8736b6bea841f7ff5df4003a9266b1d0a0c3df5d19eea7.js></script>
+<script>document.addEventListener("DOMContentLoaded",function(){for(var n=document.querySelectorAll(".lastmod"),s,e,t=0;t<n.length;t++)s=n[t],replaceSince(s);e=document.createElement("link"),e.setAttribute("rel","stylesheet"),e.setAttribute("type","text/css"),window.matchMedia("(prefers-color-scheme: dark)").matches?e.setAttribute("href","/css/syntax_dark.min.d789390f5a3be5bbfbc6644f3e2032dd70e92f98fd731ee24ddb28a585754a56.css"):e.setAttribute("href","/css/syntax.min.312e73862fbcdff2de47e47a87e03065060a993ebd316d20e86016fb17f1bbe6.css"),document.getElementsByTagName("head")[0].appendChild(e)})</script></body></html>
