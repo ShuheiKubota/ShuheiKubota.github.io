@@ -1,0 +1,148 @@
+<!doctype html><html lang><head><meta charset=utf-8><title>Go言語でのスタックトレースを簡素化する - 作ったものとか</title><meta name=generator content="Hugo 0.96.0"><meta name=copyright content="(C) 2017 Shuhei Kubota"><meta name=description content="software application article hugo"><meta property="og:title" content="Go言語でのスタックトレースを簡素化する"><meta property="og:description" content="Go言語のパッケージ: 冗長なスタックトレースを簡素化して出力します。"><meta property="og:type" content="article"><meta property="og:url" content="/note/20220505-stacktrace/"><meta property="article:section" content="note"><meta property="article:published_time" content="2022-05-05T23:30:00+09:00"><meta property="article:modified_time" content="2024-08-15T21:30:59+09:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Go言語でのスタックトレースを簡素化する"><meta name=twitter:description content="Go言語のパッケージ: 冗長なスタックトレースを簡素化して出力します。"><meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1"><link href=/sass/cheep.min.fa3e5c9efd4a7e089a92f33aa676b09ee00a4d2217ec3f441e738e9f49b1404b.css rel=stylesheet><link href=/css/style.css rel=stylesheet></head><body><script async src="https://www.googletagmanager.com/gtag/js?id=G-TK21YTEJFM"></script>
+<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-TK21YTEJFM",{anonymize_ip:!1})}</script><div class=header><a href=/>作ったものとか</a>&nbsp;&#187; <a href=/note/>Notes</a></div><div class=main><div class=toc-area><nav id=TableOfContents><ul><li><a href=#普通に出したスタックトレース冗長すぎ問題>普通に出したスタックトレース冗長すぎ問題</a><ul><li><a href=#例>例</a></li></ul></li><li><a href=#というわけでパッケージ--stacktrace>というわけで、パッケージ <code>stacktrace</code></a></li><li><a href=#使い方>使い方</a><ul><li><a href=#まずは-go-get>まずは go get</a></li><li><a href=#もともとの出力に近い方式>もともとの出力に近い方式</a><ul><li><a href=#簡単に解説-スタックトレースの読み方>簡単に解説: スタックトレースの読み方</a></li></ul></li><li><a href=#さらにシンプルにした場合>さらにシンプルにした場合</a></li><li><a href=#その他の使い方>その他の使い方</a></li></ul></li></ul></nav></div><div class=main-area><h1>Go言語でのスタックトレースを簡素化する</h1><span class=lastmod>2024-08-15 21:30:59</span>
+<span class=tag><a href=/tags/go>go</a></span><p>Go言語のパッケージ: 冗長なスタックトレースを簡素化して出力します。</p><h1 id=普通に出したスタックトレース冗長すぎ問題>普通に出したスタックトレース冗長すぎ問題</h1><p><code>github.com/pkg/errors</code> で作成したエラーについては <code>fmt.Printf("%+v", err)</code> でスタックトレースを出力することができます。</p><p>ただ、その出力が <code>errors.Wrap()</code> した単位でそれぞれ出力されるため、大分冗長です。</p><h2 id=例>例</h2><p>以下のように、C→B→A と経由したエラーがあったとします。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kd>func</span> <span class=nf>funcA</span><span class=p>()</span> <span class=kt>error</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>errors</span><span class=p>.</span><span class=nf>Wrap</span><span class=p>(</span><span class=nf>funcB</span><span class=p>(),</span> <span class=s>&#34;error A&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>funcB</span><span class=p>()</span> <span class=kt>error</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>errors</span><span class=p>.</span><span class=nf>Wrap</span><span class=p>(</span><span class=nf>funcC</span><span class=p>(),</span> <span class=s>&#34;error B&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>funcC</span><span class=p>()</span> <span class=kt>error</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>errors</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=s>&#34;error C&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>その場合、以下のようにして funcA から返ってきたエラーからスタックトレースを出力すると、以下のようになります。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=nx>err</span> <span class=o>:=</span> <span class=nf>funcA</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;%+v\n&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><pre tabindex=0><code>error C
+mypkg.funcC
+        path/to/mypkg/mysource.go:30
+mypkg.funcB
+        path/to/mypkg/mysource.go:26
+mypkg.funcA
+        path/to/mypkg/mysource.go:22
+mypkg.Example
+        path/to/mypkg/mysource.go:12
+testing.runExample
+        go/current/src/testing/run_example.go:63
+testing.runExamples
+        go/current/src/testing/example.go:44
+testing.(*M).Run
+        go/current/src/testing/testing.go:1721
+main.main
+        _testmain.go:49
+runtime.main
+        go/current/src/runtime/proc.go:250
+runtime.goexit
+        go/current/src/runtime/asm_amd64.s:1571
+error B
+mypkg.funcB
+        path/to/mypkg/mysource.go:26
+mypkg.funcA
+        path/to/mypkg/mysource.go:22
+mypkg.Example
+        path/to/mypkg/mysource.go:12
+testing.runExample
+        go/current/src/testing/run_example.go:63
+testing.runExamples
+        go/current/src/testing/example.go:44
+testing.(*M).Run
+        go/current/src/testing/testing.go:1721
+main.main
+        _testmain.go:49
+runtime.main
+        go/current/src/runtime/proc.go:250
+runtime.goexit
+        go/current/src/runtime/asm_amd64.s:1571
+error A
+mypkg.funcA
+        path/to/mypkg/mysource.go:22
+mypkg.Example
+        path/to/mypkg/mysource.go:12
+testing.runExample
+        go/current/src/testing/run_example.go:63
+testing.runExamples
+        go/current/src/testing/example.go:44
+testing.(*M).Run
+        go/current/src/testing/testing.go:1721
+main.main
+        _testmain.go:49
+runtime.main
+        go/current/src/runtime/proc.go:250
+runtime.goexit
+        go/current/src/runtime/asm_amd64.s:1571
+</code></pre><p>起点となる &ldquo;error C&rdquo; についてのスタックトレースだけがあれば良いものを、その後 <code>errors.Wrap()</code> した分エラーについてまでもスタックトレースを出力しています。
+冗長ですね。</p><h1 id=というわけでパッケージ--stacktrace>というわけで、パッケージ <code>stacktrace</code></h1><p>上記のような冗長な出力と比べて、エラー A, B, C それぞれのスタックトレースのフレームをマージしたようなスタックトレースを生成します。(フレームの再現はしません。あくまでも人間が読む出力を簡素化したいだけなので)</p><h1 id=使い方>使い方</h1><h2 id=まずは-go-get>まずは go get</h2><pre tabindex=0><code>go get github.com/shu-go/stacktrace
+</code></pre><p>ちなみに <a href=https://github.com/shu-go/stacktrace target=_blank rel="noopener noreferer">GitHub<span style=position:relative><span>&#9744;</span><span style=position:absolute;top:-.3em;left:.2em>&#8599;</span></span></a></p><h2 id=もともとの出力に近い方式>もともとの出力に近い方式</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>import</span> <span class=s>&#34;github.com/shu-go/stacktrace&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>hoge</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>err</span> <span class=o>:=</span> <span class=nf>funcA</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;%+v&#34;</span><span class=p>,</span> <span class=nx>stacktrace</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=nx>err</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>出力は以下のようになります。</p><pre tabindex=0><code>error C
+mypkg.funcC
+        path/to/mypkg/mysource.go:30
+error B
+mypkg.funcB
+        path/to/mypkg/mysource.go:26
+error A
+mypkg.funcA
+        path/to/mypkg/mysource.go:22
+mypkg.Example
+        path/to/mypkg/mysource.go:12
+testing.runExample
+        go/current/src/testing/run_example.go:63
+testing.runExamples
+        go/current/src/testing/example.go:44
+testing.(*M).Run
+        go/current/src/testing/testing.go:1721
+main.main
+        _testmain.go:49
+runtime.main
+        go/current/src/runtime/proc.go:250
+runtime.goexit
+        go/current/src/runtime/asm_amd64.s:1571
+</code></pre><p>もともとの出力を真似た上で冗長部分を削除、しかし、エラーメッセージ部分の出力は行うようにしています。</p><h3 id=簡単に解説-スタックトレースの読み方>簡単に解説: スタックトレースの読み方</h3><pre tabindex=0><code>&lt;最初に発生したエラーのメッセージ&gt;
+&lt;最初にエラーが発生した関数の名前&gt;
+    &lt;エラーが発生したソースファイル上の位置&gt;
+&lt;↑の関数を呼び出した関数の名前&gt;
+    &lt;エラー発生関数を呼び出していた部分のソースファイル上の位置&gt;
+  :
+</code></pre><p>基本的には上記のとおりなのですが、エラーメッセージは複数回出現することがあります。
+これは、途中で <code>errors.Wrap()</code> した場合など、エラーを伝播する中で「別のエラーがもともとのエラーを内部に隠し持つようになった」場合にそのようなスタックトレースの出力になります。</p><p>上の出力例では、&ldquo;error C&rdquo; や &ldquo;error B&rdquo; といった行が関数の名前が記載されるのと同じインデントで出力されていますね。</p><p>正直ちょっと見辛いと思いますが、まあ、もとから提供された振る舞いに合わせたということで、許してください。</p><h2 id=さらにシンプルにした場合>さらにシンプルにした場合</h2><p><code>%+v</code> にしていたところを、<code>%v</code> に変えるだけです。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;%v&#34;</span><span class=p>,</span> <span class=nx>stacktrace</span><span class=p>.</span><span class=nf>New</span><span class=p>(</span><span class=nx>err</span><span class=p>))</span>
+</span></span></code></pre></td></tr></table></div></div><p>出力は以下のようになります。</p><pre tabindex=0><code>error C
+        path/to/mypkg/stacktrace_test.go:30
+error B
+        path/to/mypkg/stacktrace_test.go:26
+error A
+        path/to/mypkg/stacktrace_test.go:22
+        path/to/mypkg/stacktrace_test.go:12
+        go/current/src/testing/run_example.go:63
+        go/current/src/testing/example.go:44
+        go/current/src/testing/testing.go:1721
+        _testmain.go:49
+        go/current/src/runtime/proc.go:250
+        go/current/src/runtime/asm_amd64.s:1571
+</code></pre><p><code>%+v</code> から関数名の行を取り払っただけですが、大分見やすくなりました。(個人的には)</p><p>関数の呼び出し関係はわからなくなります。
+細かく <code>errors.Wrap()</code> するスタイルのコードではエラーメッセージでその分を補えると思うので、こちらの出力が見やすいかもしれません。</p><h2 id=その他の使い方>その他の使い方</h2><p><code>stacktrace.New(err)</code> した結果はこのパッケージ独自のフレームの配列 ([]stacktrace.Frame) になります。</p><p>スタックトレースとして出力される情報だけを持った構造体なので加工するのに適しているかはわかりませんが、有用なようであればご利用ください。</p><div class=single_pagenav><div class=single_pagenav_prev><a href=/note/20211121-ergodoxez/>&#171; Ergodox EZ キーボードレイアウト &#171;</a></div><div class=single_pagenav_next><a href=/note/20240213-goexperiment-build-constraints/>&#187; GOEXPERIMENT + Build Constraints &#187;</a></div></div></div><div class=side-area><div class=profile><object type=image/svg+xml alt="follow chimatter at twitter" data="https://img.shields.io/badge/@chimatter-Follow-blue?style=for-the-badge&logo=twitter&logoColor=white&link=https://twitter.com/intent/user?screen_name=chimatter&link=https://twitter.com/intent/follow?screen_name=chimatter" style=margin-top:2em;margin-left:1em></object><p class=description></p></div><div class=latest_list_container><ul><li><a href=/note/20240807-keychron-k15-pro/ title=買ったので雑に感想でも書いてみます。><span style=display:inline-block;text-decoration:none>📄 </span>Keychron K15 Pro<span class=lastmod>2024-08-15 21:30:59</span><div class=latest_summary>買ったので雑に感想でも書いてみます。</div></a></li><li><a href=/note/20211121-ergodoxez/ title="JISレイアウトを参考にした、Ergodox EZ のキーボードレイアウト"><span style=display:inline-block;text-decoration:none>📄 </span>Ergodox EZ キーボードレイアウト<span class=lastmod>2024-08-15 21:30:59</span><div class=latest_summary>JISレイアウトを参考にした、Ergodox EZ のキーボードレイアウト</div></a></li><li><a href=/note/20240504-go-slog/ title="slog-handler-guide の解説"><span style=display:inline-block;text-decoration:none>📄 </span>slog-handler-guide<span class=lastmod>2024-08-15 21:30:59</span><div class=latest_summary>slog-handler-guide の解説</div></a></li><li><a href=/note/20240420-vim-lsp/ title=忘れそうな内容をメモ><span style=display:inline-block;text-decoration:none>📄 </span>Vim LSP メモ<span class=lastmod>2024-08-15 21:30:59</span><div class=latest_summary>忘れそうな内容をメモ</div></a></li><li><a href=/note/20240213-goexperiment-build-constraints/ title="例えば GOEXPERIMENT=rangefunc の場合にビルドしたい/したくない場合の書き方"><span style=display:inline-block;text-decoration:none>📄 </span>GOEXPERIMENT + Build Constraints<span class=lastmod>2024-08-15 21:30:59</span><div class=latest_summary>例えば GOEXPERIMENT=rangefunc の場合にビルドしたい/したくない場合の書き方</div></a></li><li><a href=/note/20200603-sesame/ title="スマートロック SESAME で自動化"><span style=display:inline-block;text-decoration:none>📄 </span>SESAME<span class=lastmod>2024-08-15 21:30:59</span><div class=latest_summary>スマートロック SESAME で自動化</div></a></li><li><a href=/note/20220505-stacktrace/ title="Go言語のパッケージ: 冗長なスタックトレースを簡素化して出力します。"><span style=display:inline-block;text-decoration:none>📄 </span>Go言語でのスタックトレースを簡素化する<span class=lastmod>2024-08-15 21:30:59</span><div class=latest_summary>Go言語のパッケージ: 冗長なスタックトレースを簡素化して出力します。</div></a></li><li><a href=/note/20210210-raspi_dlna_omv/ title="Raspberry Pi 4 のセットアップから OMV、その上に DLNA をセットアップするところまでを 粗く記録しておきます。
+OpenMediaVault をインストールし、外付け SSD を共有フォルダーにしつつ、DLNA でデータ化した音楽・動画を視聴できるようにします。"><span style=display:inline-block;text-decoration:none>📄 </span>Raspberry Pi 4 で DLNA/OMV セットアップ<span class=lastmod>2024-08-15 21:30:59</span><div class=latest_summary>Raspberry Pi 4 のセットアップから OMV、その上に DLNA をセットアップするとこ</div></a></li><li><a href=/soft/go-packages/ title=Go向けパッケージの一覧><span style=display:inline-block;text-decoration:none>📄 </span>Goのパッケージ<span class=lastmod>2024-05-03 21:30:53</span><div class=latest_summary>Go向けパッケージの一覧</div></a></li><li><a href=/soft/reqdumper/ title="受け取った HTTP リクエストの内容を出力するだけの HTTP サーバー"><span style=display:inline-block;text-decoration:none>📄 </span>reqdumper<span class=lastmod>2024-01-02 10:53:41</span><div class=latest_summary>受け取った HTTP リクエストの内容を出力するだけの HTTP サーバー</div></a></li></ul></div><div class=tags_container><ul><li class=tag><a href=/tags/hugo>hugo<span class=tag_count>7</span></a></li><li class=tag><a href=/tags/go>go<span class=tag_count>6</span></a></li><li class=tag><a href=/tags/vim>vim<span class=tag_count>4</span></a></li><li class=tag><a href=/tags/pomera>pomera<span class=tag_count>2</span></a></li><li class=tag><a href=/tags/system>system<span class=tag_count>2</span></a></li><li class=tag><a href=/tags/ergodox>ergodox<span class=tag_count>1</span></a></li><li class=tag><a href=/tags/git>git<span class=tag_count>1</span></a></li><li class=tag><a href=/tags/lsp>lsp<span class=tag_count>1</span></a></li><li class=tag><a href=/tags/raspberrypi>raspberrypi<span class=tag_count>1</span></a></li><li class=tag><a href=/tags/sesame>sesame<span class=tag_count>1</span></a></li></ul></div></div></div><div class=footer>Top: <a href=/>作ったものとか</a><br>(C) 2017 Shuhei Kubota<br>Powered by <a href=https://gohugo.io/>Hugo</a><br></div><script src=/js/cheep.min.50bf33f389ee59550d8736b6bea841f7ff5df4003a9266b1d0a0c3df5d19eea7.js></script>
+<script>document.addEventListener("DOMContentLoaded",function(){for(var n=document.querySelectorAll(".lastmod"),s,e,t=0;t<n.length;t++)s=n[t],replaceSince(s);e=document.createElement("link"),e.setAttribute("rel","stylesheet"),e.setAttribute("type","text/css"),window.matchMedia("(prefers-color-scheme: dark)").matches?e.setAttribute("href","/css/syntax_dark.min.d789390f5a3be5bbfbc6644f3e2032dd70e92f98fd731ee24ddb28a585754a56.css"):e.setAttribute("href","/css/syntax.min.312e73862fbcdff2de47e47a87e03065060a993ebd316d20e86016fb17f1bbe6.css"),document.getElementsByTagName("head")[0].appendChild(e)})</script></body></html>
