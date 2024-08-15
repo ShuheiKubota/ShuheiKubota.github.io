@@ -1,0 +1,136 @@
+<!doctype html><html lang><head><meta charset=utf-8><title>Goでテーブル駆動のベンチマークをとる方法 - 作ったものとか</title><meta name=generator content="Hugo 0.96.0"><meta name=copyright content="(C) 2017 Shuhei Kubota"><meta name=description content="software application article hugo"><meta property="og:title" content="Goでテーブル駆動のベンチマークをとる方法"><meta property="og:description" content="公式に記載ありますが、まとめてみます。"><meta property="og:type" content="article"><meta property="og:url" content="/note/20240815-go-table-driven-benchmark/"><meta property="article:section" content="note"><meta property="article:published_time" content="2024-08-15T00:00:00+09:00"><meta property="article:modified_time" content="2024-08-15T23:22:38+09:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Goでテーブル駆動のベンチマークをとる方法"><meta name=twitter:description content="公式に記載ありますが、まとめてみます。"><meta name=viewport content="width=device-width,minimum-scale=1,initial-scale=1"><link href=/sass/cheep.min.fa3e5c9efd4a7e089a92f33aa676b09ee00a4d2217ec3f441e738e9f49b1404b.css rel=stylesheet><link href=/css/style.css rel=stylesheet></head><body><script async src="https://www.googletagmanager.com/gtag/js?id=G-TK21YTEJFM"></script>
+<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-TK21YTEJFM",{anonymize_ip:!1})}</script><div class=header><a href=/>作ったものとか</a>&nbsp;&#187; <a href=/note/>Notes</a></div><div class=main><div class=toc-area><nav id=TableOfContents><ul><li><a href=#ベンチマークのシナリオ>ベンチマークのシナリオ</a></li><li><a href=#書き方ベンチマークの部分のみ>書き方(ベンチマークの部分のみ)</a><ul><li><a href=#結果の出力例>結果の出力例</a></li><li><a href=#対象を絞り込む>対象を絞り込む</a></li></ul></li></ul></nav></div><div class=main-area><h1>Goでテーブル駆動のベンチマークをとる方法</h1><span class=lastmod>2024-08-15 23:22:38</span>
+<span class=tag><a href=/tags/go>go</a></span><p>公式に記載ありますが、まとめてみます。</p><a href=https://go.dev/blog/subtests#table-driven-benchmarks target=_blank rel="noopener noreferer">公式サイトのブログ記事<span style=position:relative><span>&#9744;</span><span style=position:absolute;top:-.3em;left:.2em>&#8599;</span></span></a><h1 id=ベンチマークのシナリオ>ベンチマークのシナリオ</h1><ul><li>数値を文字列に変換する関数を作った。</li><li>標準パッケージが提供する同種の関数と、パフォーマンスの比較をしたい。</li><li>テーブルとして用意したテストケースそれぞれについて比較をしたい。</li></ul><h1 id=書き方ベンチマークの部分のみ>書き方(ベンチマークの部分のみ)</h1><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kd>type</span> <span class=nx>testcase</span> <span class=kd>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>name</span>  <span class=kt>string</span>
+</span></span><span class=line><span class=cl>	<span class=nx>input</span> <span class=p>[]</span><span class=kt>int</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>var</span> <span class=nx>testcases</span> <span class=p>=</span> <span class=p>[]</span><span class=nx>testcase</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=p>{</span> <span class=c1>// このテストケース単位で、標準パッケージ関数との比較をしたい。
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=nx>name</span><span class=p>:</span>  <span class=s>&#34;plus&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		<span class=nx>input</span><span class=p>:</span> <span class=p>[]</span><span class=kt>int</span><span class=p>{</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>},</span>
+</span></span><span class=line><span class=cl>	<span class=p>},</span>
+</span></span><span class=line><span class=cl>	<span class=p>{</span> <span class=c1>// このテストケース単位で、標準パッケージ関数との比較をしたい。
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=nx>name</span><span class=p>:</span>  <span class=s>&#34;minus&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		<span class=nx>input</span><span class=p>:</span> <span class=p>[]</span><span class=kt>int</span><span class=p>{</span><span class=o>-</span><span class=mi>1</span><span class=p>,</span> <span class=o>-</span><span class=mi>2</span><span class=p>,</span> <span class=o>-</span><span class=mi>3</span><span class=p>},</span>
+</span></span><span class=line><span class=cl>	<span class=p>},</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>BenchmarkStringer</span><span class=p>(</span><span class=nx>b</span> <span class=o>*</span><span class=nx>testing</span><span class=p>.</span><span class=nx>B</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>std</span> <span class=o>:=</span> <span class=nx>strconv</span><span class=p>.</span><span class=nx>Itoa</span>
+</span></span><span class=line><span class=cl>	<span class=nx>myitoa</span> <span class=o>:=</span> <span class=nx>MyItoa</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>for</span> <span class=nx>_</span><span class=p>,</span> <span class=nx>c</span> <span class=o>:=</span> <span class=k>range</span> <span class=nx>testcases</span> <span class=p>{</span> <span class=c1>// テストケース
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=nx>b</span><span class=p>.</span><span class=nf>Run</span><span class=p>(</span><span class=nx>c</span><span class=p>.</span><span class=nx>name</span><span class=o>+</span><span class=s>&#34;(std)&#34;</span><span class=p>,</span> <span class=kd>func</span><span class=p>(</span><span class=nx>b</span> <span class=o>*</span><span class=nx>testing</span><span class=p>.</span><span class=nx>B</span><span class=p>)</span> <span class=p>{</span> <span class=c1>// 比較対象(サブベンチマーク)
+</span></span></span><span class=line><span class=cl><span class=c1></span>			<span class=k>for</span> <span class=nx>i</span> <span class=o>:=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>i</span> <span class=p>&lt;</span> <span class=nx>b</span><span class=p>.</span><span class=nx>N</span><span class=p>;</span> <span class=nx>i</span><span class=o>++</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>				<span class=k>for</span> <span class=nx>_</span><span class=p>,</span> <span class=nx>n</span> <span class=o>:=</span> <span class=k>range</span> <span class=nx>c</span><span class=p>.</span><span class=nx>input</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>					<span class=nf>std</span><span class=p>(</span><span class=nx>n</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>				<span class=p>}</span>
+</span></span><span class=line><span class=cl>			<span class=p>}</span>
+</span></span><span class=line><span class=cl>		<span class=p>})</span>
+</span></span><span class=line><span class=cl>		<span class=nx>b</span><span class=p>.</span><span class=nf>Run</span><span class=p>(</span><span class=nx>c</span><span class=p>.</span><span class=nx>name</span><span class=o>+</span><span class=s>&#34;(my)&#34;</span><span class=p>,</span> <span class=kd>func</span><span class=p>(</span><span class=nx>b</span> <span class=o>*</span><span class=nx>testing</span><span class=p>.</span><span class=nx>B</span><span class=p>)</span> <span class=p>{</span> <span class=c1>// 比較対象(サブベンチマーク)
+</span></span></span><span class=line><span class=cl><span class=c1></span>			<span class=k>for</span> <span class=nx>i</span> <span class=o>:=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>i</span> <span class=p>&lt;</span> <span class=nx>b</span><span class=p>.</span><span class=nx>N</span><span class=p>;</span> <span class=nx>i</span><span class=o>++</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>				<span class=k>for</span> <span class=nx>_</span><span class=p>,</span> <span class=nx>n</span> <span class=o>:=</span> <span class=k>range</span> <span class=nx>c</span><span class=p>.</span><span class=nx>input</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>					<span class=nf>myitoa</span><span class=p>(</span><span class=nx>n</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>				<span class=p>}</span>
+</span></span><span class=line><span class=cl>			<span class=p>}</span>
+</span></span><span class=line><span class=cl>		<span class=p>})</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=c1>// ちなみに、普通の(?)サブベンチマークとして書くとこんな感じになる。
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=c1>// こちらの方法だとテーブル全体で比較する形になっている。
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>	<span class=nx>b</span><span class=p>.</span><span class=nf>Run</span><span class=p>(</span><span class=s>&#34;std-all&#34;</span><span class=p>,</span> <span class=kd>func</span><span class=p>(</span><span class=nx>b</span> <span class=o>*</span><span class=nx>testing</span><span class=p>.</span><span class=nx>B</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>for</span> <span class=nx>_</span><span class=p>,</span> <span class=nx>c</span> <span class=o>:=</span> <span class=k>range</span> <span class=nx>testcases</span> <span class=p>{</span> <span class=c1>// テストケース
+</span></span></span><span class=line><span class=cl><span class=c1></span>			<span class=k>for</span> <span class=nx>i</span> <span class=o>:=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>i</span> <span class=p>&lt;</span> <span class=nx>b</span><span class=p>.</span><span class=nx>N</span><span class=p>;</span> <span class=nx>i</span><span class=o>++</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>				<span class=k>for</span> <span class=nx>_</span><span class=p>,</span> <span class=nx>n</span> <span class=o>:=</span> <span class=k>range</span> <span class=nx>c</span><span class=p>.</span><span class=nx>input</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>					<span class=nf>std</span><span class=p>(</span><span class=nx>n</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>				<span class=p>}</span>
+</span></span><span class=line><span class=cl>			<span class=p>}</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=p>})</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=nx>b</span><span class=p>.</span><span class=nf>Run</span><span class=p>(</span><span class=s>&#34;my-all&#34;</span><span class=p>,</span> <span class=kd>func</span><span class=p>(</span><span class=nx>b</span> <span class=o>*</span><span class=nx>testing</span><span class=p>.</span><span class=nx>B</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=k>for</span> <span class=nx>_</span><span class=p>,</span> <span class=nx>c</span> <span class=o>:=</span> <span class=k>range</span> <span class=nx>testcases</span> <span class=p>{</span> <span class=c1>// テストケース
+</span></span></span><span class=line><span class=cl><span class=c1></span>			<span class=k>for</span> <span class=nx>i</span> <span class=o>:=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>i</span> <span class=p>&lt;</span> <span class=nx>b</span><span class=p>.</span><span class=nx>N</span><span class=p>;</span> <span class=nx>i</span><span class=o>++</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>				<span class=k>for</span> <span class=nx>_</span><span class=p>,</span> <span class=nx>n</span> <span class=o>:=</span> <span class=k>range</span> <span class=nx>c</span><span class=p>.</span><span class=nx>input</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>					<span class=nf>myitoa</span><span class=p>(</span><span class=nx>n</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>				<span class=p>}</span>
+</span></span><span class=line><span class=cl>			<span class=p>}</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=p>})</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=結果の出力例>結果の出力例</h2><pre tabindex=0><code>go test -bench .
+</code></pre><p>全部で6つあるテスト結果のうち、前半4つがテーブル駆動の出力例です。</p><pre tabindex=0><code>BenchmarkStringer/plus(std)-8           144737995                8.125 ns/op
+BenchmarkStringer/plus(my)-8            54076951                20.84 ns/op
+BenchmarkStringer/minus(std)-8          17072347                61.68 ns/op
+BenchmarkStringer/minus(my)-8           26117388                40.63 ns/op
+
+BenchmarkStringer/std-all-8             16578752                70.74 ns/op
+BenchmarkStringer/my-all-8              19311915                64.46 ns/op
+</code></pre><h2 id=対象を絞り込む>対象を絞り込む</h2><p><code>-bench xxx</code> でベンチマーク対象となるテストケースを絞り込むこともできます。</p><pre tabindex=0><code>go test -bench /minus
+</code></pre><pre tabindex=0><code>BenchmarkStringer/minus(std)-8          17571860                67.47 ns/op
+BenchmarkStringer/minus(my)-8           27569918                43.05 ns/op
+</code></pre><div class=single_pagenav><div class=single_pagenav_prev><a href=/note/20240807-keychron-k15-pro/>&#171; Keychron K15 Pro &#171;</a></div><div class=single_pagenav_next></div></div></div><div class=side-area><div class=profile><object type=image/svg+xml alt="follow chimatter at twitter" data="https://img.shields.io/badge/@chimatter-Follow-blue?style=for-the-badge&logo=twitter&logoColor=white&link=https://twitter.com/intent/user?screen_name=chimatter&link=https://twitter.com/intent/follow?screen_name=chimatter" style=margin-top:2em;margin-left:1em></object><p class=description></p></div><div class=latest_list_container><ul><li><a href=/note/20240815-go-table-driven-benchmark/ title=公式に記載ありますが、まとめてみます。><span style=display:inline-block;text-decoration:none>📄 </span>Goでテーブル駆動のベンチマークをとる方法<span class=lastmod>2024-08-15 23:22:38</span><div class=latest_summary>公式に記載ありますが、まとめてみます。</div></a></li><li><a href=/note/20240807-keychron-k15-pro/ title=買ったので雑に感想でも書いてみます。><span style=display:inline-block;text-decoration:none>📄 </span>Keychron K15 Pro<span class=lastmod>2024-08-15 21:30:59</span><div class=latest_summary>買ったので雑に感想でも書いてみます。</div></a></li><li><a href=/note/20211121-ergodoxez/ title="JISレイアウトを参考にした、Ergodox EZ のキーボードレイアウト"><span style=display:inline-block;text-decoration:none>📄 </span>Ergodox EZ キーボードレイアウト<span class=lastmod>2024-08-15 21:30:59</span><div class=latest_summary>JISレイアウトを参考にした、Ergodox EZ のキーボードレイアウト</div></a></li><li><a href=/note/20240504-go-slog/ title="slog-handler-guide の解説"><span style=display:inline-block;text-decoration:none>📄 </span>slog-handler-guide<span class=lastmod>2024-08-15 21:30:59</span><div class=latest_summary>slog-handler-guide の解説</div></a></li><li><a href=/note/20240420-vim-lsp/ title=忘れそうな内容をメモ><span style=display:inline-block;text-decoration:none>📄 </span>Vim LSP メモ<span class=lastmod>2024-08-15 21:30:59</span><div class=latest_summary>忘れそうな内容をメモ</div></a></li><li><a href=/note/20240213-goexperiment-build-constraints/ title="例えば GOEXPERIMENT=rangefunc の場合にビルドしたい/したくない場合の書き方"><span style=display:inline-block;text-decoration:none>📄 </span>GOEXPERIMENT + Build Constraints<span class=lastmod>2024-08-15 21:30:59</span><div class=latest_summary>例えば GOEXPERIMENT=rangefunc の場合にビルドしたい/したくない場合の書き方</div></a></li><li><a href=/note/20200603-sesame/ title="スマートロック SESAME で自動化"><span style=display:inline-block;text-decoration:none>📄 </span>SESAME<span class=lastmod>2024-08-15 21:30:59</span><div class=latest_summary>スマートロック SESAME で自動化</div></a></li><li><a href=/note/20220505-stacktrace/ title="Go言語のパッケージ: 冗長なスタックトレースを簡素化して出力します。"><span style=display:inline-block;text-decoration:none>📄 </span>Go言語でのスタックトレースを簡素化する<span class=lastmod>2024-08-15 21:30:59</span><div class=latest_summary>Go言語のパッケージ: 冗長なスタックトレースを簡素化して出力します。</div></a></li><li><a href=/note/20210210-raspi_dlna_omv/ title="Raspberry Pi 4 のセットアップから OMV、その上に DLNA をセットアップするところまでを 粗く記録しておきます。
+OpenMediaVault をインストールし、外付け SSD を共有フォルダーにしつつ、DLNA でデータ化した音楽・動画を視聴できるようにします。"><span style=display:inline-block;text-decoration:none>📄 </span>Raspberry Pi 4 で DLNA/OMV セットアップ<span class=lastmod>2024-08-15 21:30:59</span><div class=latest_summary>Raspberry Pi 4 のセットアップから OMV、その上に DLNA をセットアップするとこ</div></a></li><li><a href=/soft/go-packages/ title=Go向けパッケージの一覧><span style=display:inline-block;text-decoration:none>📄 </span>Goのパッケージ<span class=lastmod>2024-05-03 21:30:53</span><div class=latest_summary>Go向けパッケージの一覧</div></a></li></ul></div><div class=tags_container><ul><li class=tag><a href=/tags/go>go<span class=tag_count>7</span></a></li><li class=tag><a href=/tags/hugo>hugo<span class=tag_count>7</span></a></li><li class=tag><a href=/tags/vim>vim<span class=tag_count>4</span></a></li><li class=tag><a href=/tags/pomera>pomera<span class=tag_count>2</span></a></li><li class=tag><a href=/tags/system>system<span class=tag_count>2</span></a></li><li class=tag><a href=/tags/ergodox>ergodox<span class=tag_count>1</span></a></li><li class=tag><a href=/tags/git>git<span class=tag_count>1</span></a></li><li class=tag><a href=/tags/lsp>lsp<span class=tag_count>1</span></a></li><li class=tag><a href=/tags/raspberrypi>raspberrypi<span class=tag_count>1</span></a></li><li class=tag><a href=/tags/sesame>sesame<span class=tag_count>1</span></a></li></ul></div></div></div><div class=footer>Top: <a href=/>作ったものとか</a><br>(C) 2017 Shuhei Kubota<br>Powered by <a href=https://gohugo.io/>Hugo</a><br></div><script src=/js/cheep.min.50bf33f389ee59550d8736b6bea841f7ff5df4003a9266b1d0a0c3df5d19eea7.js></script>
+<script>document.addEventListener("DOMContentLoaded",function(){for(var n=document.querySelectorAll(".lastmod"),s,e,t=0;t<n.length;t++)s=n[t],replaceSince(s);e=document.createElement("link"),e.setAttribute("rel","stylesheet"),e.setAttribute("type","text/css"),window.matchMedia("(prefers-color-scheme: dark)").matches?e.setAttribute("href","/css/syntax_dark.min.d789390f5a3be5bbfbc6644f3e2032dd70e92f98fd731ee24ddb28a585754a56.css"):e.setAttribute("href","/css/syntax.min.312e73862fbcdff2de47e47a87e03065060a993ebd316d20e86016fb17f1bbe6.css"),document.getElementsByTagName("head")[0].appendChild(e)})</script></body></html>
