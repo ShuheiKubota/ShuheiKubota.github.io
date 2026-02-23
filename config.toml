@@ -1,0 +1,50 @@
+baseURL = "/"
+title = "作ったものとか"
+
+hascjklanguage = true
+
+theme = "cheep"
+#theme = "beg"
+googleAnalytics = "G-TK21YTEJFM"
+
+copyright = "(C) 2017 Shuhei Kubota"
+
+pygmentsUseClasses = true
+#pygmentsUseClassic = false
+pygmentsCodeFences = true
+pygmentsstyle = "pastie"
+pygmentsOptions = "linenos=true"
+#pygmentsOptions = "linenos=true, noclasses=true, style=pastie"
+
+enableGitInfo = true
+
+enableEmoji = true
+
+[taxonomies]
+  tag = "tags"
+  #category = "categories"
+
+[params]
+  Summary = true
+  Content = true
+  # if both are set to true, summary is shown.
+  
+  #profileImage = "profile.png"
+  #profileTwitter = "chimatter"
+  profileHTML = "<object type='image/svg+xml' alt='follow chimatter at twitter' data='https://img.shields.io/badge/@chimatter-Follow-blue?style=for-the-badge&logo=twitter&logoColor=white&link=https://twitter.com/intent/user?screen_name=chimatter&link=https://twitter.com/intent/follow?screen_name=chimatter' style='margin-top:2em; margin-left:1em'></object>"
+  #profileDescription = ""
+  
+  #latestOnlyPage = false
+  latestSummaryLength = 50
+
+  description="software application article hugo"
+  
+[markup]
+  [markup.tableOfContents]
+    startLevel = 1
+    endLevel = 3
+    ordered = false
+
+[caches]
+  [caches.images]
+    dir = ':cacheDir/images'

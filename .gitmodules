@@ -1,0 +1,6 @@
+[submodule "themes/cheep"]
+	path = themes/cheep
+	url = git@github.com:ShuheiKubota/hugo-theme-cheep.git
+[submodule "theme/cheep"]
+	path = theme/cheep
+	url = git@github.com:ShuheiKubota/hugo-theme-cheep.git
