@@ -81,10 +81,10 @@ jobs:
         run: |
           mkdir assets
           mkdir assets/css
-          hugo gen chromastyles --style=pastie > assets/css/syntax.css
+          hugo gen chromastyles --style=github > assets/css/syntax.css
       - name: Generate syntax_dark.css
         run: |
-          hugo gen chromastyles --style=monokai > assets/css/syntax_dark.css
+          hugo gen chromastyles --style=github-dark > assets/css/syntax_dark.css
       - name: Build the site
         run: |
           hugo build \
