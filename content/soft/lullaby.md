@@ -41,13 +41,14 @@ date: 2026-04-01T00:00:00+09:00
 # 設定ファイル
 
 ```yaml
-running: true           # 無視してOK. 通常は true
-intervals: 10m0s        # 最小化の間隔
-overlap_threshold: 50   # %指定。50%以上覆われているウィンドウは最小化対象。
-alpha_threshold: 70     # %指定。不透明度合いが70%未満のウィンドウに覆われていても最小化対象とみなされない。
-exclude_titles:         # 最小化したくないウィンドウのタイトル
+running: true               # 無視してOK. 通常は true
+intervals: 10m0s            # 最小化の間隔
+overlap_threshold: 50       # %指定。50%以上覆われているウィンドウは最小化対象。
+alpha_threshold: 70         # %指定。不透明度合いが70%未満のウィンドウに覆われていても最小化対象とみなされない。
+stay_behind_topmost: true   # 常に最前面のウィンドウに覆われていても最小化対象とみなされない。
+exclude_titles:             # 最小化したくないウィンドウのタイトル
     - ""
-exclude_classes:        # 最小化したくないウィンドウのクラス
+exclude_classes:            # 最小化したくないウィンドウのクラス
     - ""
 log:
     file_name: lullaby.log  # ログファイルには↑にあるタイトルやウィンドウクラスが記載されています。
