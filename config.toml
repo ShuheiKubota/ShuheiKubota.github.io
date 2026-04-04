@@ -38,6 +38,9 @@ enableEmoji = true
   latestSummaryLength = 50
 
   description="software application article hugo"
+
+  outdateUnit = "year"
+  outdateFreshLimit = 1
   
 [markup]
   [markup.tableOfContents]
