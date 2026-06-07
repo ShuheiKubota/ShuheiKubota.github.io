@@ -19,6 +19,8 @@ enableEmoji = true
 
     # 空白の場合は 📄 が使われる。 HTML 可。
     #latestIconHTML = "<img src='/abc.png' />"
+
+    pagefind = true
   
 [markup]
   [markup.tableOfContents]
